@@ -1,0 +1,39 @@
+plugins {
+	id "org.springframework.boot" version "3.2.2"
+	id "io.spring.dependency-management" version "1.1.7"
+	id "java"
+	id "io.freefair.lombok" version "8.14"
+}
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+repositories {
+	mavenLocal()
+	mavenCentral()
+	maven { url "https://repo.spring.io/milestone" }
+	maven { url "https://repo.spring.io/snapshot" }
+}
+
+dependencies {
+	implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-jdbc"
+    implementation "org.springframework.boot:spring-boot-starter-logging"
+    implementation "org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter:${camundaVersion}"
+    implementation "org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp:${camundaVersion}"
+    implementation "org.camunda.bpm.model:camunda-bpmn-model:${camundaVersion}"
+    implementation "org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest:${camundaVersion}"
+    runtimeOnly "org.postgresql:postgresql:42.7.4"
+}
+
+springBoot {
+	mainClass = "tutorial.camunda.consumer.loans.Application"
+}
+
+test {
+	useJUnitPlatform()
+}
+

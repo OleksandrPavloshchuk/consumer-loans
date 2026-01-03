@@ -1,0 +1,11 @@
+body {
+    padding: 1em;
+}
+
+.activeTask {
+    cursor: pointer;
+}
+
+.activeTask:hover {
+    background-color: var(--mantine-color-blue-2);
+}

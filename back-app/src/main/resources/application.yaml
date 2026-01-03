@@ -1,0 +1,23 @@
+server:
+  port: 9091
+  ssl:
+    enabled: false
+    key-store: classpath:localhost.p12
+    key-store-password: changeit
+    key-store-type: PKCS12
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/camunda_hello
+    username: camunda_user
+    password: campass
+
+camunda:
+  bpm:
+    authorization:
+      enabled: false # do not use it on production!
+    admin-user:
+      id: demo
+      password: demopass
+      first-name: Demo
