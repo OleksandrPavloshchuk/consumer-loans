@@ -18,7 +18,7 @@ export const CamundaTaskInfo: React.FC<Props> = ({task}) => (
                 <Table.Td>{task.id}</Table.Td>
             </Table.Tr>
             <Table.Tr>
-                <Table.Td>Назва</Table.Td>
+                <Table.Td>Операція</Table.Td>
                 <Table.Td>{task.name}</Table.Td>
             </Table.Tr>
             <Table.Tr>

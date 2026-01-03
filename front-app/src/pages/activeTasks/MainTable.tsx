@@ -1,7 +1,8 @@
 import {Table} from "@mantine/core";
-import {notify, toLocalDateTime} from "../../utils/utils.ts";
-import {type CamundaTask, useCamundaTaskList} from "../../camundaClient/CamundaTaskList.ts";
+import {showError, toLocalDateTime} from "../../utils/utils.ts";
+import {useCamundaTaskList} from "../../camundaClient/CamundaTaskList.ts";
 import {useEffect} from "react";
+import type {CamundaTask} from "../../camundaClient/domain.ts";
 
 type Props = {
     openTask: (task: CamundaTask) => void
@@ -13,13 +14,11 @@ export const ActiveTasksMainTable: React.FC<Props> = ({openTask}) => {
     const retrieve = useCamundaTaskList((s) => s.retrieve);
     const onRefresh = useCamundaTaskList((s) => s.onRefresh);
 
-    const setError = (s: string)=> notify("ERROR", s);
-
     useEffect(() => {
-        retrieve(setError);
+        retrieve(showError);
     }, []);
     useEffect(() => {
-        retrieve(setError);
+        retrieve(showError);
     }, [onRefresh]);
 
     return (
@@ -30,6 +29,7 @@ export const ActiveTasksMainTable: React.FC<Props> = ({openTask}) => {
                     <Table.Th>Назва</Table.Th>
                     <Table.Th>ID працюючого процесу</Table.Th>
                     <Table.Th>Дата і час створення задачі</Table.Th>
+                    <Table.Th>Дата і час останньої зміни задачі</Table.Th>
                 </Table.Tr>
             </Table.Thead>
             <Table.Tbody>
@@ -43,6 +43,7 @@ export const ActiveTasksMainTable: React.FC<Props> = ({openTask}) => {
                             <Table.Td>{item.name}</Table.Td>
                             <Table.Td>{item.processInstanceId}</Table.Td>
                             <Table.Td>{toLocalDateTime(item.created)}</Table.Td>
+                            <Table.Td>{toLocalDateTime(item.lastUpdated)}</Table.Td>
                         </Table.Tr>)
                 }
             </Table.Tbody>
