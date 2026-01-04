@@ -1,4 +1,4 @@
-import type {CamundaInputVar} from "../../../../camundaClient/CamundaUpdateTask.ts";
+import type {CamundaInputVar} from "../../../../camundaClient/updateTask.ts";
 import type {CamundaProcessVars} from "../../../../camundaClient/domain.ts";
 import {Button, NumberInput, Paper, Stack, Table, TextInput} from "@mantine/core";
 import {useState} from "react";
@@ -13,7 +13,7 @@ type Props = {
     onSave: (outputVars: Map<string, CamundaInputVar>) => void
 };
 
-export const EnterApplicationFormInternal: React.FC<Props> = ({processVars, onSave}) => {
+export const EnterApplicationForm: React.FC<Props> = ({processVars, onSave}) => {
 
     const [detailsInput, setDetailsInput] = useState<DetailsInput>({
         personName: processVars?.personName?.value ?? "",
