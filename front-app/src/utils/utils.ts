@@ -9,11 +9,12 @@ export const notify = (title: string, text: string) => {
     })
 };
 
-export const toCurrency = (n: number) =>
+export const toCurrency = (n: number|undefined) => n ?
     new Intl.NumberFormat(navigator.language, {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
-    }).format(n);
+    }).format(n)
+    : '-';
 
 export const toLocalDateTime = (s: string | undefined) => s ?
     new Intl.DateTimeFormat(navigator.language, {

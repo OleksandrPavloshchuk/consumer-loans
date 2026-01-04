@@ -6,12 +6,12 @@ import {useState} from "react";
 interface DetailsInput {
     personName: string;
     amount: number
-};
+}
 
 type Props = {
     processVars: CamundaProcessVars | undefined,
     onSave: (outputVars: Map<string, CamundaInputVar>) => void
-};
+}
 
 export const EnterApplicationForm: React.FC<Props> = ({processVars, onSave}) => {
 
@@ -69,4 +69,4 @@ export const EnterApplicationForm: React.FC<Props> = ({processVars, onSave}) => 
             </Paper>
         </>
     );
-};
+}

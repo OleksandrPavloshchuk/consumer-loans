@@ -9,14 +9,20 @@ server:
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/camunda_hello
+    url: jdbc:postgresql://localhost:5432/camunda_loans
     username: camunda_user
     password: campass
+
+# Admin access: postgres / postpass
 
 camunda:
   bpm:
     authorization:
       enabled: false # do not use it on production!
+    database:
+      schema-name: camunda
+      table-prefix: camunda.
+      schema-update: true
     admin-user:
       id: demo
       password: demopass

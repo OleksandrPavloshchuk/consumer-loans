@@ -6,11 +6,8 @@ import {LoanDecisionInfo} from "../parts/LoanDecisionInfo.tsx";
 
 export const renderDeliverDecisionForm = (
     processVars: CamundaProcessVars | undefined,
-    onSave: (outputVars: Map<string, CamundaInputVar>) => void
+    onSave: (outputVars: Map<string, CamundaInputVar>|undefined) => void
 ) => {
-
-    const getOutputVars = () =>
-        new Map<string, CamundaInputVar>();
 
     return (
         <>
@@ -26,7 +23,7 @@ export const renderDeliverDecisionForm = (
             </Table>
             <Paper p="xs">
                 <Stack gap="xs">
-                    <Button onClick={() => onSave(getOutputVars())}>Закінчити задачу</Button>
+                    <Button onClick={() => onSave(undefined)}>Закінчити задачу</Button>
                 </Stack>
             </Paper>
         </>

@@ -11,7 +11,7 @@ type Props = {
     closeTab: (taskId: string) => void,
     renderFormInternal: (
         processVars: CamundaProcessVars|undefined,
-        onSave: (outputVars: Map<string, CamundaInputVar>) => void
+        onSave: (outputVars: Map<string, CamundaInputVar>|undefined) => void
     ) => React.ReactNode
 };
 
@@ -27,7 +27,7 @@ export const DetailsFormsBase: React.FC<Props> = ({task, closeTab, renderFormInt
             showError);
     }, [task.processInstanceId]);
 
-    const onSave = (outputVars: Map<string, CamundaInputVar>) => {
+    const onSave = (outputVars: Map<string, CamundaInputVar>|undefined) => {
         updateCamundaTask(
             task.id,
             outputVars,

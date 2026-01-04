@@ -5,7 +5,7 @@
 URL: jdbc:postgresql://localhost:5432/
 Database:
 Login: postgres
-Password: mypassword
+Password: postpass
 ```
 2. Create database
 ```sql
@@ -18,8 +18,18 @@ create user camunda_user with password 'campass';
 4. Grant full access to database for newly created user
 ```sql
 alter database camunda_loans owner to camunda_user;
+
+5. Create schema for Camunda tables:
+```sql
+create schema camunda authorization camunda_user;
 ```
-5. Set user, password, URL and database in `application.yaml`:
+
+6. Prevent camunda_user from creation tables in schema public
+```sql
+alter user camunda_user set search_path = camunda;
+```
+
+7. Set user, password, URL and database in `application.yaml`:
 ```yaml
 spring:
   datasource:
@@ -28,14 +38,14 @@ spring:
     username: camunda_user
     password: campass
 ```
-6. Create new database profile in Idea for PostgreSQL:
+8. Create new database profile in Idea for PostgreSQL:
 ```
 URL: jdbc:postgresql://localhost:5432/camunda_loans
 Database: camunda_loans
 Login: camunda_user
 Password: campass
 ```
-7. Change ownership of schema to camunda_user
+9. Change ownership of schema to camunda_user
 ```sql
 revoke all on schema public from public;
 grant all on schema public to camunda_user;
