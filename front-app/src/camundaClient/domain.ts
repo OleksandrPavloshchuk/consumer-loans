@@ -3,6 +3,10 @@ export class CamundaVar<T> {
 }
 
 export class CamundaProcessVars {
+    personCheckScores?: CamundaVar<number>;
+    personCheckReasons?: CamundaVar<string[]>;
+    financeCheckScores?: CamundaVar<number>;
+    financeCheckReasons?: CamundaVar<string[]>;
     scoringResult?: CamundaVar<string>;
     decision?: CamundaVar<string>;
     businessKey?: CamundaVar<string>;

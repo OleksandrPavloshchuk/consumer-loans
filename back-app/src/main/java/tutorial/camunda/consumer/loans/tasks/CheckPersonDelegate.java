@@ -30,7 +30,7 @@ public class CheckPersonDelegate implements JavaDelegate {
         execution.setVariable(VariableNames.personCheckScores.name(), value);
 
         List<String> reasons = new ArrayList<>();
-        if (value > 30) {
+        if (value < 30) {
             final int idx = random.nextInt(REASONS.length);
             reasons.add(REASONS[idx]);
         }

@@ -5,13 +5,33 @@ type Props = {
     processVars: CamundaProcessVars|undefined
 }
 
-// TODO add person and finance check results and reasons
-
 export const LoanDecisionInfo: React.FC<Props> = ({processVars}) => (
     <>
         <Table.Tr>
             <Table.Td>Результат автоматичного скорінгу</Table.Td>
             <Table.Td>{processVars?.scoringResult?.value}</Table.Td>
+        </Table.Tr>
+        <Table.Tr>
+            <Table.Td colSpan={2}>Скорінг особи</Table.Td>
+        </Table.Tr>
+        <Table.Tr>
+            <Table.Td>- результат:</Table.Td>
+            <Table.Td>{processVars?.personCheckScores?.value}</Table.Td>
+        </Table.Tr>
+        <Table.Tr>
+            <Table.Td>- причини:</Table.Td>
+            <Table.Td>{processVars?.personCheckReasons?.value}</Table.Td>
+        </Table.Tr>
+        <Table.Tr>
+            <Table.Td colSpan={2}>Скорінг фінансів</Table.Td>
+        </Table.Tr>
+        <Table.Tr>
+            <Table.Td>- результат:</Table.Td>
+            <Table.Td>{processVars?.financeCheckScores?.value}</Table.Td>
+        </Table.Tr>
+        <Table.Tr>
+            <Table.Td>- причини:</Table.Td>
+            <Table.Td>{processVars?.financeCheckReasons?.value}</Table.Td>
         </Table.Tr>
     </>
 )
