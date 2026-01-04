@@ -1,5 +1,5 @@
-import type {CamundaInputVar} from "../../../camundaClient/CamundaUpdateTask.ts";
-import type {CamundaProcessVars} from "../../../camundaClient/domain.ts";
+import type {CamundaInputVar} from "../../../../camundaClient/CamundaUpdateTask.ts";
+import type {CamundaProcessVars} from "../../../../camundaClient/domain.ts";
 import {Button, NumberInput, Paper, Stack, Table, TextInput} from "@mantine/core";
 import {useState} from "react";
 

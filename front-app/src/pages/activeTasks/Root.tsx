@@ -6,11 +6,11 @@ import {useCamundaTaskList} from "../../camundaClient/CamundaTaskList.ts";
 import {createNewCamundaTask} from "../../camundaClient/CamundaNewProcess.ts";
 import type {CamundaTask} from "../../camundaClient/domain.ts";
 import {DetailsFormsBase} from "./detailsForms/DetailsFormBase.tsx";
-import {renderDeliverDecisionFormInternal} from "./detailsForms/DeliverDecisionFormInternal.tsx";
-import {renderManualReviewFormInternal} from "./detailsForms/ManuaReviewlFormInternal.tsx";
+import {renderDeliverDecisionFormInternal} from "./detailsForms/internal/DeliverDecisionFormInternal.tsx";
+import {renderManualReviewFormInternal} from "./detailsForms/internal/ManuaReviewlFormInternal.tsx";
 import {
     EnterApplicationFormInternal
-} from "./detailsForms/EnterApplicationFormInternal.tsx";
+} from "./detailsForms/internal/EnterApplicationFormInternal.tsx";
 
 export const ActiveTasksRoot: React.FC = () => {
 

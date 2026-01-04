@@ -1,8 +1,8 @@
-import type {CamundaInputVar} from "../../../camundaClient/CamundaUpdateTask.ts";
-import type {CamundaProcessVars} from "../../../camundaClient/domain.ts";
+import type {CamundaInputVar} from "../../../../camundaClient/CamundaUpdateTask.ts";
+import type {CamundaProcessVars} from "../../../../camundaClient/domain.ts";
 import {Button, Paper, Stack, Table} from "@mantine/core";
-import {BaseLoanInfo} from "./parts/BaseLoanInfo.tsx";
-import {LoanDecisionInfo} from "./parts/LoanDecisionInfo.tsx";
+import {BaseLoanInfo} from "../parts/BaseLoanInfo.tsx";
+import {LoanDecisionInfo} from "../parts/LoanDecisionInfo.tsx";
 
 export const renderDeliverDecisionFormInternal = (
     processVars: CamundaProcessVars | undefined,
