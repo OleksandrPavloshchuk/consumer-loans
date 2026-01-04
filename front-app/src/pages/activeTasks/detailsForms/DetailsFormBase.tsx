@@ -1,7 +1,4 @@
-import {Button, Paper, Stack, Table} from "@mantine/core";
 import {CamundaTaskInfo} from "./parts/CamundaTaskInfo.tsx";
-import {BaseLoanInfo} from "./parts/BaseLoanInfo.tsx";
-import {LoanDecisionInfo} from "./parts/LoanDecisionInfo.tsx";
 import {CamundaProcessVars, type CamundaTask} from "../../../camundaClient/domain.ts";
 import {useEffect, useState} from "react";
 import {getCamundaProcessVariables} from "../../../camundaClient/CamundaProcessVariables.ts";
@@ -11,13 +8,16 @@ import {useCamundaTaskList} from "../../../camundaClient/CamundaTaskList.ts";
 
 type Props = {
     task: CamundaTask,
-    closeTab: (taskId: string) => void
+    closeTab: (taskId: string) => void,
+    renderFormInternal: (
+        processVars: CamundaProcessVars|undefined,
+        onSave: (outputVars: Map<string, CamundaInputVar>) => void
+    ) => React.ReactNode
 };
 
-export const DeliverDecisionForm: React.FC<Props> = ({task, closeTab}) => {
+export const DetailsFormsBase: React.FC<Props> = ({task, closeTab, renderFormInternal}) => {
 
     const [processVars, setProcessVars] = useState<CamundaProcessVars|undefined>(undefined);
-
     const doRefresh = useCamundaTaskList((s) => s.doRefresh);
 
     useEffect(() => {
@@ -27,11 +27,10 @@ export const DeliverDecisionForm: React.FC<Props> = ({task, closeTab}) => {
             showError);
     }, [task.processInstanceId]);
 
-    const onSave = () => {
-
+    const onSave = (outputVars: Map<string, CamundaInputVar>) => {
         updateCamundaTask(
             task.id,
-            new Map<string, CamundaInputVar>(),
+            outputVars,
             closeTab,
             doRefresh,
             showError
@@ -41,20 +40,6 @@ export const DeliverDecisionForm: React.FC<Props> = ({task, closeTab}) => {
     return (<>
         <CamundaTaskInfo task={task}/>
         <hr/>
-        <Table>
-            <Table.Tbody>
-                <BaseLoanInfo processVars={processVars} />
-                <LoanDecisionInfo processVars={processVars} />
-                <Table.Tr>
-                    <Table.Td>Рішення</Table.Td>
-                    <Table.Td>{processVars?.decision?.value}</Table.Td>
-                </Table.Tr>
-            </Table.Tbody>
-        </Table>
-        <Paper p="xs">
-            <Stack gap="xs">
-                <Button onClick={onSave}>Закінчити задачу</Button>
-            </Stack>
-        </Paper>
+        {renderFormInternal(processVars, onSave)}
     </>);
 }

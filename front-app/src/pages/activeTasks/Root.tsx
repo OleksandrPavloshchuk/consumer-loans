@@ -4,10 +4,13 @@ import {ActiveTasksMainTable} from "./MainTable.tsx";
 import {useState} from "react";
 import {useCamundaTaskList} from "../../camundaClient/CamundaTaskList.ts";
 import {createNewCamundaTask} from "../../camundaClient/CamundaNewProcess.ts";
-import {EnterApplicationForm} from "./detailsForms/EnterApplicationForm.tsx";
-import {DeliverDecisionForm} from "./detailsForms/DeliverDecisionForm.tsx";
-import {ManualReviewForm} from "./detailsForms/ManualReviewForm.tsx";
 import type {CamundaTask} from "../../camundaClient/domain.ts";
+import {DetailsFormsBase} from "./detailsForms/DetailsFormBase.tsx";
+import {renderDeliverDecisionFormInternal} from "./detailsForms/DeliverDecisionFormInternal.tsx";
+import {renderManualReviewFormInternal} from "./detailsForms/ManuaReviewlFormInternal.tsx";
+import {
+    EnterApplicationFormInternal
+} from "./detailsForms/EnterApplicationFormInternal.tsx";
 
 export const ActiveTasksRoot: React.FC = () => {
 
@@ -32,16 +35,24 @@ export const ActiveTasksRoot: React.FC = () => {
     }
 
     const createNewTask = () =>
-        createNewCamundaTask(doRefresh, showError );
+        createNewCamundaTask(doRefresh, showError);
 
     const getTaskForm = (task: CamundaTask) => {
         switch (task.taskDefinitionKey) {
             case "enterApplication":
-                return <EnterApplicationForm task={task} closeTab={closeTaskTab}/>;
+                return <DetailsFormsBase
+                    task={task} closeTab={closeTaskTab}
+                    renderFormInternal={
+                        (processVars, onSave) =>
+                            <EnterApplicationFormInternal processVars={processVars} onSave={onSave}/>}/>;
             case "manualReview":
-                return <ManualReviewForm task={task} closeTab={closeTaskTab} />;
+                return <DetailsFormsBase
+                    task={task} closeTab={closeTaskTab}
+                    renderFormInternal={renderManualReviewFormInternal}/>;
             case "deliverDecision":
-                return <DeliverDecisionForm task={task} closeTab={closeTaskTab} />;
+                return <DetailsFormsBase
+                    task={task} closeTab={closeTaskTab}
+                    renderFormInternal={renderDeliverDecisionFormInternal}/>;
             default:
                 notify("TODO", "form is not ready");
         }

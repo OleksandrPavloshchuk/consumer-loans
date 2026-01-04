@@ -14,7 +14,7 @@ export interface CamundaInputVar<T = unknown> {
 
 export const updateCamundaTask = (
     taskId: string,
-    updatedVariables: Map<string, CamundaInputVar>,
+    updatedVariables: Map<string, CamundaInputVar>|undefined,
     closeTab: (s: string) => void,
     doRefresh: () => void,
     setError: (e: Error) => void) => {
@@ -29,7 +29,7 @@ export const updateCamundaTask = (
 
 const completeTask = (
     taskId: string,
-    updatedVariables: Map<string, CamundaInputVar>,
+    updatedVariables: Map<string, CamundaInputVar>|undefined,
     controller: AbortController) =>
     fetch(`${URI_CAMUNDA_BASE}task/${taskId}/complete`, {
         signal: controller.signal,
@@ -38,7 +38,7 @@ const completeTask = (
             "Content-Type": "application/json"
         },
         method: "POST",
-        body: JSON.stringify({variables: toObject(updatedVariables)})
+        body: updatedVariables ? JSON.stringify({variables: toObject(updatedVariables)}) : '{}'
     })
         .then((res) => res.ok);
 
