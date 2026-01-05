@@ -1,17 +1,21 @@
 package tutorial.camunda.consumer.loans.tasks;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.stereotype.Component;
+import tutorial.camunda.consumer.loans.domain.CheckResult;
 import tutorial.camunda.consumer.loans.domain.Decision;
 import tutorial.camunda.consumer.loans.domain.ScoringResult;
 import tutorial.camunda.consumer.loans.domain.VariableNames;
+import tutorial.camunda.consumer.loans.services.AggregateScoringService;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Component
+@RequiredArgsConstructor
 @Slf4j
 public class AggregateScoringDelegate implements JavaDelegate {
 
@@ -19,8 +23,10 @@ public class AggregateScoringDelegate implements JavaDelegate {
     private static final int AUTO_REJECT_BELOW = 30;
     private static final int AUTO_APPROVE_ABOVE = 70;
 
+    private final AggregateScoringService aggregateScoringService;
+
     @Override
-    public void execute(DelegateExecution execution) throws Exception {
+    public void execute(DelegateExecution execution) {
         final Integer personScores =
                 (Integer) execution.getVariable(VariableNames.personCheckScores.name());
         final List<String> personReasons =
@@ -30,15 +36,18 @@ public class AggregateScoringDelegate implements JavaDelegate {
         final List<String> financeReasons =
                 (List<String>) execution.getVariable(VariableNames.financeCheckReasons.name());
 
-        final Integer totalScores = financeScores + personScores;
-        final List<String> totalReasons = new ArrayList<>(financeReasons);
-        totalReasons.addAll(personReasons);
+        final Map<String, CheckResult> checkResults = Map.of(
+                "personCheck", new CheckResult(personScores, personReasons),
+                "financeCheck", new CheckResult(financeScores, financeReasons)
+        );
+        final CheckResult totalCheckResult = aggregateScoringService.aggregate(checkResults);
+
+        final int totalScores = totalCheckResult.scores();
+        final List<String> totalReasons = totalCheckResult.reasons();
 
         execution.setVariable(VariableNames.totalScores.name(), totalScores);
         execution.setVariable(VariableNames.totalReasons.name(), totalReasons);
 
-        log.info("total scores: {}",  totalScores);
-        log.info("total reasons: {}",  totalReasons);
         ScoringResult scoringResult;
         Decision decision = null;
         if (totalScores < AUTO_REJECT_BELOW) {
@@ -50,8 +59,8 @@ public class AggregateScoringDelegate implements JavaDelegate {
         } else {
             scoringResult = ScoringResult.MANUAL;
         }
-        log.info("scoring result: {}",  scoringResult.name());
-        execution.setVariable(VariableNames.scoringResult.name(),  scoringResult);
+        log.info("scoring result: {}", scoringResult.name());
+        execution.setVariable(VariableNames.scoringResult.name(), scoringResult);
         if (decision != null) {
             log.info("decision: {}", decision.name());
             execution.setVariable(VariableNames.decision.name(), decision);

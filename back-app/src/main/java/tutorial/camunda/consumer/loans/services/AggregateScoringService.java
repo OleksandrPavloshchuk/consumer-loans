@@ -4,6 +4,6 @@ import tutorial.camunda.consumer.loans.domain.CheckResult;
 
 import java.util.Map;
 
-public interface AggregateChecksService {
+public interface AggregateScoringService {
     CheckResult aggregate(Map<String, CheckResult> src);
 }

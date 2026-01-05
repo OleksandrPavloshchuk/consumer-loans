@@ -1,7 +1,7 @@
 package tutorial.camunda.consumer.loans.services;
 
 import lombok.extern.slf4j.Slf4j;
-import org.jvnet.hk2.annotations.Service;
+import org.springframework.stereotype.Service;
 import tutorial.camunda.consumer.loans.domain.CheckResult;
 
 import java.util.Collection;
@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Service
 @Slf4j
-public class UniformAggregateChecksService implements AggregateChecksService {
+public class UniformAggregateScoringService implements AggregateScoringService {
     @Override
     public CheckResult aggregate(Map<String, CheckResult> src) {
         final Collection<CheckResult> values = src.values();
@@ -20,6 +20,10 @@ public class UniformAggregateChecksService implements AggregateChecksService {
         final List<String> reasons = values.stream()
                 .flatMap(v -> v.reasons().stream())
                 .toList();
+
+        log.info("total scores: {}", scores);
+        log.info("total reasons: {}", reasons);
+
         return new CheckResult(scores, reasons);
     }
 }
