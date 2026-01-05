@@ -21,5 +21,4 @@ export class CamundaTask {
     lastUpdated: string | undefined = undefined;
     processInstanceId: string = "";
     taskDefinitionKey: string = "";
-    processVariables?: CamundaProcessVars
 }

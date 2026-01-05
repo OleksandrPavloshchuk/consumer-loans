@@ -1,42 +1,28 @@
 package tutorial.camunda.consumer.loans.tasks;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.RequiredArgsConstructor;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.stereotype.Component;
+import tutorial.camunda.consumer.loans.domain.CheckResponse;
 import tutorial.camunda.consumer.loans.domain.VariableNames;
+import tutorial.camunda.consumer.loans.services.CheckFinanceService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.math.BigDecimal;
 
 @Component
-@Slf4j
+@RequiredArgsConstructor
 public class CheckFinanceDelegate implements JavaDelegate {
 
-    private static final String[] REASONS = {
-            "No money",
-            "No idea",
-            "No reason"
-    };
-
-    private final Random random = new Random(System.currentTimeMillis());
+    private final CheckFinanceService checkFinanceService;
 
     @Override
-    public void execute(DelegateExecution execution) throws Exception {
-        // TODO (2026/12/27) random implementation. In production should be substituted by external service
-
-        final int value = random.nextInt(50);
-        execution.setVariable(VariableNames.financeCheckScores.name(), value);
-
-        List<String> reasons = new ArrayList<>();
-        if (value < 30) {
-            final int idx = random.nextInt(REASONS.length);
-            reasons.add(REASONS[idx]);
-        }
-        execution.setVariable(VariableNames.financeCheckReasons.name(), reasons);
-
-        log.info("Finance check scores: {}",  value);
-        log.info("Finance check reasons: {}",  reasons);
+    public void execute(DelegateExecution execution) {
+        final String personName = (String) execution.getVariable(VariableNames.personName.name());
+        final Number amount = (Number) execution.getVariable(VariableNames.amount.name());
+        final CheckResponse checkResponse = checkFinanceService.check(
+                personName, BigDecimal.valueOf(amount.doubleValue()));
+        execution.setVariable(VariableNames.financeCheckScores.name(), checkResponse.scores());
+        execution.setVariable(VariableNames.financeCheckReasons.name(), checkResponse.reasons());
     }
 }
