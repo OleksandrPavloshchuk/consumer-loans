@@ -3,6 +3,7 @@ plugins {
 	id "io.spring.dependency-management" version "1.1.7"
 	id "java"
 	id "io.freefair.lombok" version "8.14"
+    id "jacoco"
 }
 
 java {
@@ -27,6 +28,10 @@ dependencies {
     implementation "org.camunda.bpm.model:camunda-bpmn-model:${camundaVersion}"
     implementation "org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest:${camundaVersion}"
     runtimeOnly "org.postgresql:postgresql:42.7.4"
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 springBoot {
@@ -35,5 +40,15 @@ springBoot {
 
 test {
 	useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    }
 }
 

@@ -1,7 +1,7 @@
 package tutorial.camunda.consumer.loans.services;
 
-import tutorial.camunda.consumer.loans.domain.CheckResponse;
+import tutorial.camunda.consumer.loans.domain.CheckResult;
 
 public interface CheckPersonService {
-    CheckResponse check(String personName);
+    CheckResult check(String personName) throws ExternalSystemUnavailableException;
 }

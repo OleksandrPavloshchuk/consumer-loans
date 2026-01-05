@@ -1,9 +1,10 @@
 package tutorial.camunda.consumer.loans.services;
 
-import tutorial.camunda.consumer.loans.domain.CheckResponse;
+import tutorial.camunda.consumer.loans.domain.CheckResult;
 
 import java.math.BigDecimal;
 
 public interface CheckFinanceService {
-    CheckResponse check(String personName, BigDecimal amount);
+    CheckResult check(String personName, BigDecimal amount)
+            throws ExternalSystemUnavailableException;
 }

@@ -2,7 +2,7 @@ package tutorial.camunda.consumer.loans.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import tutorial.camunda.consumer.loans.domain.CheckResponse;
+import tutorial.camunda.consumer.loans.domain.CheckResult;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class RandomCheckPersonService implements CheckPersonService {
     private final Random random = new Random(System.currentTimeMillis());
 
     @Override
-    public CheckResponse check(String personName) {
+    public CheckResult check(String personName) {
 
         log.info("Checking person {}", personName);
 
@@ -31,6 +31,6 @@ public class RandomCheckPersonService implements CheckPersonService {
         }
         log.info("Person check scores: {}", scores);
         log.info("Person check reasons: {}", reasons);
-        return new CheckResponse(scores, reasons);
+        return new CheckResult(scores, reasons);
     }
 }
