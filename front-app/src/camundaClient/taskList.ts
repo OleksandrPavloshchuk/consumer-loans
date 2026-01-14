@@ -24,7 +24,7 @@ export const useCamundaTaskList = create<CamundaTaskListModel>((set) => ({
             .then((tasks: CamundaTask[]) => {
                 set({result: tasks});
             })
-            .catch((e: Error) => setError(e))
+            .catch((e: Error) => setError(e));
 
         return () => controller.abort();
     },

@@ -9,5 +9,8 @@ Here is
 * `back-app` - backend part
 * `front-app` - frontend part
 
-## The closest TODO (2026/01/01)
-Start frontend part using vite
+## The closest TODO (2026/01/14)
+* Create environment variables for front-app in order to remove senstive parameters from code
+* Implement login page for front-end
+* Implement JWT-based security on front end
+

@@ -1,6 +1,7 @@
 ## front-app environment variables
 
-- **SERVER_PORT** — HTTPS server port for back-app
-- **BACKEND_URL** — URL of the back-app
-- **SSL_KEYSTORE_PATH** — absolute path to PKCS12 keystore
-- **SSL_KEYSTORE_PASSWORD** — keystore password
+- **VITE_SERVER_PORT** — HTTPS server port for back-app
+- **VITE_BACKEND_URL** — URL of the back-app
+- **VITE_SSL_KEY_PATH** — absolute path to server key
+- **VITE_SSL_CERT_PATH** — absolute path to server certificate
+- **VITE_SSL_ROOT_CERT_PATH** — absolute path to root server certificate
