@@ -7,7 +7,7 @@ export const LoginRoot: React.FC = () => {
     const setUser = useLoginState((s)=> s.setUser);
     const password = useLoginState((s)=> s.password);
     const setPassword = useLoginState((s)=>s.setPassword);
-    
+
     return (<>
         <h2>Вхід до системи</h2>
         <Paper p="xs">

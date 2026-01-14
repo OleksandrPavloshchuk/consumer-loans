@@ -1,24 +1,15 @@
 import {create} from "zustand";
-
-const KEY = "access_token";
+import {getToken, setToken} from "./authenticationService.ts";
 
 export interface AuthenticationState {
     token: string | null;
-    setToken: (s: string|null) => void;
+    setToken: (s: string|undefined) => void;
     isAuthenticated: () => boolean;
 }
 
 export const useAuthenticationState = create<AuthenticationState>(
     (_, get) => ({
-        token: localStorage.getItem(KEY),
-        setToken: (s: string|null)=> {
-            if (s) {
-                localStorage.setItem(KEY, s);
-            }  else {
-                localStorage.removeItem(KEY);
-            }
-        },
-        isAuthenticated: () => {
-            return !!get().token;
-        }
+        token: getToken(),
+        setToken: (s: string|undefined)=> setToken(s),
+        isAuthenticated: () => !!get().token
     }));

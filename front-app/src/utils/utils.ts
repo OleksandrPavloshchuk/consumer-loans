@@ -37,4 +37,3 @@ export const showError = (e: Error)=> {
 }
 
 export const URI_CAMUNDA_BASE = "/engine-rest/";
-//export const BASIC_AUTH_KEY = "Basic ZGVtbzpkZW1vcGFzcw==";
