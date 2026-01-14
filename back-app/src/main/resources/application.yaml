@@ -25,3 +25,9 @@ camunda:
       id: ${CAMUNDA_ADMIN_ID}
       password: ${CAMUNDA_ADMIN_PASSWORD}
       first-name: ${CAMUNDA_ADMIN_FIRST_NAME}
+
+security:
+  jwt:
+    secret: ${JWT_SECRET}
+    access-ttl-minutes: 15
+    refresh-ttl-days: 7

@@ -28,6 +28,10 @@ dependencies {
     implementation "org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp:${camundaVersion}"
     implementation "org.camunda.bpm.model:camunda-bpmn-model:${camundaVersion}"
     implementation "org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest:${camundaVersion}"
+    implementation "io.jsonwebtoken:jjwt-api:0.11.5"
+
+    runtimeOnly "io.jsonwebtoken:jjwt-impl:0.11.5"
+    runtimeOnly "io.jsonwebtoken:jjwt-jackson:0.11.5"
     runtimeOnly "org.postgresql:postgresql:42.7.4"
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

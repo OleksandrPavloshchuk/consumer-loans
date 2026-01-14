@@ -5,6 +5,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import tutorial.camunda.consumer.loans.auth.service.JwtService;
@@ -25,7 +27,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
         final String token = authorizationHeader.substring(7);
-
-        // TODO
+        final Authentication auth = jwtService.authenticate(token);
+        SecurityContextHolder.getContext().setAuthentication(auth);
+        filterChain.doFilter(request, response);
     }
 }

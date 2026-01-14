@@ -9,3 +9,4 @@
 - **CAMUNDA_ADMIN_FIRST_NAME** — embedded Camunda admin first name
 - **SSL_KEYSTORE_PATH** — absolute path to PKCS12 keystore
 - **SSL_KEYSTORE_PASSWORD** — keystore password
+- **JWT_SECRET** — predefined secret for signing JWT

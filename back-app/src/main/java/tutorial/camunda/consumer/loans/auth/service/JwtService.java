@@ -1,8 +1,12 @@
 package tutorial.camunda.consumer.loans.auth.service;
 
-import tutorial.camunda.consumer.loans.auth.dto.LoginRequest;
+import io.jsonwebtoken.Claims;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 
 public interface JwtService {
-    String createAccessToken(String user);
-    String createRefreshToken(String user);
+    String createAccessToken(UserDetails user);
+    String createRefreshToken(UserDetails user);
+    Authentication authenticate(String token);
+    Claims parseRefreshToken(String token);
 }
