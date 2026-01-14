@@ -1,21 +1,21 @@
 import {Button, Paper, PasswordInput, Stack, TextInput} from "@mantine/core";
-import {useState} from "react";
+import {useLoginState} from "./LoginState.ts";
 
 export const LoginRoot: React.FC = () => {
-    // TODO use zustand state
-    const [login, setLogin] = useState<string|undefined>(undefined);
-    const [password, setPassword] = useState<string|undefined>(undefined);
 
-
-    // TODO implement this
+    const user = useLoginState((s)=> s.user);
+    const setUser = useLoginState((s)=> s.setUser);
+    const password = useLoginState((s)=> s.password);
+    const setPassword = useLoginState((s)=>s.setPassword);
+    
     return (<>
         <h2>Вхід до системи</h2>
         <Paper p="xs">
             <Stack gap="xs">
                 <div>Користувач:</div>
                 <TextInput
-                    value={login}
-                    onChange={(e) => setLogin(e.currentTarget.value)}
+                    value={user}
+                    onChange={(e) => setUser(e.currentTarget.value)}
                 />
                 <div>Пароль:</div>
                 <PasswordInput
