@@ -3,7 +3,6 @@ import {Link, Outlet} from "react-router-dom";
 
 export const ApplicationLayout = () => <AppShell
     header={{height: 60}}
-    padding="md"
     styles={(theme) => ({
         main: {backgroundColor: theme.white},
         header: {
@@ -14,14 +13,14 @@ export const ApplicationLayout = () => <AppShell
 >
     <AppShell.Header>
         <Group h="100%" justify="space-between" px="md" align="center">
-            <Title order={4}>Location Selector Demo</Title>
+            <Title order={4}>Споживчі позички</Title>
             <Group>
                 <Anchor
-                    component={Link} to="/select-location"
-                >Select Location</Anchor>
+                    component={Link} to="/active"
+                >В роботі</Anchor>
                 <Anchor
-                    component={Link} to="/personal-search-center-groups"
-                >Personal Search Center Groups</Anchor>
+                    component={Link} to="/login"
+                >Вихід</Anchor>
             </Group>
         </Group>
     </AppShell.Header>

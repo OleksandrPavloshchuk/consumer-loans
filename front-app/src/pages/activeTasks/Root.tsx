@@ -59,7 +59,7 @@ export const ActiveTasksRoot: React.FC = () => {
     return (
         <Tabs defaultValue={"list"} value={activeTab} onChange={setActiveTab}>
             <Tabs.List>
-                <Tabs.Tab key="list" value={"list"}>Список активних позичок</Tabs.Tab>
+                <Tabs.Tab key="list" value={"list"}>Список</Tabs.Tab>
                 {
                     openTasks.map((task) =>
                         (<Tabs.Tab key={task.id} value={task.id}>
