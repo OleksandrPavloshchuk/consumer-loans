@@ -1,4 +1,5 @@
 import {notifications} from "@mantine/notifications";
+import type {AxiosResponse} from "axios";
 
 export const notify = (title: string, text: string) => {
     notifications.show({
@@ -23,11 +24,11 @@ export const toLocalDateTime = (s: string | undefined) => s ?
     }).format(Date.parse(s))
     : '-';
 
-export const toJson = (res: Response) => {
-    if (!res.ok) {
+export const toJson = (res: AxiosResponse) => {
+    if (res.status !== 200) {
         throw new Error(`HTTP ${res.status}`);
     }
-    return res.json();
+    return res.data;
 }
 
 export const showError = (e: Error)=> {

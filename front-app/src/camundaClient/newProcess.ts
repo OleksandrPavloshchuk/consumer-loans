@@ -1,4 +1,5 @@
 import {toJson, URI_CAMUNDA_BASE} from "../utils/utils.ts";
+import {createJwtConnector} from "../axiosClient/backendConnector.ts";
 
 export const createNewCamundaTask = (
     doRefresh: () => void,
@@ -15,11 +16,8 @@ export const createNewCamundaTask = (
         }
     };
 
-    fetch(`${URI_CAMUNDA_BASE}process-definition/key/consumer-loan/start`, {
+    createJwtConnector().post(`${URI_CAMUNDA_BASE}process-definition/key/consumer-loan/start`, {
         signal: controller.signal,
-        headers: {
-            "Content-Type": "application/json"
-        },
         method: "POST",
         body: JSON.stringify(request)
     })
