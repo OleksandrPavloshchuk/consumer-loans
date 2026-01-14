@@ -1,6 +1,7 @@
 import {create} from "zustand";
 import {toJson, URI_CAMUNDA_BASE} from "../utils/utils.ts";
 import type {CamundaTask} from "./domain.ts";
+import {createJwtConnector} from "../axiosClient/backendConnector.ts";
 
 export interface CamundaTaskListModel {
     result: CamundaTask[],
@@ -14,11 +15,8 @@ export const useCamundaTaskList = create<CamundaTaskListModel>((set) => ({
     retrieve: (setError: (e: Error) => void) => {
         const controller = new AbortController();
 
-        fetch(`${URI_CAMUNDA_BASE}task?includeProcessVariables=true`, {
-            signal: controller.signal,
-            headers: {
-                "Content-Type": "application/json"
-            }
+        createJwtConnector().get(`${URI_CAMUNDA_BASE}task?includeProcessVariables=true`, {
+            signal: controller.signal
         })
             .then(toJson)
             .then((tasks: CamundaTask[]) => {

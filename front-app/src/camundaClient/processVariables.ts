@@ -1,5 +1,6 @@
 import {toJson, URI_CAMUNDA_BASE} from "../utils/utils.ts";
 import type {CamundaProcessVars} from "./domain.ts";
+import {createJwtConnector} from "../axiosClient/backendConnector.ts";
 
 export const getCamundaProcessVariables = (
     processInstanceId: string,
@@ -7,11 +8,8 @@ export const getCamundaProcessVariables = (
     setError: (e: Error) => void) => {
     const controller = new AbortController();
 
-    fetch(`${URI_CAMUNDA_BASE}process-instance/${processInstanceId}/variables`, {
-        signal: controller.signal,
-        headers: {
-            "Content-Type": "application/json"
-        }
+    createJwtConnector().get(`${URI_CAMUNDA_BASE}process-instance/${processInstanceId}/variables`, {
+        signal: controller.signal
     })
         .then(toJson)
         .then(setResult)

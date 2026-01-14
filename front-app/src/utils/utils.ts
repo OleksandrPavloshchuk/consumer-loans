@@ -24,12 +24,7 @@ export const toLocalDateTime = (s: string | undefined) => s ?
     }).format(Date.parse(s))
     : '-';
 
-export const toJson = (res: AxiosResponse) => {
-    if (res.status !== 200) {
-        throw new Error(`HTTP ${res.status}`);
-    }
-    return res.data;
-}
+export const toJson = (res: AxiosResponse) => res.data;
 
 export const showError = (e: Error)=> {
     if (e.name !== "AbortError") {

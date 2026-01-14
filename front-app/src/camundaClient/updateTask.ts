@@ -1,4 +1,5 @@
 import {URI_CAMUNDA_BASE} from "../utils/utils.ts";
+import {createJwtConnector} from "../axiosClient/backendConnector.ts";
 
 export type CamundaVarType =
     | "String"
@@ -31,15 +32,11 @@ const completeTask = (
     taskId: string,
     updatedVariables: Map<string, CamundaInputVar>|undefined,
     controller: AbortController) =>
-    fetch(`${URI_CAMUNDA_BASE}task/${taskId}/complete`, {
+    createJwtConnector().post(`${URI_CAMUNDA_BASE}task/${taskId}/complete`, {
         signal: controller.signal,
-        headers: {
-            "Content-Type": "application/json"
-        },
-        method: "POST",
         body: updatedVariables ? JSON.stringify({variables: toObject(updatedVariables)}) : '{}'
     })
-        .then((res) => res.ok);
+        .then((res) => res.status === 200);
 
 const toObject = (src: Map<string, CamundaInputVar>) =>
     Object.fromEntries(

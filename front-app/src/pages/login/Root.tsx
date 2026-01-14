@@ -1,12 +1,19 @@
 import {Button, Paper, PasswordInput, Stack, TextInput} from "@mantine/core";
 import {useLoginState} from "./LoginState.ts";
+import {login} from "../../authentication/authenticationService.ts";
 
 export const LoginRoot: React.FC = () => {
 
-    const user = useLoginState((s)=> s.user);
-    const setUser = useLoginState((s)=> s.setUser);
-    const password = useLoginState((s)=> s.password);
-    const setPassword = useLoginState((s)=>s.setPassword);
+    const user = useLoginState((s) => s.user);
+    const setUser = useLoginState((s) => s.setUser);
+    const password = useLoginState((s) => s.password);
+    const setPassword = useLoginState((s) => s.setPassword);
+
+    const doLogin = () => {
+        if (user && password && user.trim() === "" && password.trim() === "") {
+            login(user, password).finally();
+        }
+    }
 
     return (<>
         <h2>Вхід до системи</h2>
@@ -22,7 +29,7 @@ export const LoginRoot: React.FC = () => {
                     value={password}
                     onChange={(e) => setPassword(e.currentTarget.value)}
                 />
-                <Button>Зайти</Button>
+                <Button onClick={doLogin}>Зайти</Button>
             </Stack>
         </Paper>
     </>);
