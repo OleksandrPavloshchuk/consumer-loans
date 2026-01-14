@@ -1,4 +1,4 @@
-import {BASIC_AUTH_KEY, URI_CAMUNDA_BASE} from "../utils/utils.ts";
+import {URI_CAMUNDA_BASE} from "../utils/utils.ts";
 
 export type CamundaVarType =
     | "String"
@@ -34,7 +34,6 @@ const completeTask = (
     fetch(`${URI_CAMUNDA_BASE}task/${taskId}/complete`, {
         signal: controller.signal,
         headers: {
-            "Authorization": BASIC_AUTH_KEY,
             "Content-Type": "application/json"
         },
         method: "POST",

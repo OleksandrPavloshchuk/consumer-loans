@@ -1,19 +1,17 @@
 server:
-  port: 9091
+  port: ${SERVER_PORT:9091}
   ssl:
     enabled: true
-    key-store: classpath:localhost.p12
-    key-store-password: changeit
+    key-store: ${SSL_KEYSTORE_PATH}
+    key-store-password: ${SSL_KEYSTORE_PASSWORD}
     key-store-type: PKCS12
 
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/camunda_loans
-    username: camunda_user
-    password: campass
-
-# Admin access: postgres / postpass
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
 
 camunda:
   bpm:
@@ -24,6 +22,6 @@ camunda:
       table-prefix: camunda.
       schema-update: true
     admin-user:
-      id: demo
-      password: demopass
-      first-name: Demo
+      id: ${CAMUNDA_ADMIN_ID}
+      password: ${CAMUNDA_ADMIN_PASSWORD}
+      first-name: ${CAMUNDA_ADMIN_FIRST_NAME}

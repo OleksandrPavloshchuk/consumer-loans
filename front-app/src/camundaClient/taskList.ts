@@ -1,5 +1,5 @@
 import {create} from "zustand";
-import {BASIC_AUTH_KEY, toJson, URI_CAMUNDA_BASE} from "../utils/utils.ts";
+import {toJson, URI_CAMUNDA_BASE} from "../utils/utils.ts";
 import type {CamundaTask} from "./domain.ts";
 
 export interface CamundaTaskListModel {
@@ -17,7 +17,7 @@ export const useCamundaTaskList = create<CamundaTaskListModel>((set) => ({
         fetch(`${URI_CAMUNDA_BASE}task?includeProcessVariables=true`, {
             signal: controller.signal,
             headers: {
-                "Authorization": BASIC_AUTH_KEY
+                "Content-Type": "application/json"
             }
         })
             .then(toJson)

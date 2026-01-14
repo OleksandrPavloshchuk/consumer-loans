@@ -1,4 +1,4 @@
-import {BASIC_AUTH_KEY, toJson, URI_CAMUNDA_BASE} from "../utils/utils.ts";
+import {toJson, URI_CAMUNDA_BASE} from "../utils/utils.ts";
 
 export const createNewCamundaTask = (
     doRefresh: () => void,
@@ -18,7 +18,6 @@ export const createNewCamundaTask = (
     fetch(`${URI_CAMUNDA_BASE}process-definition/key/consumer-loan/start`, {
         signal: controller.signal,
         headers: {
-            "Authorization": BASIC_AUTH_KEY,
             "Content-Type": "application/json"
         },
         method: "POST",
