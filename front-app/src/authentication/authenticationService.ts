@@ -21,14 +21,10 @@ export const login = async (user: string, password: string)=> {
     return createConnector().post( "/auth/login", {user, password})
         .then(toJson)
         .then((data: LoginResponse) => {
-
-            console.log("TRACE login response ", data);
-
             setAccessToken(data.accessToken);
             setRefreshToken(data.refreshToken);
             return data.accessToken;
-        })
-        .catch(handleError);
+        });
 }
 
 export const refreshToken = async () => {
