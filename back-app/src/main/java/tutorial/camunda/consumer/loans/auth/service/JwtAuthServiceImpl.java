@@ -36,7 +36,7 @@ public class JwtAuthServiceImpl implements JwtAuthService {
 
     @Override
     public RefreshResponse refresh(RefreshRequest refreshRequest) {
-        final Claims claims = jwtProviderService.parseRefreshToken(refreshRequest.refreshToke());
+        final Claims claims = jwtProviderService.parseRefreshToken(refreshRequest.refreshToken());
         final String user = claims.getSubject();
         Optional<UserDetails> userDetailsOpt = userService.getUserDetails(user);
         if (userDetailsOpt.isPresent()) {
