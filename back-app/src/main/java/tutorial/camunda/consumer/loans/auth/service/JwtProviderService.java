@@ -4,9 +4,12 @@ import io.jsonwebtoken.Claims;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public interface JwtService {
+public interface JwtProviderService {
     String createAccessToken(UserDetails user);
+
     String createRefreshToken(UserDetails user);
+
     Authentication authenticate(String token);
+
     Claims parseRefreshToken(String token);
 }

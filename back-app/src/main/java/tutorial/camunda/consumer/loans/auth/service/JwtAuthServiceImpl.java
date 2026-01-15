@@ -21,36 +21,33 @@ import java.util.Set;
 public class JwtAuthServiceImpl implements JwtAuthService {
 
     private final UserService userService;
-    private final JwtService jwtService;
+    private final JwtProviderService jwtProviderService;
 
     @Override
     public LoginResponse login(LoginRequest loginRequest) {
-        final String user = loginRequest.getUser();
+        final String user = loginRequest.user();
 
         final Optional<String> passwordOpt = userService.getUserPassword(user);
         if (passwordOpt.isPresent()) {
             final String password = passwordOpt.get();
-            if (password.equals(loginRequest.getPassword())) {
+            if (password.equals(loginRequest.password())) {
                 final UserDetails userDetails = getUserDetails(user);
-                final String accessToken = jwtService.createAccessToken(userDetails);
-                final String refreshToken = jwtService.createRefreshToken(userDetails);
+                final String accessToken = jwtProviderService.createAccessToken(userDetails);
+                final String refreshToken = jwtProviderService.createRefreshToken(userDetails);
                 return new LoginResponse(accessToken, refreshToken);
-            } else {
-                throw new BadCredentialsException("Invalid username or password");
             }
-        } else {
-            throw new BadCredentialsException("Invalid username or password");
         }
+        throw new BadCredentialsException("Invalid username or password");
     }
 
     @Override
     public RefreshResponse refresh(RefreshRequest refreshRequest) {
-        final Claims claims = jwtService.parseRefreshToken(refreshRequest.getRefreshToken());
+        final Claims claims = jwtProviderService.parseRefreshToken(refreshRequest.refreshToke());
         final String user = claims.getSubject();
         Optional<String> passwordOpt = userService.getUserPassword(user);
         if (passwordOpt.isPresent()) {
             final UserDetails userDetails = getUserDetails(user);
-            final String newAccessToken = jwtService.createAccessToken(userDetails);
+            final String newAccessToken = jwtProviderService.createAccessToken(userDetails);
             return new RefreshResponse(newAccessToken);
         } else {
             throw new BadCredentialsException("Invalid username or password");
@@ -61,7 +58,7 @@ public class JwtAuthServiceImpl implements JwtAuthService {
         // TODO get authorities from the static source
         final SimpleGrantedAuthority userAuthority = new SimpleGrantedAuthority("USER");
         final Set<GrantedAuthority> authorities = Set.of(
-            userAuthority
+                userAuthority
         );
         return new User(
                 user,

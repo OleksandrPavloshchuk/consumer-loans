@@ -15,7 +15,7 @@ export interface CamundaInputVar<T = unknown> {
 
 export const updateCamundaTask = (
     taskId: string,
-    updatedVariables: Map<string, CamundaInputVar>|undefined,
+    updatedVariables: Map<string, CamundaInputVar> | undefined,
     closeTab: (s: string) => void,
     doRefresh: () => void,
     setError: (e: Error) => void) => {
@@ -28,15 +28,16 @@ export const updateCamundaTask = (
     return () => controller.abort();
 };
 
-const completeTask = (
+const completeTask = async (
     taskId: string,
-    updatedVariables: Map<string, CamundaInputVar>|undefined,
-    controller: AbortController) =>
-    createJwtConnector().post(`${URI_CAMUNDA_BASE}task/${taskId}/complete`, {
-        signal: controller.signal,
-        body: updatedVariables ? JSON.stringify({variables: toObject(updatedVariables)}) : '{}'
-    })
-        .then((res) => res.status === 200);
+    updatedVariables: Map<string, CamundaInputVar> | undefined,
+    controller: AbortController) => {
+
+    const vars = updatedVariables ? {variables: toObject(updatedVariables)} : {};
+    return createJwtConnector()
+        .post(`${URI_CAMUNDA_BASE}task/${taskId}/complete`, vars, {signal: controller.signal})
+        .then((res) => res.status >= 200 && res.status < 300)
+};
 
 const toObject = (src: Map<string, CamundaInputVar>) =>
     Object.fromEntries(

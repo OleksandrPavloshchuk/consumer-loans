@@ -3,12 +3,16 @@ import {showError, toLocalDateTime} from "../../utils/utils.ts";
 import {useCamundaTaskList} from "../../camundaClient/taskList.ts";
 import {useEffect} from "react";
 import type {CamundaTask} from "../../camundaClient/domain.ts";
+import {useApplicationState} from "../../ApplicationState.ts";
 
 type Props = {
     openTask: (task: CamundaTask) => void
 }
 
 export const ActiveTasksMainTable: React.FC<Props> = ({openTask}) => {
+
+    const setActivePageName = useApplicationState((s) => s.setActivePageName);
+    setActivePageName("В роботі");
 
     const result = useCamundaTaskList((s) => s.result);
     const retrieve = useCamundaTaskList((s) => s.retrieve);

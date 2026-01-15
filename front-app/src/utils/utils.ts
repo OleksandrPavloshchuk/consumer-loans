@@ -27,7 +27,7 @@ export const toLocalDateTime = (s: string | undefined) => s ?
 export const toJson = (res: AxiosResponse) => res.data;
 
 export const showError = (e: Error)=> {
-    if (e.name !== "AbortError") {
+    if (e instanceof Error && e.name !== "AbortError") {
         notify("Error", `${e}`)
     }
 }

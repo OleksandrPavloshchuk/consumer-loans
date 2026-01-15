@@ -15,14 +15,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class JwtServiceImpl implements JwtService{
+public class JwtProviderServiceImpl implements JwtProviderService {
 
     @Value("${security.jwt.secret}")
     private String secret;
@@ -43,30 +45,28 @@ public class JwtServiceImpl implements JwtService{
 
     @Override
     public Authentication authenticate(String token) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(getSecretKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-
-        String username = claims.getSubject();
-
-        final List<?> roles = claims.get("roles", List.class);
-
-        List<SimpleGrantedAuthority> authorities = roles.stream()
-                        .map(Object::toString)
-                        .map(SimpleGrantedAuthority::new)
-                        .toList();
-
+        final Claims claims = extractClaims(token);
         return new UsernamePasswordAuthenticationToken(
-                username,
+                claims.getSubject(),
                 null,
-                authorities
+                extractAuthorities(claims)
         );
     }
 
     @Override
     public Claims parseRefreshToken(String token) {
+        return extractClaims(token);
+    }
+
+    private List<SimpleGrantedAuthority> extractAuthorities(Claims claims) {
+        final Collection<?> roles = claims.get("roles", Collection.class);
+        return roles.stream()
+                .map(Object::toString)
+                .map(SimpleGrantedAuthority::new)
+                .toList();
+    }
+
+    private Claims extractClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSecretKey())
                 .build()
@@ -93,15 +93,17 @@ public class JwtServiceImpl implements JwtService{
 
         return Jwts.builder()
                 .setSubject(user.getUsername())
-                .claim("roles",
-                        user.getAuthorities().stream()
-                                .map(GrantedAuthority::getAuthority)
-                                .toList()
-                )
+                .claim("roles", getRoles(user))
                 .setIssuedAt(now)
                 .setExpiration(expiry)
                 .signWith(getSecretKey(), SignatureAlgorithm.HS256)
                 .compact();
+    }
+
+    private static Set<String> getRoles(UserDetails user) {
+        return user.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toSet());
     }
 }
 

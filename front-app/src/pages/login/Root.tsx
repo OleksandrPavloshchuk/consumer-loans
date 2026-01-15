@@ -3,8 +3,12 @@ import {useLoginState} from "./LoginState.ts";
 import {login} from "../../authentication/authenticationService.ts";
 import {useNavigate} from "react-router";
 import {notify} from "../../utils/utils.ts";
+import {useApplicationState} from "../../ApplicationState.ts";
 
 export const LoginRoot: React.FC = () => {
+
+    const setActivePageName = useApplicationState((s) => s.setActivePageName);
+    setActivePageName(undefined);
 
     const user = useLoginState((s) => s.user);
     const setUser = useLoginState((s) => s.setUser);
