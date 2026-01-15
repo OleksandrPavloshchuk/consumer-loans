@@ -17,15 +17,18 @@ const setAccessToken = (val?: string)=> setToken("access_token", val);
 const setRefreshToken = (val?: string)=> setToken("refresh_token", val);
 
 export const login = async (user: string, password: string)=> {
+
     return createConnector().post( "/auth/login", {user, password})
         .then(toJson)
         .then((data: LoginResponse) => {
+
+            console.log("TRACE login response ", data);
+
             setAccessToken(data.accessToken);
             setRefreshToken(data.refreshToken);
             return data.accessToken;
-        });
-// TODO handle error
-//        .catch((error) => {});
+        })
+        .catch(handleError);
 }
 
 export const refreshToken = async () => {
@@ -40,8 +43,7 @@ export const refreshToken = async () => {
             setAccessToken(data.accessToken);
             return data.accessToken;
         })
-// TODO handle error
-//        .catch((error) => {});
+        .catch(handleError);
 };
 
 const getToken = (key : Key)=> localStorage.getItem(key);
@@ -52,4 +54,8 @@ const setToken = (key: Key, val: string|undefined)=> {
     } else {
         localStorage.removeItem(key);
     }
+}
+
+const handleError = (err: Error)=> {
+    console.log(`Error: ${err}`);
 }

@@ -13,8 +13,8 @@ import tutorial.camunda.consumer.loans.auth.dto.LoginResponse;
 import tutorial.camunda.consumer.loans.auth.dto.RefreshRequest;
 import tutorial.camunda.consumer.loans.auth.dto.RefreshResponse;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -59,13 +59,13 @@ public class JwtAuthServiceImpl implements JwtAuthService {
 
     private UserDetails getUserDetails(String user) {
         // TODO get authorities from the static source
-        final SimpleGrantedAuthority userAuthority = new SimpleGrantedAuthority("ROLE_USER");
-        final List<GrantedAuthority> authorities = List.of(
+        final SimpleGrantedAuthority userAuthority = new SimpleGrantedAuthority("USER");
+        final Set<GrantedAuthority> authorities = Set.of(
             userAuthority
         );
         return new User(
                 user,
-                null,
+                "some password",
                 authorities
         );
     }

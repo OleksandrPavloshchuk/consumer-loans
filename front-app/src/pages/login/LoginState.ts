@@ -1,15 +1,15 @@
 import {create} from "zustand";
 
 export interface LoginState {
-    user: string | undefined;
-    setUser: (s: string | undefined) => void;
-    password: string | undefined;
-    setPassword: (s: string | undefined) => void
+    user: string;
+    setUser: (s: string) => void;
+    password: string;
+    setPassword: (s: string) => void
 }
 
 export const useLoginState = create<LoginState>((set) => ({
-    user: undefined,
-    setUser: (s: string|undefined)=> set({user: s}),
-    password: undefined,
-    setPassword: (s: string|undefined)=> set({password: s})
+    user: "",
+    setUser: (s: string)=> set({user: s}),
+    password: "",
+    setPassword: (s: string)=> set({password: s})
 }));

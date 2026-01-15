@@ -18,6 +18,6 @@ public class SimpleStaticUserService implements UserService {
 
     @Override
     public Optional<String> getUserPassword(String user) {
-        return Optional.ofNullable(user);
+        return Optional.ofNullable(userPasswords.get(user));
     }
 }

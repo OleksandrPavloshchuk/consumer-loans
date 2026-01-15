@@ -10,7 +10,7 @@ export const LoginRoot: React.FC = () => {
     const setPassword = useLoginState((s) => s.setPassword);
 
     const doLogin = () => {
-        if (user && password && user.trim() === "" && password.trim() === "") {
+        if (user && password && user.trim() !== "" && password.trim() !== "") {
             login(user, password).finally();
         }
     }

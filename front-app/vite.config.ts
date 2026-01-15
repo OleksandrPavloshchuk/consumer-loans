@@ -31,6 +31,11 @@ export default defineConfig({
                 changeOrigin: true,
                 secure: true
             },
+            "/auth": {
+                target: BACKEND_URL,
+                changeOrigin: true,
+                secure: true,
+            }
         },
     },
 });
