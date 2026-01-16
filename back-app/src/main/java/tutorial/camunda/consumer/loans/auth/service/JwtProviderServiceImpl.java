@@ -59,7 +59,7 @@ public class JwtProviderServiceImpl implements JwtProviderService {
 
     @Override
     public Authentication authenticate(String token) {
-        final Claims claims = extractClaimsAndCheckExpiration(token, "Access token expired");
+        final Claims claims = extractClaimsAndCheckExpiration(token);
 
         return new UsernamePasswordAuthenticationToken(
                 claims.getSubject(),
@@ -70,19 +70,16 @@ public class JwtProviderServiceImpl implements JwtProviderService {
 
     @Override
     public Claims parseRefreshToken(String token) {
-        return extractClaimsAndCheckExpiration(token, "Refresh token expired");
+        return extractClaimsAndCheckExpiration(token);
     }
 
-    private Claims extractClaimsAndCheckExpiration(String token, String message) {
-        final Claims claims = Jwts.parserBuilder()
+    private Claims extractClaimsAndCheckExpiration(String token) {
+        return Jwts.parserBuilder()
                 .setSigningKey(getSecretKey())
+                .setClock(dateProvider::checkedAt)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-        if (claims.getExpiration().before(dateProvider.now())) {
-            throw new ExpiredJwtException(null, claims, message);
-        }
-        return claims;
     }
 
     private List<SimpleGrantedAuthority> extractAuthorities(Claims claims) {
@@ -110,8 +107,8 @@ public class JwtProviderServiceImpl implements JwtProviderService {
         return Jwts.builder()
                 .setSubject(user.getUsername())
                 .claim("roles", getRoles(user))
-                .setIssuedAt(dateProvider.now())
-                .setExpiration(dateProvider.nowPlus(timeToLive))
+                .setIssuedAt(dateProvider.createdAt())
+                .setExpiration(dateProvider.createdAtPlus(timeToLive))
                 .signWith(getSecretKey(), SignatureAlgorithm.HS256)
                 .compact();
     }

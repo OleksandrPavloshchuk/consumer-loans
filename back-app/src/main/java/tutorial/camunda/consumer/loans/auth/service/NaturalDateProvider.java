@@ -7,7 +7,10 @@ import java.util.Date;
 @Service
 public class NaturalDateProvider implements DateProvider {
     @Override
-    public Date now() {
+    public Date createdAt() {
         return new Date();
     }
+
+    @Override
+    public Date checkedAt() { return new Date(); }
 }

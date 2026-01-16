@@ -4,9 +4,11 @@ import java.util.Date;
 import java.time.Duration;
 
 public interface DateProvider {
-    Date now();
+    Date createdAt();
 
-    default Date nowPlus(Duration d) {
-        return Date.from(now().toInstant().plus(d));
+    Date checkedAt();
+
+    default Date createdAtPlus(Duration d) {
+        return Date.from(createdAt().toInstant().plus(d));
     }
 }
