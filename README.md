@@ -8,9 +8,13 @@ Here is
 * `doc` - documentation for frontend and backend parts
 * `back-app` - backend part
 * `front-app` - frontend part
+* `jwt-core` - base library for JWT support
+* `jwt-spring` - Spring adapter of jwt-core
+* `jwt-netty` - Netty adapter of jwt-core
 
-## The closest TODO (2026/01/14)
-* Create environment variables for front-app in order to remove senstive parameters from code
-* Implement login page for front-end
-* Implement JWT-based security on front end
+## The closest TODO (2026/01/17)
+* Create jwt-core library
+* Create jwt-spring library
+* Add roles to Camunda process and to JWT
+* Create jwt-netty library
 
