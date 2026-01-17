@@ -12,7 +12,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import tutorial.auth.jwt.core.dto.BaseAuthentication;
-import tutorial.auth.jwt.core.dto.BaseUserInfo;
 import tutorial.auth.jwt.core.service.AuthenticationException;
 import tutorial.auth.jwt.core.service.JwtProviderService;
 
@@ -41,8 +40,7 @@ public class JwtAuthenticationFilterUnitTest {
     @Test
     public void hasValidToken() throws ServletException, IOException, AuthenticationException {
         doReturn("Bearer the token").when(httpServletRequest).getHeader("Authorization");
-        doReturn( new BaseAuthentication(
-            new BaseUserInfo("1", "2", Set.of()), true
+        doReturn( new BaseAuthentication("1", Set.of(), true
         )).when(tokenAuthenticator).authenticate(any());
         jwtAuthenticationFilter.doFilterInternal(httpServletRequest, httpServletResponse, filterChain);
         ArgumentCaptor<String> tokenCaptor = ArgumentCaptor.forClass(String.class);

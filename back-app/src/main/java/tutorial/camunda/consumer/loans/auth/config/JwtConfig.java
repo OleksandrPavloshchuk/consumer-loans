@@ -41,9 +41,13 @@ public class JwtConfig {
 
     @Bean
     public JwtAuthService jwtAuthService(
-            UserService userService,
+            AuthenticationService authenticationService,
+            AuthorizationService authorizationService,
             JwtProviderService jwtProviderService
     ) {
-        return new JwtAuthServiceImpl(userService, jwtProviderService);
+        return new JwtAuthServiceImpl(
+                authenticationService,
+                authorizationService,
+                jwtProviderService);
     }
 }

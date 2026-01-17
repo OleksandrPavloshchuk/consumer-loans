@@ -49,12 +49,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private Authentication toCommonAuth(BaseAuthentication src) {
 
-        final List<GrantedAuthority> authorities = List.copyOf(src.userInfo().roles().stream()
+        final List<GrantedAuthority> authorities = List.copyOf(src.roles().stream()
                 .map(SimpleGrantedAuthority::new)
                 .toList());
 
         return new UsernamePasswordAuthenticationToken(
-                src.userInfo().name(),
+                src.username(),
                 "-",
                 authorities
 
