@@ -1,0 +1,5 @@
+rootProject.name = 'consumer-loans'
+
+include 'jwt-core'
+include 'back-app'
+include 'front-app'
