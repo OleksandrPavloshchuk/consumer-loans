@@ -11,10 +11,10 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
-public class SimpleStaticUserService implements UserService {
+public class SimpleStaticUserService_DEPRECATED implements UserService {
     private final Map<String, UserDetails> userDetails = new HashMap<>();
 
-    public SimpleStaticUserService() {
+    public SimpleStaticUserService_DEPRECATED() {
         // init data:
         userDetails.put("John", new User(
                 "John", "johnpass",

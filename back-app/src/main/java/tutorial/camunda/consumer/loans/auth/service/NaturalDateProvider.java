@@ -1,4 +1,6 @@
-package tutorial.auth.jwt.core.service;
+package tutorial.camunda.consumer.loans.auth.service;
+
+import tutorial.auth.jwt.core.service.DateProvider;
 
 import java.util.Date;
 
