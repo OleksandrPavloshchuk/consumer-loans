@@ -6,6 +6,6 @@ import tutorial.auth.jwt.core.dto.RefreshRequest;
 import tutorial.auth.jwt.core.dto.RefreshResponse;
 
 public interface JwtAuthService {
-    LoginResponse login(LoginRequest loginRequest);
-    RefreshResponse refresh(RefreshRequest refreshRequest);
+    LoginResponse login(LoginRequest loginRequest) throws AuthenticationException;
+    RefreshResponse refresh(RefreshRequest refreshRequest) throws AuthenticationException;
 }
