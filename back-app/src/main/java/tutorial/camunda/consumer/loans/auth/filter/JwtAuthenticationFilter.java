@@ -1,6 +1,5 @@
 package tutorial.camunda.consumer.loans.auth.filter;
 
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -12,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import tutorial.auth.jwt.core.service.JwtProperties;
 import tutorial.camunda.consumer.loans.auth.service.JwtProviderService;
 
 import java.io.IOException;
@@ -22,6 +22,7 @@ import java.util.Optional;
 @Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+    private final JwtProperties jwtProperties;
     private final JwtProviderService jwtProviderService;
 
     @Override
