@@ -16,22 +16,15 @@ import java.util.stream.Collectors;
 
 public class JwtProviderServiceImpl implements JwtProviderService, TokenAuthenticator {
 
-    private final String secret;
-    private final long accessMinutes;
-    private final long refreshDays;
-
     private final DateProvider dateProvider;
+    private final JwtProperties jwtProperties;
 
     public JwtProviderServiceImpl(
             DateProvider dateProvider,
-            String secret,
-            long accessMinutes,
-            long refreshDays
+            JwtProperties jwtProperties
     ) {
         this.dateProvider = dateProvider;
-        this.secret = secret;
-        this.accessMinutes = accessMinutes;
-        this.refreshDays = refreshDays;
+        this.jwtProperties = jwtProperties;
     }
 
     @Override
@@ -74,16 +67,16 @@ public class JwtProviderServiceImpl implements JwtProviderService, TokenAuthenti
     }
 
     private SecretKey getSecretKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(secret);
+        byte[] keyBytes = Decoders.BASE64.decode(jwtProperties.getSecret());
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
     private Duration getAccessTtl() {
-        return Duration.ofMinutes(accessMinutes);
+        return Duration.ofMinutes(jwtProperties.getAccessMinutes());
     }
 
     private Duration getRefreshTtl() {
-        return Duration.ofDays(refreshDays);
+        return Duration.ofDays(jwtProperties.getRefreshDays());
     }
 
     private String buildToken(BaseUserInfo user, Duration timeToLive) {

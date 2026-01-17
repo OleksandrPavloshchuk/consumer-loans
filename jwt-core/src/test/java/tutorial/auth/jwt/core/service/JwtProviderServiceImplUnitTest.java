@@ -117,9 +117,22 @@ public class JwtProviderServiceImplUnitTest {
     private JwtProviderServiceImpl createService() {
         return new JwtProviderServiceImpl(
                 dateProvider,
-                "rH6fM4+J4v7QhJkQ2M1hA+PZpZC9xT2l8Y8kXJ6v1aE=",
-                100,
-                11
+                new JwtProperties() {
+                    @Override
+                    public String getSecret() {
+                        return "rH6fM4+J4v7QhJkQ2M1hA+PZpZC9xT2l8Y8kXJ6v1aE=";
+                    }
+
+                    @Override
+                    public long getAccessMinutes() {
+                        return 100;
+                    }
+
+                    @Override
+                    public long getRefreshDays() {
+                        return 11;
+                    }
+                }
         );
     }
 
