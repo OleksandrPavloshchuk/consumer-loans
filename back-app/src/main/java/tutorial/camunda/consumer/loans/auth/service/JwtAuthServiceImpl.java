@@ -5,10 +5,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import tutorial.camunda.consumer.loans.auth.dto.LoginRequest;
-import tutorial.camunda.consumer.loans.auth.dto.LoginResponse;
-import tutorial.camunda.consumer.loans.auth.dto.RefreshRequest;
-import tutorial.camunda.consumer.loans.auth.dto.RefreshResponse;
+import tutorial.auth.jwt.core.dto.LoginRequest;
+import tutorial.auth.jwt.core.dto.LoginResponse;
+import tutorial.auth.jwt.core.dto.RefreshRequest;
+import tutorial.auth.jwt.core.dto.RefreshResponse;
+import tutorial.auth.jwt.core.service.AuthenticationException;
+import tutorial.auth.jwt.core.service.JwtAuthService;
 
 import java.util.Optional;
 
@@ -20,7 +22,7 @@ public class JwtAuthServiceImpl implements JwtAuthService {
     private final JwtProviderService jwtProviderService;
 
     @Override
-    public LoginResponse login(LoginRequest loginRequest) {
+    public LoginResponse login(LoginRequest loginRequest) throws AuthenticationException {
         final String user = loginRequest.user();
         final Optional<UserDetails> userDetailsOpt = userService.getUserDetails(user);
         if (userDetailsOpt.isPresent()) {
@@ -35,7 +37,7 @@ public class JwtAuthServiceImpl implements JwtAuthService {
     }
 
     @Override
-    public RefreshResponse refresh(RefreshRequest refreshRequest) {
+    public RefreshResponse refresh(RefreshRequest refreshRequest) throws AuthenticationException {
         final Claims claims = jwtProviderService.parseRefreshToken(refreshRequest.refreshToken());
         final String user = claims.getSubject();
         Optional<UserDetails> userDetailsOpt = userService.getUserDetails(user);

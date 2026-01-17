@@ -7,11 +7,12 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import tutorial.camunda.consumer.loans.auth.dto.LoginRequest;
-import tutorial.camunda.consumer.loans.auth.dto.LoginResponse;
-import tutorial.camunda.consumer.loans.auth.dto.RefreshRequest;
-import tutorial.camunda.consumer.loans.auth.dto.RefreshResponse;
-import tutorial.camunda.consumer.loans.auth.service.JwtAuthService;
+import tutorial.auth.jwt.core.dto.LoginRequest;
+import tutorial.auth.jwt.core.dto.LoginResponse;
+import tutorial.auth.jwt.core.dto.RefreshRequest;
+import tutorial.auth.jwt.core.dto.RefreshResponse;
+import tutorial.auth.jwt.core.service.AuthenticationException;
+import tutorial.auth.jwt.core.service.JwtAuthService;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -26,7 +27,7 @@ public class JwtAuthenticationControllerUnitTest {
     private JwtAuthenticationController jwtAuthenticationController;
 
     @Test
-    public void login() {
+    public void login() throws AuthenticationException {
         doReturn(new LoginResponse("AT-2", "RT-3"))
                 .when(jwtAuthService)
                 .login(any());
@@ -43,7 +44,7 @@ public class JwtAuthenticationControllerUnitTest {
     }
 
     @Test
-    public void refresh() {
+    public void refresh() throws AuthenticationException {
         doReturn(new RefreshResponse("AT-FF"))
                 .when(jwtAuthService)
                 .refresh(any());

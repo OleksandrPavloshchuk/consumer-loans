@@ -13,10 +13,11 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import tutorial.camunda.consumer.loans.auth.dto.LoginRequest;
-import tutorial.camunda.consumer.loans.auth.dto.LoginResponse;
-import tutorial.camunda.consumer.loans.auth.dto.RefreshRequest;
-import tutorial.camunda.consumer.loans.auth.dto.RefreshResponse;
+import tutorial.auth.jwt.core.dto.LoginRequest;
+import tutorial.auth.jwt.core.dto.LoginResponse;
+import tutorial.auth.jwt.core.dto.RefreshRequest;
+import tutorial.auth.jwt.core.dto.RefreshResponse;
+import tutorial.auth.jwt.core.service.AuthenticationException;
 
 import java.util.Optional;
 import java.util.Set;
@@ -36,7 +37,7 @@ public class JwtAuthServiceImplUnitTest {
     private JwtAuthServiceImpl jwtAuthServiceImpl;
 
     @Test
-    public void login_OK() {
+    public void login_OK() throws AuthenticationException {
         doReturn(
                 Optional.of(new User("user-1", "password-2",
                         Set.of(new SimpleGrantedAuthority("user-3"))
@@ -95,7 +96,7 @@ public class JwtAuthServiceImplUnitTest {
     }
 
     @Test
-    public void refresh_OK() {
+    public void refresh_OK() throws AuthenticationException {
         final Claims claims = Jwts.claims().setSubject("user-1");
         doReturn(claims).when(jwtProviderService).parseRefreshToken(any());
         doReturn(
