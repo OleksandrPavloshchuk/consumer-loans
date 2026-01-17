@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import tutorial.auth.jwt.core.dto.BaseAuthentication;
 import tutorial.auth.jwt.core.service.AuthenticationException;
-import tutorial.auth.jwt.core.service.TokenAuthenticator;
+import tutorial.auth.jwt.core.service.JwtProviderService;
 
 import java.io.IOException;
 import java.util.List;
@@ -26,7 +26,7 @@ import java.util.Optional;
 @Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final TokenAuthenticator tokenAuthenticator;
+    private final JwtProviderService jwtProviderService;
 
     @Override
     protected void doFilterInternal(
@@ -37,7 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             final Optional<String> authTokenOpt = getAuthorizationToken(request);
             if (authTokenOpt.isPresent()) {
                 final String token = authTokenOpt.get();
-                final Authentication auth = toCommonAuth(tokenAuthenticator.authenticate(token));
+                final Authentication auth = toCommonAuth(jwtProviderService.authenticate(token));
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
         } catch (AuthenticationException | IllegalArgumentException e) {

@@ -14,7 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import tutorial.auth.jwt.core.dto.BaseAuthentication;
 import tutorial.auth.jwt.core.dto.BaseUserInfo;
 import tutorial.auth.jwt.core.service.AuthenticationException;
-import tutorial.auth.jwt.core.service.TokenAuthenticator;
+import tutorial.auth.jwt.core.service.JwtProviderService;
 
 import java.io.IOException;
 import java.util.Set;
@@ -25,7 +25,7 @@ import static org.mockito.Mockito.*;
 public class JwtAuthenticationFilterUnitTest {
 
     @Mock
-    private TokenAuthenticator tokenAuthenticator;
+    private JwtProviderService tokenAuthenticator;
     @Mock
     private HttpServletRequest httpServletRequest;
 

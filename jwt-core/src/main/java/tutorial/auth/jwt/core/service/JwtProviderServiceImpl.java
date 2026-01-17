@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class JwtProviderServiceImpl implements JwtProviderService, TokenAuthenticator {
+public class JwtProviderServiceImpl implements JwtProviderService {
 
     private final DateProvider dateProvider;
     private final JwtProperties jwtProperties;

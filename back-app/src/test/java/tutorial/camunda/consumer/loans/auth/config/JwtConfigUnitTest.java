@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import tutorial.camunda.consumer.loans.auth.filter.JwtAuthenticationFilter;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
@@ -21,6 +22,9 @@ public class JwtConfigUnitTest {
     @Mock
     private SecurityFilterChain securityFilterChain;
 
+    @Mock
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
+
     @InjectMocks
     private JwtConfig jwtConfig;
 
@@ -32,7 +36,7 @@ public class JwtConfigUnitTest {
         doReturn(httpSecurity).when(httpSecurity).addFilterBefore(any(), any());
         doReturn(securityFilterChain).when(httpSecurity).build();
 
-        final SecurityFilterChain actual = jwtConfig.filterChain(httpSecurity);
+        final SecurityFilterChain actual = jwtConfig.filterChain(httpSecurity, jwtAuthenticationFilter);
         Assertions.assertNotNull(actual);
     }
 
