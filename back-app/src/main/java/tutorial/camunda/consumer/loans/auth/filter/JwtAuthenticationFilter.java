@@ -1,20 +1,24 @@
 package tutorial.camunda.consumer.loans.auth.filter;
 
-import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import tutorial.auth.jwt.core.service.JwtProperties;
-import tutorial.camunda.consumer.loans.auth.service.JwtProviderService;
+import tutorial.auth.jwt.core.dto.BaseAuthentication;
+import tutorial.auth.jwt.core.service.AuthenticationException;
+import tutorial.auth.jwt.core.service.TokenAuthenticator;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -22,8 +26,7 @@ import java.util.Optional;
 @Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final JwtProperties jwtProperties;
-    private final JwtProviderService jwtProviderService;
+    private final TokenAuthenticator tokenAuthenticator;
 
     @Override
     protected void doFilterInternal(
@@ -31,16 +34,31 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             HttpServletResponse response, FilterChain filterChain
     ) throws ServletException, IOException {
         try {
-            getAuthorizationToken(request)
-                    .ifPresent(token -> {
-                        final Authentication auth = jwtProviderService.authenticate(token);
-                        SecurityContextHolder.getContext().setAuthentication(auth);
-                    });
-        } catch (JwtException | IllegalArgumentException e) {
+            final Optional<String> authTokenOpt = getAuthorizationToken(request);
+            if (authTokenOpt.isPresent()) {
+                final String token = authTokenOpt.get();
+                final Authentication auth = toCommonAuth(tokenAuthenticator.authenticate(token));
+                SecurityContextHolder.getContext().setAuthentication(auth);
+            }
+        } catch (AuthenticationException | IllegalArgumentException e) {
             clearAuthentication(response);
             return;
         }
         filterChain.doFilter(request, response);
+    }
+
+    private Authentication toCommonAuth(BaseAuthentication src) {
+
+        final List<GrantedAuthority> authorities = List.copyOf(src.userInfo().roles().stream()
+                .map(SimpleGrantedAuthority::new)
+                .toList());
+
+        return new UsernamePasswordAuthenticationToken(
+                src.userInfo().name(),
+                "-",
+                authorities
+
+        );
     }
 
     private static void clearAuthentication(HttpServletResponse response) {

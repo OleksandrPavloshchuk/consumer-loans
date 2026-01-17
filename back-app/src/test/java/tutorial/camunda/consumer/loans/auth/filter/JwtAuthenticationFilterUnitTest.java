@@ -1,6 +1,5 @@
 package tutorial.camunda.consumer.loans.auth.filter;
 
-import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,9 +11,13 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import tutorial.camunda.consumer.loans.auth.service.JwtProviderService;
+import tutorial.auth.jwt.core.dto.BaseAuthentication;
+import tutorial.auth.jwt.core.dto.BaseUserInfo;
+import tutorial.auth.jwt.core.service.AuthenticationException;
+import tutorial.auth.jwt.core.service.TokenAuthenticator;
 
 import java.io.IOException;
+import java.util.Set;
 
 import static org.mockito.Mockito.*;
 
@@ -22,8 +25,7 @@ import static org.mockito.Mockito.*;
 public class JwtAuthenticationFilterUnitTest {
 
     @Mock
-    private JwtProviderService jwtProviderService;
-
+    private TokenAuthenticator tokenAuthenticator;
     @Mock
     private HttpServletRequest httpServletRequest;
 
@@ -37,27 +39,30 @@ public class JwtAuthenticationFilterUnitTest {
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Test
-    public void hasValidToken() throws ServletException, IOException {
+    public void hasValidToken() throws ServletException, IOException, AuthenticationException {
         doReturn("Bearer the token").when(httpServletRequest).getHeader("Authorization");
+        doReturn( new BaseAuthentication(
+            new BaseUserInfo("1", "2", Set.of()), true
+        )).when(tokenAuthenticator).authenticate(any());
         jwtAuthenticationFilter.doFilterInternal(httpServletRequest, httpServletResponse, filterChain);
         ArgumentCaptor<String> tokenCaptor = ArgumentCaptor.forClass(String.class);
-        verify(jwtProviderService).authenticate(tokenCaptor.capture());
+        verify(tokenAuthenticator).authenticate(tokenCaptor.capture());
         Assertions.assertEquals("the token", tokenCaptor.getValue());
         verify(filterChain).doFilter(any(), any());
     }
 
     @Test
-    public void noToken() throws ServletException, IOException {
+    public void noToken() throws ServletException, IOException, AuthenticationException {
         doReturn("something wrong").when(httpServletRequest).getHeader("Authorization");
         jwtAuthenticationFilter.doFilterInternal(httpServletRequest, httpServletResponse, filterChain);
-        verify(jwtProviderService, never()).authenticate(any());
+        verify(tokenAuthenticator, never()).authenticate(any());
         verify(filterChain).doFilter(any(), any());
     }
 
     @Test
-    public void hasInvalidToken() throws ServletException, IOException {
+    public void hasInvalidToken() throws ServletException, IOException, AuthenticationException {
         doReturn("Bearer be be be").when(httpServletRequest).getHeader("Authorization");
-        doThrow( new JwtException("?")).when(jwtProviderService).authenticate(any());
+        doThrow( new AuthenticationException("?")).when(tokenAuthenticator).authenticate(any());
         jwtAuthenticationFilter.doFilterInternal(httpServletRequest, httpServletResponse, filterChain);
         verify(filterChain, never()).doFilter(any(), any());
         ArgumentCaptor<Integer> statusCaptor = ArgumentCaptor.forClass(Integer.class);
@@ -68,9 +73,9 @@ public class JwtAuthenticationFilterUnitTest {
     }
 
     @Test
-    public void sendErrorException() throws ServletException, IOException {
+    public void sendErrorException() throws ServletException, IOException, AuthenticationException {
         doReturn("Bearer be be be").when(httpServletRequest).getHeader("Authorization");
-        doThrow( new JwtException("?")).when(jwtProviderService).authenticate(any());
+        doThrow( new AuthenticationException("?")).when(tokenAuthenticator).authenticate(any());
         doThrow(new IOException("can't send")).when(httpServletResponse).sendError(anyInt(), any());
         jwtAuthenticationFilter.doFilterInternal(httpServletRequest, httpServletResponse, filterChain);
         verify(filterChain, never()).doFilter(any(), any());
