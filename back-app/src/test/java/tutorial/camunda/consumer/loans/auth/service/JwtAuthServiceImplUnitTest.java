@@ -29,7 +29,7 @@ import static org.mockito.Mockito.*;
 public class JwtAuthServiceImplUnitTest {
 
     @Mock
-    private UserService userService;
+    private UserService_DEPRECATED userServiceDEPRECATED;
     @Mock
     private JwtProviderService jwtProviderService;
 
@@ -42,7 +42,7 @@ public class JwtAuthServiceImplUnitTest {
                 Optional.of(new User("user-1", "password-2",
                         Set.of(new SimpleGrantedAuthority("user-3"))
                 )))
-                .when(userService)
+                .when(userServiceDEPRECATED)
                 .getUserDetails(any());
         doReturn("AT-0").when(jwtProviderService).createAccessToken(any());
         doReturn("RT-1").when(jwtProviderService).createRefreshToken(any());
@@ -70,7 +70,7 @@ public class JwtAuthServiceImplUnitTest {
                 Optional.of(new User("user-1", "password-2",
                         Set.of(new SimpleGrantedAuthority("user-3"))
                 )))
-                .when(userService)
+                .when(userServiceDEPRECATED)
                 .getUserDetails(any());
         Assertions.assertThrows( BadCredentialsException.class,
                 () -> jwtAuthServiceImpl.login(
@@ -84,7 +84,7 @@ public class JwtAuthServiceImplUnitTest {
     @Test
     public void login_NoUser() {
         doReturn(Optional.empty())
-                .when(userService)
+                .when(userServiceDEPRECATED)
                 .getUserDetails(any());
         Assertions.assertThrows( BadCredentialsException.class,
                 () -> jwtAuthServiceImpl.login(
@@ -103,7 +103,7 @@ public class JwtAuthServiceImplUnitTest {
                 Optional.of(new User("user-1", "password-2",
                         Set.of(new SimpleGrantedAuthority("user-3"))
                 )))
-                .when(userService)
+                .when(userServiceDEPRECATED)
                 .getUserDetails(any());
         doReturn("AT-A").when(jwtProviderService).createAccessToken(any());
         final RefreshResponse refreshResponse = jwtAuthServiceImpl.refresh(
@@ -124,7 +124,7 @@ public class JwtAuthServiceImplUnitTest {
         final Claims claims = Jwts.claims().setSubject("user-1");
         doReturn(claims).when(jwtProviderService).parseRefreshToken(any());
         doReturn(Optional.empty())
-                .when(userService)
+                .when(userServiceDEPRECATED)
                 .getUserDetails(any());
         Assertions.assertThrows( BadCredentialsException.class,
                 () -> jwtAuthServiceImpl.refresh(

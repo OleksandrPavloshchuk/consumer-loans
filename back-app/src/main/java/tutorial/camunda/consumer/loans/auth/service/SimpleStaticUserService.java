@@ -1,12 +1,15 @@
-package tutorial.auth.jwt.core.service;
+package tutorial.camunda.consumer.loans.auth.service;
 
+import org.springframework.stereotype.Service;
 import tutorial.auth.jwt.core.dto.BaseUserInfo;
+import tutorial.auth.jwt.core.service.UserService;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+@Service
 public class SimpleStaticUserService implements UserService {
     private final Map<String, BaseUserInfo> users = new HashMap<>();
 
