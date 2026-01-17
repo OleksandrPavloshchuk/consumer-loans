@@ -1,32 +1,40 @@
 package tutorial.auth.jwt.core.service;
 
 import io.jsonwebtoken.Claims;
-import tutorial.auth.jwt.core.dto.*;
+import tutorial.auth.jwt.core.dto.LoginRequest;
+import tutorial.auth.jwt.core.dto.LoginResponse;
+import tutorial.auth.jwt.core.dto.RefreshRequest;
+import tutorial.auth.jwt.core.dto.RefreshResponse;
 
-import java.util.Optional;
+import java.nio.charset.StandardCharsets;
+import java.util.Set;
 
 public class JwtAuthServiceImpl implements JwtAuthService {
 
-    private final UserService userService;
+    private final AuthenticationService authenticationService;
+    private final AuthorizationService authorizationService;
     private final JwtProviderService jwtProviderService;
 
     public JwtAuthServiceImpl(
-            UserService userService,
+            AuthenticationService authenticationService,
+            AuthorizationService authorizationService,
             JwtProviderService jwtProviderService
     ) {
-        this.userService = userService;
+        this.authenticationService = authenticationService;
+        this.authorizationService = authorizationService;
         this.jwtProviderService = jwtProviderService;
     }
 
     @Override
     public LoginResponse login(LoginRequest loginRequest) throws AuthenticationException {
         final String userName = loginRequest.user();
-        final Optional<BaseUserInfo> userOpt = userService.getUser(userName);
-        if (userOpt.isPresent()) {
-            final BaseUserInfo user = userOpt.get();
-            if (user.password().equals(loginRequest.password())) {
-                final String accessToken = jwtProviderService.createAccessToken(user);
-                final String refreshToken = jwtProviderService.createRefreshToken(user);
+        // TODO clear this after using
+        final byte[] password = loginRequest.password().getBytes(StandardCharsets.UTF_8);
+        if (authenticationService.isAuthenticated(userName, password)) {
+            final Set<String> roles = authorizationService.getRoles(userName);
+            if (!roles.isEmpty()) {
+                final String accessToken = jwtProviderService.createAccessToken(userName, roles);
+                final String refreshToken = jwtProviderService.createRefreshToken(userName, roles);
                 return new LoginResponse(accessToken, refreshToken);
             }
         }
@@ -37,13 +45,12 @@ public class JwtAuthServiceImpl implements JwtAuthService {
     public RefreshResponse refresh(RefreshRequest refreshRequest) throws AuthenticationException {
         final Claims claims = jwtProviderService.parseRefreshToken(refreshRequest.refreshToken());
         final String userName = claims.getSubject();
-        Optional<BaseUserInfo> userOpt = userService.getUser(userName);
-        if (userOpt.isPresent()) {
-            final String newAccessToken = jwtProviderService.createAccessToken(userOpt.get());
+        final Set<String> roles = authorizationService.getRoles(userName);
+        if (!roles.isEmpty()) {
+            final String newAccessToken = jwtProviderService.createAccessToken(userName, roles);
             return new RefreshResponse(newAccessToken);
-        } else {
-            throw new AuthenticationException("Invalid username or password");
         }
+        throw new AuthenticationException("Invalid username or password");
     }
 
 }

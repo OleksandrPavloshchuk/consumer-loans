@@ -2,13 +2,14 @@ package tutorial.auth.jwt.core.service;
 
 import io.jsonwebtoken.Claims;
 import tutorial.auth.jwt.core.dto.BaseAuthentication;
-import tutorial.auth.jwt.core.dto.BaseUserInfo;
+
+import java.util.Set;
 
 public interface JwtProviderService {
 
-    String createAccessToken(BaseUserInfo user);
+    String createAccessToken(String userName, Set<String> roles);
 
-    String createRefreshToken(BaseUserInfo user);
+    String createRefreshToken(String userName, Set<String> roles);
 
     Claims parseRefreshToken(String token);
 

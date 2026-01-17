@@ -6,7 +6,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import tutorial.auth.jwt.core.dto.BaseAuthentication;
-import tutorial.auth.jwt.core.dto.BaseUserInfo;
 
 import javax.crypto.SecretKey;
 import java.time.Duration;
@@ -28,21 +27,19 @@ public class JwtProviderServiceImpl implements JwtProviderService {
     }
 
     @Override
-    public String createAccessToken(BaseUserInfo user) {
-        return buildToken(user, getAccessTtl());
+    public String createAccessToken(String userName, Set<String> roles) {
+        return buildToken(userName, roles, getAccessTtl());
     }
 
     @Override
-    public String createRefreshToken(BaseUserInfo user) {
-        return buildToken(user, getRefreshTtl());
+    public String createRefreshToken(String userName, Set<String> roles) {
+        return buildToken(userName, roles, getRefreshTtl());
     }
 
     @Override
     public BaseAuthentication authenticate(String token) {
         final Claims claims = extractClaimsAndCheckExpiration(token);
-        final BaseUserInfo user =
-                new BaseUserInfo(claims.getSubject(), null, extractAuthorities(claims));
-        return new BaseAuthentication(user, true);
+        return new BaseAuthentication(claims.getSubject(), extractAuthorities(claims), true);
     }
 
     @Override
@@ -79,10 +76,10 @@ public class JwtProviderServiceImpl implements JwtProviderService {
         return Duration.ofDays(jwtProperties.getRefreshDays());
     }
 
-    private String buildToken(BaseUserInfo user, Duration timeToLive) {
+    private String buildToken(String userName, Set<String> roles, Duration timeToLive) {
         return Jwts.builder()
-                .setSubject(user.name())
-                .claim("roles", user.roles())
+                .setSubject(userName)
+                .claim("roles", roles)
                 .setIssuedAt(dateProvider.createdAt())
                 .setExpiration(dateProvider.createdAtPlus(timeToLive))
                 .signWith(getSecretKey(), SignatureAlgorithm.HS256)

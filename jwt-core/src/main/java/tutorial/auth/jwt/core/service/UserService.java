@@ -4,6 +4,7 @@ import tutorial.auth.jwt.core.dto.BaseUserInfo;
 
 import java.util.Optional;
 
+@Deprecated
 public interface UserService {
     Optional<BaseUserInfo> getUser(String name);
 }

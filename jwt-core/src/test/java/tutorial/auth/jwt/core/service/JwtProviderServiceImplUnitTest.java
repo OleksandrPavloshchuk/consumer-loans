@@ -8,14 +8,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import tutorial.auth.jwt.core.dto.BaseAuthentication;
-import tutorial.auth.jwt.core.dto.BaseUserInfo;
 
 import java.time.Instant;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
@@ -33,7 +30,7 @@ public class JwtProviderServiceImplUnitTest {
     @Test
     public void createAccessToken() {
         final JwtProviderServiceImpl service = createService();
-        final String actual = createToken("user1", List.of("ROLE_USER"),
+        final String actual = createToken("user1", Set.of("ROLE_USER"),
                 "2026-01-15T15:00:00Z", "2026-01-15T20:00:00Z",
                 service::createAccessToken);
         Assertions.assertEquals(
@@ -44,7 +41,7 @@ public class JwtProviderServiceImplUnitTest {
     @Test
     public void createRefreshToken() {
         final JwtProviderServiceImpl service = createService();
-        final String actual = createToken("user1", List.of("ROLE_HELLO"),
+        final String actual = createToken("user1", Set.of("ROLE_HELLO"),
                 "2026-01-15T16:00:00Z", "2026-01-15T22:00:00Z",
                 service::createRefreshToken);
         Assertions.assertEquals(
@@ -56,20 +53,20 @@ public class JwtProviderServiceImplUnitTest {
     public void authenticate_OK() {
         doReturn(getDateFrom("2026-01-16T01:00:30Z")).when(dateProvider).checkedAt();
         final JwtProviderServiceImpl service = createService();
-        final String token = createToken("user2", List.of("ROLE_USER"),
+        final String token = createToken("user2", Set.of("ROLE_USER"),
                 "2026-01-16T00:00:00Z", "2026-01-16T01:01:00Z",
                 service::createAccessToken);
         final BaseAuthentication authentication = service.authenticate(token);
         Assertions.assertTrue(authentication.isAuthenticated());
-        Assertions.assertEquals( "user2", authentication.userInfo().name());
-        Assertions.assertEquals( Set.of("ROLE_USER"), authentication.userInfo().roles());
+        Assertions.assertEquals("user2", authentication.username());
+        Assertions.assertEquals(Set.of("ROLE_USER"), authentication.roles());
     }
 
     @Test
     public void authenticate_Expired() {
         doReturn(getDateFrom("2026-01-16T02:00:30Z")).when(dateProvider).checkedAt();
         final JwtProviderServiceImpl service = createService();
-        final String token = createToken("user2", List.of("ROLE_USER"),
+        final String token = createToken("user2", Set.of("ROLE_USER"),
                 "2026-01-16T00:00:00Z", "2026-01-16T01:01:00Z",
                 service::createAccessToken);
         Assertions.assertThrows(ExpiredJwtException.class, () -> service.authenticate(token));
@@ -79,12 +76,12 @@ public class JwtProviderServiceImplUnitTest {
     public void parseRefreshToken_OK() {
         doReturn(getDateFrom("2026-01-16T01:00:30Z")).when(dateProvider).checkedAt();
         final JwtProviderServiceImpl service = createService();
-        final String token = createToken("user3", List.of("ROLE_1", "ROLE_Q"),
+        final String token = createToken("user3", Set.of("ROLE_1", "ROLE_Q"),
                 "2026-01-16T00:00:00Z", "2026-01-26T01:01:00Z",
                 service::createRefreshToken);
 
         final Claims claims = service.parseRefreshToken(token);
-        Assertions.assertEquals( "user3", claims.getSubject());
+        Assertions.assertEquals("user3", claims.getSubject());
         Assertions.assertEquals(getDateFrom("2026-01-16T00:00:00Z"), claims.getIssuedAt());
         Assertions.assertEquals(getDateFrom("2026-01-26T01:01:00Z"), claims.getExpiration());
     }
@@ -93,7 +90,7 @@ public class JwtProviderServiceImplUnitTest {
     public void parseRefreshToken_Expired() {
         doReturn(getDateFrom("2026-02-16T01:00:30Z")).when(dateProvider).checkedAt();
         final JwtProviderServiceImpl service = createService();
-        final String token = createToken("user4", List.of("ROLE_1", "ROLE_Q"),
+        final String token = createToken("user4", Set.of("ROLE_1", "ROLE_Q"),
                 "2026-01-16T00:00:00Z", "2026-01-26T01:01:00Z",
                 service::createRefreshToken);
 
@@ -101,13 +98,12 @@ public class JwtProviderServiceImplUnitTest {
     }
 
     private String createToken(
-            String user, List<String> roles,
-                               String issuedTsStr, String expiredTsStr,
-                               Function<BaseUserInfo, String> generator)
-    {
+            String userName, Set<String> roles,
+            String issuedTsStr, String expiredTsStr,
+            BiFunction<String, Set<String>, String> generator) {
         doReturn(getDateFrom(issuedTsStr)).when(dateProvider).createdAt();
         doReturn(getDateFrom(expiredTsStr)).when(dateProvider).createdAtPlus(any());
-        return generator.apply(createUser(user, new HashSet<>(roles)));
+        return generator.apply(userName, roles);
     }
 
     private static Date getDateFrom(String src) {
@@ -136,7 +132,4 @@ public class JwtProviderServiceImplUnitTest {
         );
     }
 
-    private BaseUserInfo createUser(String username, Set<String> authorities) {
-        return new BaseUserInfo(username, "-", authorities);
-    }
 }

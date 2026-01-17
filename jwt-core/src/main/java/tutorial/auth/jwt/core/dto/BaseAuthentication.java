@@ -1,7 +1,10 @@
 package tutorial.auth.jwt.core.dto;
 
+import java.util.Set;
+
 public record BaseAuthentication(
-        BaseUserInfo userInfo,
+        String username,
+        Set<String> roles,
         boolean isAuthenticated
 ) {
 }
