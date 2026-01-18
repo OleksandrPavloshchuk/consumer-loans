@@ -1,6 +1,7 @@
 package tutorial.auth.jwt.spring.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,13 +21,13 @@ public class JwtAuthenticationController {
     private final JwtAuthService jwtAuthService;
 
     @PostMapping("/login")
-    public LoginResponse login(@RequestBody LoginRequest loginRequest) throws AuthenticationException {
-        return jwtAuthService.login(loginRequest);
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) throws AuthenticationException {
+        return ResponseEntity.ok(jwtAuthService.login(loginRequest));
     }
 
     @PostMapping("/refresh")
-    public RefreshResponse refresh(@RequestBody RefreshRequest refreshRequest) throws AuthenticationException {
-        return jwtAuthService.refresh(refreshRequest);
+    public ResponseEntity<RefreshResponse> refresh(@RequestBody RefreshRequest refreshRequest) throws AuthenticationException {
+        return ResponseEntity.ok(jwtAuthService.refresh(refreshRequest));
     }
 
 }

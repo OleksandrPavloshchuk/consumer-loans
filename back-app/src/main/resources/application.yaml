@@ -17,6 +17,9 @@ camunda:
   bpm:
     authorization:
       enabled: false # do not use it on production!
+    webapp:
+      security:
+        enabled: false
     database:
       schema-name: camunda
       table-prefix: camunda.
@@ -31,3 +34,9 @@ security:
     secret: ${JWT_SECRET}
     access-ttl-minutes: 15
     refresh-ttl-days: 7
+
+logging:
+  level:
+    org.springframework.web.cors: DEBUG
+    org.springframework.web.filter.CorsFilter: DEBUG
+    org.springframework.security: DEBUG

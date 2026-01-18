@@ -30,6 +30,9 @@ public class JwtConfigUnitTest {
 
     @Test
     public void config() throws Exception {
+        doReturn(httpSecurity).when(httpSecurity).logout(any());
+        doReturn(httpSecurity).when(httpSecurity).formLogin(any());
+        doReturn(httpSecurity).when(httpSecurity).httpBasic(any());
         doReturn(httpSecurity).when(httpSecurity).csrf(any());
         doReturn(httpSecurity).when(httpSecurity).sessionManagement(any());
         doReturn(httpSecurity).when(httpSecurity).authorizeHttpRequests(any());
