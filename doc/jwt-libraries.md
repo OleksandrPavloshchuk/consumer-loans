@@ -75,6 +75,12 @@ public interface JwtAuthService {
 Spring-based adapter for the jwt-core library.
 Provides REST endpoints, servlet filter and configuration
 required to integrate JWT authentication into Spring applications.
+### JWT Spring Modules
+Ensure the following packages are included in component scan / library search:
+- tutorial.auth.jwt.spring.config
+- tutorial.auth.jwt.spring.filter
+- tutorial.auth.jwt.spring.model
+- tutorial.auth.jwt.spring.dto
 ### Application parameters
 #### Environment variable
 * **JWT_SECRET** predefined application secret for JWT generation as Base64 string
