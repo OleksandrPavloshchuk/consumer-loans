@@ -1,4 +1,4 @@
-package tutorial.camunda.consumer.loans.auth.controller;
+package tutorial.auth.jwt.spring.controller;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -15,7 +15,8 @@ import tutorial.auth.jwt.core.service.AuthenticationException;
 import tutorial.auth.jwt.core.service.JwtAuthService;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 public class JwtAuthenticationControllerUnitTest {

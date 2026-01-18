@@ -1,4 +1,4 @@
-package tutorial.camunda.consumer.loans.auth.config;
+package tutorial.auth.jwt.spring.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,7 +8,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import tutorial.auth.jwt.core.service.*;
-import tutorial.camunda.consumer.loans.auth.filter.JwtAuthenticationFilter;
+import tutorial.auth.jwt.spring.filter.JwtAuthenticationFilter;
 
 @Configuration
 public class JwtConfig {

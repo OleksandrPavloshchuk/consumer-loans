@@ -1,4 +1,4 @@
-package tutorial.camunda.consumer.loans.auth.controller;
+package tutorial.auth.jwt.spring.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,4 +1,4 @@
-package tutorial.camunda.consumer.loans.auth.filter;
+package tutorial.auth.jwt.spring.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -20,11 +20,13 @@ import tutorial.auth.jwt.core.service.JwtProviderService;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Component
 @RequiredArgsConstructor
-@Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+    private static final Logger LOGGER = Logger.getLogger(JwtAuthenticationFilter.class.getName());
 
     private final JwtProviderService jwtProviderService;
 
@@ -66,7 +68,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             SecurityContextHolder.clearContext();
             response.sendError(401, "Token expired");
         } catch (IOException e) {
-            log.debug("JWT authentication failed: {}", e.getMessage());
+            LOGGER.log( Level.WARNING, "JWT authentication failed: {}", e.getMessage());
         }
     }
 

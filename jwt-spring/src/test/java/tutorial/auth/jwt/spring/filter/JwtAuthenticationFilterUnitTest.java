@@ -1,4 +1,4 @@
-package tutorial.camunda.consumer.loans.auth.filter;
+package tutorial.auth.jwt.spring.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

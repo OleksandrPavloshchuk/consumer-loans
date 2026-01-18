@@ -1,4 +1,4 @@
-package tutorial.camunda.consumer.loans.auth.config;
+package tutorial.auth.jwt.spring.config;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -8,7 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-import tutorial.camunda.consumer.loans.auth.filter.JwtAuthenticationFilter;
+import tutorial.auth.jwt.spring.filter.JwtAuthenticationFilter;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;

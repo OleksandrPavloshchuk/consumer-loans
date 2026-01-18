@@ -1,4 +1,4 @@
-package tutorial.camunda.consumer.loans.auth.service;
+package tutorial.auth.jwt.spring.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

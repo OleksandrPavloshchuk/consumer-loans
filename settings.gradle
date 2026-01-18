@@ -1,5 +1,6 @@
 rootProject.name = 'consumer-loans'
 
 include 'jwt-core'
+include 'jwt-spring'
 include 'back-app'
 include 'front-app'
