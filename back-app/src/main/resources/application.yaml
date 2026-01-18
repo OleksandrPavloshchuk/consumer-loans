@@ -40,3 +40,6 @@ logging:
     org.springframework.web.cors: DEBUG
     org.springframework.web.filter.CorsFilter: DEBUG
     org.springframework.security: DEBUG
+
+frontend:
+  url: https://localhost:5174

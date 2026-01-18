@@ -43,7 +43,9 @@ public class JwtConfig {
             DateProvider dateProvider,
             JwtProperties jwtProperties
     ) {
-        return new JwtProviderServiceImpl(dateProvider, jwtProperties);
+        final JwtProviderService result = new JwtProviderServiceImpl(dateProvider, jwtProperties);
+        log.info("JWT Provider Service is initialized");
+        return result;
     }
 
     @Bean
@@ -52,10 +54,12 @@ public class JwtConfig {
             AuthorizationService authorizationService,
             JwtProviderService jwtProviderService
     ) {
-        return new JwtAuthServiceImpl(
+        final JwtAuthService result = new JwtAuthServiceImpl(
                 authenticationService,
                 authorizationService,
                 jwtProviderService);
+        log.info("JWT Authentication Service is initialized");
+        return result;
     }
 
     @PostConstruct

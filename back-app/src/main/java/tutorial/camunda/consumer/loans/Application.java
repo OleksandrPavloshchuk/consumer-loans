@@ -2,7 +2,6 @@ package tutorial.camunda.consumer.loans;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 
 @SpringBootApplication(
         scanBasePackages = {"tutorial.camunda.consumer.loans", "tutorial.auth.jwt.spring"}
