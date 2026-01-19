@@ -16,7 +16,7 @@ spring:
 camunda:
   bpm:
     authorization:
-      enabled: false # do not use it on production!
+      enabled: true
     webapp:
       security:
         enabled: false
