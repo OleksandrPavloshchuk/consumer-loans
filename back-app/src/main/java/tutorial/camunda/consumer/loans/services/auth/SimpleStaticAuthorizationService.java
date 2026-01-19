@@ -13,8 +13,8 @@ public class SimpleStaticAuthorizationService implements AuthorizationService {
     private final Map<String, Set<String>> roles = new HashMap<>();
 
     public SimpleStaticAuthorizationService() {
-        roles.put("John", Set.of("USER", "LOAN_OFFICER"));
-        roles.put("Mary", Set.of("USER", "RISK_MANAGER"));
+        roles.put("John", Set.of("USER", "ROLE_LOAN_CONSULTANT"));
+        roles.put("Mary", Set.of("USER", "BACKOFFICE"));
     }
 
 

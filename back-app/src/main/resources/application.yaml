@@ -25,8 +25,10 @@ camunda:
       table-prefix: camunda.
       schema-update: true
     admin-user:
-      id: ${CAMUNDA_ADMIN_ID}
-      password: ${CAMUNDA_ADMIN_PASSWORD}
+#      id: ${CAMUNDA_ADMIN_ID}
+#      password: ${CAMUNDA_ADMIN_PASSWORD}
+      id: admin
+      password: admin
       first-name: ${CAMUNDA_ADMIN_FIRST_NAME}
 
 security:

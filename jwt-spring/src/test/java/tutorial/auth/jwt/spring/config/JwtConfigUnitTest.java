@@ -6,41 +6,40 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.web.SecurityFilterChain;
-import tutorial.auth.jwt.spring.filter.JwtAuthenticationFilter;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
+import tutorial.auth.jwt.core.service.AuthenticationService;
+import tutorial.auth.jwt.core.service.AuthorizationService;
+import tutorial.auth.jwt.core.service.DateProvider;
+import tutorial.auth.jwt.core.service.JwtProperties;
 
 @ExtendWith(MockitoExtension.class)
 public class JwtConfigUnitTest {
 
     @Mock
-    private HttpSecurity httpSecurity;
+    private JwtProperties jwtProperties;
 
     @Mock
-    private SecurityFilterChain securityFilterChain;
+    private DateProvider dateProvider;
 
     @Mock
-    private JwtAuthenticationFilter jwtAuthenticationFilter;
+    private AuthorizationService authorizationService;
+
+    @Mock
+    private AuthenticationService authenticationService;
 
     @InjectMocks
     private JwtConfig jwtConfig;
 
     @Test
-    public void config() throws Exception {
-        doReturn(httpSecurity).when(httpSecurity).logout(any());
-        doReturn(httpSecurity).when(httpSecurity).formLogin(any());
-        doReturn(httpSecurity).when(httpSecurity).httpBasic(any());
-        doReturn(httpSecurity).when(httpSecurity).csrf(any());
-        doReturn(httpSecurity).when(httpSecurity).sessionManagement(any());
-        doReturn(httpSecurity).when(httpSecurity).authorizeHttpRequests(any());
-        doReturn(httpSecurity).when(httpSecurity).addFilterBefore(any(), any());
-        doReturn(securityFilterChain).when(httpSecurity).build();
+    public void jwtProviderService() {
+        Assertions.assertNotNull(new JwtConfig().jwtProviderService(dateProvider, jwtProperties));
+    }
 
-        final SecurityFilterChain actual = jwtConfig.filterChain(httpSecurity, jwtAuthenticationFilter);
-        Assertions.assertNotNull(actual);
+    @Test
+    public void jwtAuthenticationFilter() {
+        Assertions.assertNotNull(new JwtConfig().jwtAuthService(
+                authenticationService, authorizationService,
+                new JwtConfig().jwtProviderService(dateProvider, jwtProperties)
+        ));
     }
 
 }

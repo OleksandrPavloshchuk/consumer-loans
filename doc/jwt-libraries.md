@@ -117,6 +117,15 @@ All error cases return HTTP 401 Unauthorized.
 {"accessToken": "<access token>"}
 ```
 All error cases return HTTP 401 Unauthorized.
+### Include library to Spring application
+Add filter in HTTP security configuration:
+```java
+...                
+.authorizeHttpRequests(auth -> auth
+    .requestMatchers("/auth/**").permitAll()
+    ...
+.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+```
 
 
 
