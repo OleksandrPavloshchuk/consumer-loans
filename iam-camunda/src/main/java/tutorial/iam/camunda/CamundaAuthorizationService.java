@@ -9,6 +9,6 @@ import java.util.Set;
 public class CamundaAuthorizationService implements AuthorizationService {
     @Override
     public Set<String> getRoles(String username) {
-        return Set.of();
+        return Set.of("CAMUNDA_USER");
     }
 }
