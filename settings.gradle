@@ -2,6 +2,6 @@ rootProject.name = 'consumer-loans'
 
 include 'jwt-core'
 include 'jwt-spring'
-include 'aim-camunda'
+include 'iam-camunda'
 include 'back-app'
 include 'front-app'

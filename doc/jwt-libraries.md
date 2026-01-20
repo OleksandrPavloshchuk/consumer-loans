@@ -127,7 +127,7 @@ Add filter in HTTP security configuration:
 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 ```
 
-## aim-camunda
+## iam-camunda
 Provides the Camunda based implementation of authentication and returns static role
 CAMUNDA_USER for authorization. Camunda is completely responsible for their authorization. 
 
