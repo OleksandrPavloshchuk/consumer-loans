@@ -18,10 +18,12 @@ export const useCamundaTaskList = create<CamundaTaskListModel>((set) => ({
         setError: (e: Error) => void) => {
         const controller = new AbortController();
 
-        createJwtConnector().get(`${URI_CAMUNDA_BASE}task?includeProcessVariables=true`, {
-            signal: controller.signal,
-            auth: {username: login, password: password}
-        })
+        createJwtConnector().get(
+            `${URI_CAMUNDA_BASE}task?includeProcessVariables=true&candidateUser=${login}`,
+            {
+                signal: controller.signal,
+                auth: {username: login, password: password}
+            })
             .then(toJson)
             .then((tasks: CamundaTask[]) => {
                 set({result: tasks});
