@@ -1,5 +1,7 @@
 import {createConnector} from "../axiosClient/backendConnector.ts";
 import {toJson} from "../utils/utils.ts";
+import {jwtDecode} from "jwt-decode";
+import {useAuthorizationState} from "./AuthorizationState.ts";
 
 type Key = "access_token" | "refresh_token";
 type LoginResponse = {
@@ -22,6 +24,8 @@ export const login = async (user: string, password: string)=> {
         .then(toJson)
         .then((data: LoginResponse) => {
             setAccessToken(data.accessToken);
+            const roles = getRolesFromToken(data.accessToken);
+            useAuthorizationState.getState().setRoles(roles);
             setRefreshToken(data.refreshToken);
             return data.accessToken;
         });
@@ -37,9 +41,18 @@ export const refreshToken = async () => {
         .then(toJson)
         .then((data: RefreshResponse)=> {
             setAccessToken(data.accessToken);
+            useAuthorizationState().setRoles( getRolesFromToken(data.accessToken));
             return data.accessToken;
         })
         .catch(handleError);
+};
+
+type TokenPayload = {
+    roles?: string[]
+};
+
+const getRolesFromToken = (token: string|null) => {
+    return (token) ? jwtDecode<TokenPayload>(token).roles : [];
 };
 
 const getToken = (key : Key)=> localStorage.getItem(key);

@@ -10,6 +10,7 @@ import {renderDeliverDecisionForm} from "./detailsForms/internal/DeliverDecision
 import {renderManualReviewForm} from "./detailsForms/internal/ManualReviewForm.tsx";
 import {EnterApplicationForm} from "./detailsForms/internal/EnterApplicationForm.tsx";
 import {useLoginState} from "../login/LoginState.ts";
+import {useAuthorizationState} from "../../authentication/AuthorizationState.ts";
 
 export const ActiveTasksRoot: React.FC = () => {
 
@@ -60,6 +61,10 @@ export const ActiveTasksRoot: React.FC = () => {
         }
     }
 
+    const roles = useAuthorizationState((s) => s.roles);
+    const isLoanConsultant = () =>
+        roles.indexOf("loanConsultants") >=0;
+
     return (
         <Tabs defaultValue={"list"} value={activeTab} onChange={setActiveTab}>
             <Tabs.List>
@@ -84,9 +89,11 @@ export const ActiveTasksRoot: React.FC = () => {
             </Tabs.List>
             <Tabs.Panel value={"list"} mt={"md"}>
                 <Flex w="100%" gap="sm">
-                    <Button
-                        onClick={createNewTask}
-                    >Нова позичка</Button>
+                    {isLoanConsultant() &&
+                        <Button
+                            onClick={createNewTask}
+                        >Нова позичка</Button>
+                    }
                     <Button
                         onClick={doRefresh}
                     >Оновити список</Button>
