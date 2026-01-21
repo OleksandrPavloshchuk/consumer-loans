@@ -3,13 +3,16 @@ import type {CamundaProcessVars} from "./domain.ts";
 import {createJwtConnector} from "../axiosClient/backendConnector.ts";
 
 export const getCamundaProcessVariables = (
+    login: string,
+    password: string,
     processInstanceId: string,
     setResult: (v: CamundaProcessVars) => void,
     setError: (e: Error) => void) => {
     const controller = new AbortController();
 
     createJwtConnector().get(`${URI_CAMUNDA_BASE}process-instance/${processInstanceId}/variables`, {
-        signal: controller.signal
+        signal: controller.signal,
+        auth: {username: login, password: password}
     })
         .then(toJson)
         .then(setResult)

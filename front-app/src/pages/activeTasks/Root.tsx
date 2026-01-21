@@ -9,6 +9,7 @@ import {DetailsFormsBase} from "./detailsForms/DetailsFormBase.tsx";
 import {renderDeliverDecisionForm} from "./detailsForms/internal/DeliverDecisionForm.tsx";
 import {renderManualReviewForm} from "./detailsForms/internal/ManualReviewForm.tsx";
 import {EnterApplicationForm} from "./detailsForms/internal/EnterApplicationForm.tsx";
+import {useLoginState} from "../login/LoginState.ts";
 
 export const ActiveTasksRoot: React.FC = () => {
 
@@ -32,8 +33,11 @@ export const ActiveTasksRoot: React.FC = () => {
         );
     }
 
+    const login = useLoginState((s) => s.user);
+    const password = useLoginState((s) => s.password);
+
     const createNewTask = () =>
-        createNewCamundaTask(doRefresh, showError);
+        createNewCamundaTask(login, password, doRefresh, showError);
 
     const getTaskForm = (task: CamundaTask) => {
         switch (task.taskDefinitionKey) {
