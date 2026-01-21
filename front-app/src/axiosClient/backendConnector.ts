@@ -27,20 +27,27 @@ const addJwtAuthenticationInterceptor = (client: AxiosInstance)=> {
 };
 
 const addNeedsRefreshInterceptor = (client: AxiosInstance)=> {
-    client.interceptors.response.use( response => response, async (error: {response: AxiosResponse}) => {
-        const response = error.response;
-        if (response && response.status === 401) {
-            // Non authorized - authentication token is stale; request new one use refresh token:
-            refreshToken()
-                .then(() => {
-                    response.config.headers.Authorization = `Bearer ${getAccessToken()}`;
-                    return client(response.config);
-                })
-                .catch( () => {
+    client.interceptors.response.use(
+        r => r,
+        async error => {
+            const { response, config } = error;
+
+            if (response?.status === 401 && !config._retry) {
+                config._retry = true;
+                try {
+                    await refreshToken();
+                    config.headers.Authorization = `Bearer ${getAccessToken()}`;
+                    return client(config);
+                } catch {
                     window.location.href = "/login";
-                    return Promise.reject();
-                });
+                }
+            }
+
+            if (response?.status === 403) {
+                // access denied — no retry
+            }
+
+            return Promise.reject(error);
         }
-        return Promise.reject();
-    });
+    );
 };
