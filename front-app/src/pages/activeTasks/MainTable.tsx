@@ -4,7 +4,6 @@ import {useCamundaTaskList} from "../../camundaClient/taskList.ts";
 import {useEffect} from "react";
 import type {CamundaTask} from "../../camundaClient/domain.ts";
 import {useApplicationState} from "../../ApplicationState.ts";
-import {useLoginState} from "../login/LoginState.ts";
 
 type Props = {
     openTask: (task: CamundaTask) => void
@@ -19,14 +18,11 @@ export const ActiveTasksMainTable: React.FC<Props> = ({openTask}) => {
     const retrieve = useCamundaTaskList((s) => s.retrieve);
     const onRefresh = useCamundaTaskList((s) => s.onRefresh);
 
-    const login = useLoginState((s) => s.user);
-    const password = useLoginState((s) => s.password);
-
     useEffect(() => {
-        retrieve(login, password, showError);
+        retrieve(showError);
     }, []);
     useEffect(() => {
-        retrieve(login, password, showError);
+        retrieve(showError);
     }, [onRefresh]);
 
     return (

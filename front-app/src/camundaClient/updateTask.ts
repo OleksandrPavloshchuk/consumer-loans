@@ -1,4 +1,4 @@
-import {URI_CAMUNDA_BASE} from "../utils/utils.ts";
+import {getAuthentication, URI_CAMUNDA_BASE} from "../utils/utils.ts";
 import {createJwtConnector} from "../axiosClient/backendConnector.ts";
 
 export type CamundaVarType =
@@ -14,8 +14,6 @@ export interface CamundaInputVar<T = unknown> {
 }
 
 export const updateCamundaTask = (
-    login: string,
-    password: string,
     taskId: string,
     updatedVariables: Map<string, CamundaInputVar> | undefined,
     closeTab: (s: string) => void,
@@ -23,7 +21,7 @@ export const updateCamundaTask = (
     setError: (e: Error) => void) => {
 
     const controller = new AbortController();
-    completeTask(login, password, taskId, updatedVariables, controller)
+    completeTask(taskId, updatedVariables, controller)
         .then(doRefresh)
         .then(() => closeTab(taskId))
         .catch((e: Error) => setError(e));
@@ -31,8 +29,6 @@ export const updateCamundaTask = (
 };
 
 const completeTask = async (
-    login: string,
-    password: string,
     taskId: string,
     updatedVariables: Map<string, CamundaInputVar> | undefined,
     controller: AbortController) => {
@@ -42,7 +38,7 @@ const completeTask = async (
         .post(`${URI_CAMUNDA_BASE}task/${taskId}/complete`, vars,
             {
                 signal: controller.signal,
-                auth: {username: login, password: password}
+                auth: getAuthentication()
             })
         .then((res) => res.status >= 200 && res.status < 300)
 };

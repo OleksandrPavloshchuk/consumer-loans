@@ -5,7 +5,6 @@ import {getCamundaProcessVariables} from "../../../camundaClient/processVariable
 import {showError} from "../../../utils/utils.ts";
 import {type CamundaInputVar, updateCamundaTask} from "../../../camundaClient/updateTask.ts";
 import {useCamundaTaskList} from "../../../camundaClient/taskList.ts";
-import {useLoginState} from "../../login/LoginState.ts";
 
 type Props = {
     task: CamundaTask,
@@ -21,13 +20,8 @@ export const DetailsFormsBase: React.FC<Props> = ({task, closeTab, renderFormInt
     const [processVars, setProcessVars] = useState<CamundaProcessVars|undefined>(undefined);
     const doRefresh = useCamundaTaskList((s) => s.doRefresh);
 
-    const login = useLoginState((s) => s.user);
-    const password = useLoginState((s) => s.password);
-
     useEffect(() => {
         return getCamundaProcessVariables(
-            login,
-            password,
             task.processInstanceId,
             setProcessVars,
             showError);
@@ -35,8 +29,6 @@ export const DetailsFormsBase: React.FC<Props> = ({task, closeTab, renderFormInt
 
     const onSave = (outputVars: Map<string, CamundaInputVar>|undefined) => {
         updateCamundaTask(
-            login,
-            password,
             task.id,
             outputVars,
             closeTab,

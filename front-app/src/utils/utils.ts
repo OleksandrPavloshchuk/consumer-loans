@@ -1,5 +1,7 @@
 import {notifications} from "@mantine/notifications";
 import type {AxiosResponse} from "axios";
+import {useAuthenticationState} from "../authentication/AuthenticationState.ts";
+import {useLoginState} from "../pages/login/LoginState.ts";
 
 export const notify = (title: string, text: string) => {
     notifications.show({
@@ -10,7 +12,7 @@ export const notify = (title: string, text: string) => {
     })
 };
 
-export const toCurrency = (n: number|undefined) => n ?
+export const toCurrency = (n: number | undefined) => n ?
     new Intl.NumberFormat(navigator.language, {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
@@ -26,10 +28,15 @@ export const toLocalDateTime = (s: string | undefined) => s ?
 
 export const toJson = (res: AxiosResponse) => res.data;
 
-export const showError = (e: Error)=> {
+export const showError = (e: Error) => {
     if (e.name !== "AbortError") {
         notify("Error", `${e}`)
     }
 }
+
+export const getAuthentication = () => ({
+    username: useLoginState.getState().user,
+    password: useLoginState.getState().password
+});
 
 export const URI_CAMUNDA_BASE = "/engine-rest/";
