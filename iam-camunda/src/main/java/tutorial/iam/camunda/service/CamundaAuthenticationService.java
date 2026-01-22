@@ -1,4 +1,4 @@
-package tutorial.iam.camunda;
+package tutorial.iam.camunda.service;
 
 import lombok.RequiredArgsConstructor;
 import org.camunda.bpm.engine.IdentityService;

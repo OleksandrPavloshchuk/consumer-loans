@@ -1,4 +1,4 @@
-package tutorial.iam.camunda;
+package tutorial.iam.camunda.service;
 
 import org.camunda.bpm.engine.IdentityService;
 import org.camunda.bpm.engine.identity.User;
