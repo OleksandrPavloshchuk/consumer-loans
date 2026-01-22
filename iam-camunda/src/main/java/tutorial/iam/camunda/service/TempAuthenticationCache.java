@@ -1,7 +1,10 @@
 package tutorial.iam.camunda.service;
 
+import java.util.Optional;
+
 public interface TempAuthenticationCache {
     void store(String username, byte[] password, boolean isAuthenticated);
-    byte[] load(String username);
+
+    Optional<byte[]> load(String username);
 
 }

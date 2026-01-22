@@ -1,7 +1,5 @@
 import {notifications} from "@mantine/notifications";
 import type {AxiosResponse} from "axios";
-import {useAuthenticationState} from "../authentication/AuthenticationState.ts";
-import {useLoginState} from "../pages/login/LoginState.ts";
 
 export const notify = (title: string, text: string) => {
     notifications.show({
@@ -34,10 +32,4 @@ export const showError = (e: Error) => {
     }
 }
 
-export const getAuthentication = () => ({
-    username: useLoginState.getState().user,
-    password: useLoginState.getState().password
-});
-
-//export const URI_CAMUNDA_BASE = "/engine-rest/";
 export const URI_CAMUNDA_BASE = "/engine-rest-proxy/";

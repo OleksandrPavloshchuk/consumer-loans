@@ -1,4 +1,4 @@
-import {getAuthentication, toJson, URI_CAMUNDA_BASE} from "../utils/utils.ts";
+import {toJson, URI_CAMUNDA_BASE} from "../utils/utils.ts";
 import {createJwtConnector} from "../axiosClient/backendConnector.ts";
 
 export const createNewCamundaTask = (
@@ -20,7 +20,7 @@ export const createNewCamundaTask = (
         request,
         {
             signal: controller.signal,
-            auth: getAuthentication()
+            // auth: getAuthentication()
         })
         .then((res) => {
             doRefresh();

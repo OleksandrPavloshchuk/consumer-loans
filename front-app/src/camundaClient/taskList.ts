@@ -1,5 +1,5 @@
 import {create} from "zustand";
-import {getAuthentication, toJson, URI_CAMUNDA_BASE} from "../utils/utils.ts";
+import {toJson, URI_CAMUNDA_BASE} from "../utils/utils.ts";
 import type {CamundaTask} from "./domain.ts";
 import {createJwtConnector} from "../axiosClient/backendConnector.ts";
 import {useLoginState} from "../pages/login/LoginState.ts";
@@ -23,7 +23,7 @@ export const useCamundaTaskList = create<CamundaTaskListModel>((set) => ({
             `${URI_CAMUNDA_BASE}task?includeProcessVariables=true&candidateUser=${userName}`,
             {
                 signal: controller.signal,
-                auth: getAuthentication()
+                // auth: getAuthentication()
             })
             .then(toJson)
             .then((tasks: CamundaTask[]) => {

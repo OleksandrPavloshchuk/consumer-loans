@@ -1,4 +1,4 @@
-import {getAuthentication, toJson, URI_CAMUNDA_BASE} from "../utils/utils.ts";
+import {toJson, URI_CAMUNDA_BASE} from "../utils/utils.ts";
 import type {CamundaProcessVars} from "./domain.ts";
 import {createJwtConnector} from "../axiosClient/backendConnector.ts";
 
@@ -10,7 +10,7 @@ export const getCamundaProcessVariables = (
 
     createJwtConnector().get(`${URI_CAMUNDA_BASE}process-instance/${processInstanceId}/variables`, {
         signal: controller.signal,
-        auth: getAuthentication()
+        // auth: getAuthentication()
     })
         .then(toJson)
         .then(setResult)

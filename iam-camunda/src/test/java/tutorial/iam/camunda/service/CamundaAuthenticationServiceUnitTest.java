@@ -28,6 +28,9 @@ public class CamundaAuthenticationServiceUnitTest {
     @Mock
     private User user;
 
+    @Mock
+    private TempAuthenticationCache tempAuthenticationCache;
+
     @InjectMocks
     private CamundaAuthenticationService authenticationService;
 

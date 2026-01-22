@@ -1,4 +1,4 @@
-import {getAuthentication, URI_CAMUNDA_BASE} from "../utils/utils.ts";
+import {URI_CAMUNDA_BASE} from "../utils/utils.ts";
 import {createJwtConnector} from "../axiosClient/backendConnector.ts";
 
 export type CamundaVarType =
@@ -38,7 +38,7 @@ const completeTask = async (
         .post(`${URI_CAMUNDA_BASE}task/${taskId}/complete`, vars,
             {
                 signal: controller.signal,
-                auth: getAuthentication()
+                // auth: getAuthentication()
             })
         .then((res) => res.status >= 200 && res.status < 300)
 };

@@ -12,10 +12,11 @@ import java.nio.charset.StandardCharsets;
 public class CamundaAuthenticationService implements AuthenticationService {
 
     private final IdentityService identityService;
+    private final TempAuthenticationCache tempAuthenticationCache;
 
     @Override
     public boolean isAuthenticated(String username, byte[] password) {
-        return identityService
+        final boolean result = identityService
                 .createUserQuery()
                 .userId(username)
                 .singleResult() != null
@@ -23,5 +24,7 @@ public class CamundaAuthenticationService implements AuthenticationService {
                 username,
                 new String(password, StandardCharsets.UTF_8)
         );
+        tempAuthenticationCache.store(username, password, result);
+        return result;
     }
 }
