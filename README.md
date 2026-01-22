@@ -8,13 +8,13 @@ Here is
 * `doc` - documentation for frontend and backend parts
 * `back-app` - backend part
 * `front-app` - frontend part
+* `iam-camunda` - Camunda implementation of authentication and authorization service
 * `jwt-core` - base library for JWT support
-* `jwt-spring` - Spring adapter of jwt-core (TODO)
+* `jwt-spring` - Spring adapter of jwt-core
 * `jwt-netty` - Netty adapter of jwt-core (TODO)
 * `local_scripts` - helper local scripts with environment (not in repository)
 
-## The closest TODO (2026/01/18)
-* Create jwt-spring library
-* Add roles to Camunda process and to JWT
+## The closest TODO (2026/01/22)
+* Eliminate header `Authentication: Basic ...` from traffic between front and back
 * Create jwt-netty library
 
