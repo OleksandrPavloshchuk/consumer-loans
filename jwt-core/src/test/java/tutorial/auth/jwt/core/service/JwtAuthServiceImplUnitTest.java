@@ -40,9 +40,10 @@ public class JwtAuthServiceImplUnitTest {
     @Test
     public void login_OK() throws AuthenticationException {
         doReturn(true).when(authenticationService).isAuthenticated(any(), any());
-        doReturn(Set.of("user-3")).when(authorizationService).getRoles(any());
-        doReturn("AT-0").when(jwtProviderService).createAccessToken(any(), anySet());
-        doReturn("RT-1").when(jwtProviderService).createRefreshToken(any(), anySet());
+        doReturn(Set.of("role-3")).when(authorizationService).getRoles(any());
+        doReturn(Set.of("group-4", "group-5")).when(authorizationService).getGroups(any());
+        doReturn("AT-0").when(jwtProviderService).createAccessToken(any(), anySet(), anySet());
+        doReturn("RT-1").when(jwtProviderService).createRefreshToken(any(), anySet(), anySet());
         final LoginResponse loginResponse = jwtAuthServiceImpl.login(
                 new LoginRequest("user-1", "password-2")
         );
@@ -50,16 +51,17 @@ public class JwtAuthServiceImplUnitTest {
         Assertions.assertEquals("RT-1", loginResponse.refreshToken());
         ArgumentCaptor<String> nameCaptor = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<Set<String>> rolesCaptor = ArgumentCaptor.forClass(Set.class);
-        verify(jwtProviderService).createAccessToken(nameCaptor.capture(), rolesCaptor.capture());
-        verify(jwtProviderService).createRefreshToken(nameCaptor.capture(), rolesCaptor.capture());
+        ArgumentCaptor<Set<String>> groupsCaptor = ArgumentCaptor.forClass(Set.class);
+        verify(jwtProviderService).createAccessToken(nameCaptor.capture(), rolesCaptor.capture(), groupsCaptor.capture());
+        verify(jwtProviderService).createRefreshToken(nameCaptor.capture(), rolesCaptor.capture(), groupsCaptor.capture());
         String userName = nameCaptor.getAllValues().getFirst();
         Set<String> userRoles = rolesCaptor.getAllValues().getFirst();
         Assertions.assertEquals("user-1", userName);
-        Assertions.assertEquals(Set.of("user-3"), userRoles);
+        Assertions.assertEquals(Set.of("role-3"), userRoles);
         userName = nameCaptor.getAllValues().get(1);
         userRoles = rolesCaptor.getAllValues().get(1);
         Assertions.assertEquals("user-1", userName);
-        Assertions.assertEquals(Set.of("user-3"), userRoles);
+        Assertions.assertEquals(Set.of("role-3"), userRoles);
     }
 
     @Test
@@ -70,8 +72,8 @@ public class JwtAuthServiceImplUnitTest {
                         new LoginRequest("user-1", "bebebe")
                 )
         );
-        verify(jwtProviderService, never()).createAccessToken(any(), anySet());
-        verify(jwtProviderService, never()).createRefreshToken(any(), anySet());
+        verify(jwtProviderService, never()).createAccessToken(any(), anySet(), anySet());
+        verify(jwtProviderService, never()).createRefreshToken(any(), anySet(), anySet());
     }
 
     @Test
@@ -83,27 +85,29 @@ public class JwtAuthServiceImplUnitTest {
                         new LoginRequest("user-2", "password-3")
                 )
         );
-        verify(jwtProviderService, never()).createAccessToken(any(), anySet());
-        verify(jwtProviderService, never()).createRefreshToken(any(), anySet());
+        verify(jwtProviderService, never()).createAccessToken(any(), anySet(), anySet());
+        verify(jwtProviderService, never()).createRefreshToken(any(), anySet(), anySet());
     }
-
 
     @Test
     public void refresh_OK() throws AuthenticationException {
         final Claims claims = Jwts.claims().setSubject("user-1");
         doReturn(claims).when(jwtProviderService).parseRefreshToken(any());
         doReturn(Set.of("role-1", "other")).when(authorizationService).getRoles(any());
-        doReturn("AT-A").when(jwtProviderService).createAccessToken(any(), anySet());
+        doReturn(Set.of("groups")).when(authorizationService).getGroups(any());
+        doReturn("AT-A").when(jwtProviderService).createAccessToken(any(), anySet(), anySet());
         final RefreshResponse refreshResponse = jwtAuthServiceImpl.refresh(
                 new RefreshRequest("rt")
         );
         Assertions.assertEquals("AT-A", refreshResponse.accessToken());
         ArgumentCaptor<String> nameCaptor = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<Set<String>> rolesCaptor = ArgumentCaptor.forClass(Set.class);
-        verify(jwtProviderService).createAccessToken(nameCaptor.capture(), rolesCaptor.capture());
-        verify(jwtProviderService, never()).createRefreshToken(nameCaptor.capture(), rolesCaptor.capture());
+        ArgumentCaptor<Set<String>> groupsCaptor = ArgumentCaptor.forClass(Set.class);
+        verify(jwtProviderService).createAccessToken(nameCaptor.capture(), rolesCaptor.capture(), groupsCaptor.capture());
+        verify(jwtProviderService, never()).createRefreshToken(nameCaptor.capture(), rolesCaptor.capture(), groupsCaptor.capture());
         Assertions.assertEquals("user-1", nameCaptor.getValue());
         Assertions.assertEquals(Set.of("role-1", "other"), rolesCaptor.getValue());
+        Assertions.assertEquals(Set.of("groups"), groupsCaptor.getValue());
     }
 
     @Test
@@ -116,7 +120,7 @@ public class JwtAuthServiceImplUnitTest {
                         new RefreshRequest("token")
                 )
         );
-        verify(jwtProviderService, never()).createAccessToken(any(), anySet());
-        verify(jwtProviderService, never()).createRefreshToken(any(), anySet());
+        verify(jwtProviderService, never()).createAccessToken(any(), anySet(), anySet());
+        verify(jwtProviderService, never()).createRefreshToken(any(), anySet(), anySet());
     }
 }

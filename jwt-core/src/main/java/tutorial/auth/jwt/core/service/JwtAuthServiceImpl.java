@@ -32,9 +32,10 @@ public class JwtAuthServiceImpl implements JwtAuthService {
         final byte[] password = loginRequest.password().getBytes(StandardCharsets.UTF_8);
         if (authenticationService.isAuthenticated(userName, password)) {
             final Set<String> roles = authorizationService.getRoles(userName);
-            if (!roles.isEmpty()) {
-                final String accessToken = jwtProviderService.createAccessToken(userName, roles);
-                final String refreshToken = jwtProviderService.createRefreshToken(userName, roles);
+            final Set<String> groups = authorizationService.getGroups(userName);
+            if (!roles.isEmpty() && !groups.isEmpty()) {
+                final String accessToken = jwtProviderService.createAccessToken(userName, roles, groups);
+                final String refreshToken = jwtProviderService.createRefreshToken(userName, roles, groups);
                 return new LoginResponse(accessToken, refreshToken);
             }
         }
@@ -46,8 +47,9 @@ public class JwtAuthServiceImpl implements JwtAuthService {
         final Claims claims = jwtProviderService.parseRefreshToken(refreshRequest.refreshToken());
         final String userName = claims.getSubject();
         final Set<String> roles = authorizationService.getRoles(userName);
-        if (!roles.isEmpty()) {
-            final String newAccessToken = jwtProviderService.createAccessToken(userName, roles);
+        final Set<String> groups = authorizationService.getGroups(userName);
+        if (!roles.isEmpty() && !groups.isEmpty()) {
+            final String newAccessToken = jwtProviderService.createAccessToken(userName, roles, groups);
             return new RefreshResponse(newAccessToken);
         }
         throw new AuthenticationException("Invalid username or password");

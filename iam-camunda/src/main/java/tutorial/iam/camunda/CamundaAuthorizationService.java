@@ -17,6 +17,11 @@ public class CamundaAuthorizationService implements AuthorizationService {
 
     @Override
     public Set<String> getRoles(String username) {
+        return Set.of("CAMUNDA_USER");
+    }
+
+    @Override
+    public Set<String> getGroups(String username) {
         return identityService.createGroupQuery()
                 .groupMember(username)
                 .list()

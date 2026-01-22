@@ -25,6 +25,7 @@ is not authorized to access the application.)_:
 ```java
 public interface AuthorizationService {
     Set<String> getRoles(String username);
+    Set<String> getGroups(String username);
 }
 ```
 #### Interaction with adapters

@@ -7,9 +7,9 @@ import java.util.Set;
 
 public interface JwtProviderService {
 
-    String createAccessToken(String userName, Set<String> roles);
+    String createAccessToken(String userName, Set<String> roles, Set<String> groups);
 
-    String createRefreshToken(String userName, Set<String> roles);
+    String createRefreshToken(String userName, Set<String> roles, Set<String> groups);
 
     Claims parseRefreshToken(String token);
 

@@ -35,16 +35,20 @@ public class CamundaAuthorizationServiceUnitTest {
 
     @Test
     public void getRoles() {
-        initIdentityService("The Group");
         Assertions.assertEquals(
                 authorizationService.getRoles("any user"),
-                Set.of("The Group"));
+                Set.of("CAMUNDA_USER"));
     }
 
-    private void initIdentityService(String groupId) {
+    @Test
+    public void getGroups() {
         doReturn(groupQuery).when(identityService).createGroupQuery();
         doReturn(groupQuery).when(groupQuery).groupMember(any());
         doReturn(List.of(group)).when(groupQuery).list();
-        doReturn(groupId).when(group).getId();
+        doReturn("The Group").when(group).getId();
+        Assertions.assertEquals(
+                authorizationService.getGroups("any user"),
+                Set.of("The Group"));
     }
+
 }

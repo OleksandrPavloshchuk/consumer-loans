@@ -57,7 +57,7 @@ export const ActiveTasksRoot: React.FC = () => {
         }
     }
 
-    const roles = useAuthorizationState((s) => s.roles);
+    const roles = useAuthorizationState((s) => s.groups);
     const isLoanConsultant = () =>
         roles.indexOf("loanConsultants") >=0;
 

@@ -23,9 +23,7 @@ export const login = async (user: string, password: string)=> {
     return createConnector().post( "/auth/login", {user, password})
         .then(toJson)
         .then((data: LoginResponse) => {
-            setAccessToken(data.accessToken);
-            const roles = getRolesFromToken(data.accessToken);
-            useAuthorizationState.getState().setRoles(roles);
+            retrieveAccessToken(data);
             setRefreshToken(data.refreshToken);
             return data.accessToken;
         });
@@ -40,19 +38,24 @@ export const refreshToken = async () => {
     return createConnector().post("/auth/refresh", {refreshToken})
         .then(toJson)
         .then((data: RefreshResponse)=> {
-            setAccessToken(data.accessToken);
-            useAuthorizationState().setRoles( getRolesFromToken(data.accessToken));
+            retrieveAccessToken(data);
             return data.accessToken;
         })
         .catch(handleError);
 };
 
-type TokenPayload = {
-    roles?: string[]
+const retrieveAccessToken = (data: LoginResponse) => {
+    setAccessToken(data.accessToken);
+    useAuthorizationState.getState().setGroups(getGroupsFromToken(data.accessToken));
 };
 
-const getRolesFromToken = (token: string|null) => {
-    return (token) ? jwtDecode<TokenPayload>(token).roles : [];
+type TokenPayload = {
+    roles?: string[],
+    groups?: string[]
+};
+
+const getGroupsFromToken = (token: string|null) => {
+    return (token) ? jwtDecode<TokenPayload>(token).groups : [];
 };
 
 const getToken = (key : Key)=> localStorage.getItem(key);

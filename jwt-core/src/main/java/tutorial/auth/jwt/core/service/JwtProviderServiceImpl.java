@@ -27,13 +27,13 @@ public class JwtProviderServiceImpl implements JwtProviderService {
     }
 
     @Override
-    public String createAccessToken(String userName, Set<String> roles) {
-        return buildToken(userName, roles, getAccessTtl());
+    public String createAccessToken(String userName, Set<String> roles, Set<String> groups) {
+        return buildToken(userName, roles, groups, getAccessTtl());
     }
 
     @Override
-    public String createRefreshToken(String userName, Set<String> roles) {
-        return buildToken(userName, roles, getRefreshTtl());
+    public String createRefreshToken(String userName, Set<String> roles, Set<String> groups) {
+        return buildToken(userName, roles, groups, getRefreshTtl());
     }
 
     @Override
@@ -76,10 +76,11 @@ public class JwtProviderServiceImpl implements JwtProviderService {
         return Duration.ofDays(jwtProperties.getRefreshDays());
     }
 
-    private String buildToken(String userName, Set<String> roles, Duration timeToLive) {
+    private String buildToken(String userName, Set<String> roles, Set<String> groups, Duration timeToLive) {
         return Jwts.builder()
                 .setSubject(userName)
-                .claim("roles", roles)
+                .claim("roles", roles.stream().sorted().toList())
+                .claim("groups", groups.stream().sorted().toList())
                 .setIssuedAt(dateProvider.createdAt())
                 .setExpiration(dateProvider.createdAtPlus(timeToLive))
                 .signWith(getSecretKey(), SignatureAlgorithm.HS256)
