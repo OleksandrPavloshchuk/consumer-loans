@@ -14,7 +14,7 @@ Here is
 * `jwt-netty` - Netty adapter of jwt-core (TODO)
 * `local_scripts` - helper local scripts with environment (not in repository)
 
-## The closest TODO (2026/01/22)
-* Eliminate header `Authentication: Basic ...` from traffic between front and back
+## The closest TODO (2026/01/23)
 * Create jwt-netty library
+* Implement more robust authentication/authorization engine
 

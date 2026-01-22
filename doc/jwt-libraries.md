@@ -129,8 +129,10 @@ Add filter in HTTP security configuration:
 ```
 
 ## iam-camunda
-Provides the Camunda based implementation of authentication and returns static role
-CAMUNDA_USER for authorization. Camunda is completely responsible for their authorization. 
+Provides the Camunda based implementation of authentication, returns static role
+CAMUNDA_USER and set of Camunda roles in process for authorization. Camunda is completely responsible for their authorization.
+This library also contains proxy controller for translation of external JWT-based authentication to internal basic authentication.
+This library supports password temporary storage for this purpose.
 
 
 

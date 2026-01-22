@@ -7,10 +7,11 @@ This project follows a set of explicit architectural decisions aimed at simplici
 Authentication (verifying user identity) and authorization (determining user permissions) are treated as two distinct concerns.
 
 * Authentication is delegated to the `AuthenticationService`, which validates user credentials.
-* Authorization is delegated to the `AuthorizationService`, which determines the set of roles assigned to an authenticated user.
+* Authorization is delegated to the `AuthorizationService`, which determines the set of roles assigned to an authenticated user
+and groups where user belongs to.
 
-A user is considered **authorized** only if at least one role is assigned.
-An empty role set indicates a successfully authenticated but unauthorized user and results in access denial.
+A user is considered **authorized** only if at least one role and at least one group is assigned.
+An empty role or group set indicates a successfully authenticated but unauthorized user and results in access denial.
 
 This separation allows authentication and authorization mechanisms to evolve independently and enables custom implementations for different security models.
 
@@ -43,8 +44,9 @@ This approach keeps framework concerns isolated and prevents leakage of infrastr
 
 The library enforces a small number of strong invariants instead of defensive programming.
 
-* Authorization services must return a non-null role set.
+* Authorization services must return a non-null role set and non-null group set.
 * An empty role set is treated as a valid but unauthorized state.
+* An empty group set is treated as a valid but unauthorized state.
 * Tokens are issued only if both authentication and authorization invariants are satisfied.
 
 By defining and enforcing these invariants at the API level, the implementation remains simpler and more predictable.
