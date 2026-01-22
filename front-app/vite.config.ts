@@ -26,7 +26,8 @@ export default defineConfig({
         port: SERVER_PORT,
         https: HTTPS_CONFIG,
         proxy: {
-            "/engine-rest": {
+            //"/engine-rest": {
+            "/engine-rest-proxy": {
                 target: BACKEND_URL,
                 changeOrigin: true,
                 secure: true

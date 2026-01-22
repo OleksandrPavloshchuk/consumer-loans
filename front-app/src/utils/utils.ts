@@ -39,4 +39,5 @@ export const getAuthentication = () => ({
     password: useLoginState.getState().password
 });
 
-export const URI_CAMUNDA_BASE = "/engine-rest/";
+//export const URI_CAMUNDA_BASE = "/engine-rest/";
+export const URI_CAMUNDA_BASE = "/engine-rest-proxy/";

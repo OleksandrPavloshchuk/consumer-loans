@@ -31,6 +31,7 @@ public class CamundaSecurityConfig {
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/camunda/**").permitAll()
                         .requestMatchers("/engine-rest/**").permitAll()
+                        .requestMatchers("/engine-rest-proxy/**").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterAfter(camundaFilter, JwtAuthenticationFilter.class);
