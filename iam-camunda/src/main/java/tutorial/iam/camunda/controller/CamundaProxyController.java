@@ -30,6 +30,7 @@ public class CamundaProxyController {
 
     private final TempAuthenticationCache tempAuthenticationCache;
     private final JwtProviderService jwtProviderService;
+    private final RestTemplate restTemplate;
 
     @RequestMapping("/engine-rest-proxy/**")
     public ResponseEntity<?> proxy(HttpServletRequest request) throws IOException, AuthenticationException {
@@ -57,8 +58,8 @@ public class CamundaProxyController {
         return jwtProviderService.authenticate(token).username();
     }
 
-    private static ResponseEntity<byte[]> exchangeWithEndpoint(HttpServletRequest request, HttpHeaders headers) throws IOException {
-        return new RestTemplate().exchange(
+    private ResponseEntity<byte[]> exchangeWithEndpoint(HttpServletRequest request, HttpHeaders headers) throws IOException {
+        return restTemplate.exchange(
                 updateUrl(request),
                 HttpMethod.valueOf(request.getMethod()),
                 createHttpEntity(request, headers),
