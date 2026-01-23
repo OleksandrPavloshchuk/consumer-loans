@@ -5,7 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,10 +16,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import tutorial.auth.jwt.core.dto.BaseAuthentication;
 import tutorial.auth.jwt.core.service.AuthenticationException;
 import tutorial.auth.jwt.core.service.JwtProviderService;
+import tutorial.auth.jwt.spring.utils.utils.JwtUtils;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,12 +36,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             HttpServletResponse response, FilterChain filterChain
     ) throws ServletException, IOException {
         try {
-            final Optional<String> authTokenOpt = getAuthorizationToken(request);
-            if (authTokenOpt.isPresent()) {
-                final String token = authTokenOpt.get();
+            JwtUtils.getJwtToken(request).ifPresent(token -> {
                 final Authentication auth = toCommonAuth(jwtProviderService.authenticate(token));
                 SecurityContextHolder.getContext().setAuthentication(auth);
-            }
+            });
         } catch (AuthenticationException | IllegalArgumentException e) {
             clearAuthentication(response);
             return;
@@ -50,35 +48,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private Authentication toCommonAuth(BaseAuthentication src) {
-
         final List<GrantedAuthority> authorities = List.copyOf(src.roles().stream()
                 .map(SimpleGrantedAuthority::new)
                 .toList());
-
-        return new UsernamePasswordAuthenticationToken(
-                src.username(),
-                "-",
-                authorities
-
-        );
+        return new UsernamePasswordAuthenticationToken( src.username(), "not needed", authorities);
     }
 
     private static void clearAuthentication(HttpServletResponse response) {
         try {
             SecurityContextHolder.clearContext();
-            response.sendError(401, "Token expired");
+            response.sendError(HttpStatus.UNAUTHORIZED.value(), "Token expired");
         } catch (IOException e) {
             LOGGER.log( Level.WARNING, "JWT authentication failed: {}", e.getMessage());
         }
     }
-
-    private static Optional<String> getAuthorizationToken(HttpServletRequest request) {
-        final String authorizationHeader = request.getHeader("Authorization");
-        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-            return Optional.empty();
-        } else {
-            return Optional.of(authorizationHeader.substring(7));
-        }
-    }
-
 }

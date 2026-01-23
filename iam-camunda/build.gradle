@@ -19,6 +19,7 @@ repositories {
 
 dependencies {
     implementation project(":jwt-core")
+    implementation project(":jwt-spring")
     implementation platform("org.springframework.boot:spring-boot-dependencies:3.2.1")
 
     api "org.springframework:spring-web"
