@@ -1,9 +1,10 @@
-import {Button, Paper, PasswordInput, Stack, TextInput} from "@mantine/core";
+import {Button, Container, Group, Paper, PasswordInput, Stack, TextInput, Title} from "@mantine/core";
 import {useLoginState} from "./LoginState.ts";
 import {login} from "../../authentication/authenticationService.ts";
 import {useNavigate} from "react-router";
 import {notify} from "../../utils/utils.ts";
 import {useApplicationState} from "../../ApplicationState.ts";
+import {applicationTitle} from "../../ApplicationLayout.tsx";
 
 export const LoginRoot: React.FC = () => {
 
@@ -20,15 +21,23 @@ export const LoginRoot: React.FC = () => {
     const doLogin = () => {
         if (user && password && user.trim() !== "" && password.trim() !== "") {
             login(user, password)
-                .then( () => navigate("/", { replace: true }))
-                .catch( () => notify("Вхід заборонено", "Перевірте логін та пароль"));
+                .then(() => navigate("/", {replace: true}))
+                .catch(() => notify("Вхід заборонено", "Перевірте логін та пароль"));
         }
     }
 
-    return (<>
-        <h2>Вхід до системи</h2>
+    return (<Container size={"xs"}>
+        <Group style={(theme) => ({
+            backgroundColor: theme.colors.gray[6],
+            textShadow: "2px 2px #666666",
+            color: theme.colors.gray[3],
+            padding: "1em"
+        })}><Title order={4}>{applicationTitle}</Title></Group>
         <Paper p="xs">
             <Stack gap="xs">
+                <h3 style={{
+                    textAlign: "center"
+                }}>Вхід до системи</h3>
                 <div>Користувач:</div>
                 <TextInput
                     value={user}
@@ -42,5 +51,5 @@ export const LoginRoot: React.FC = () => {
                 <Button onClick={doLogin}>Зайти</Button>
             </Stack>
         </Paper>
-    </>);
+    </Container>);
 };
