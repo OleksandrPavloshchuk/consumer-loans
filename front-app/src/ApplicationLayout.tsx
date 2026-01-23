@@ -5,7 +5,7 @@ import {useApplicationState} from "./ApplicationState.ts";
 import {useNavigate} from "react-router";
 import {useEffect} from "react";
 
-export const applicationTitle = "Споживчі позички";
+export const applicationTitle = "💎️ Споживчі позички";
 
 export const ApplicationLayout = () => {
 
@@ -21,8 +21,8 @@ export const ApplicationLayout = () => {
             : null;
     };
 
-    useEffect(()=>{
-        if (!user || user.length===0) {
+    useEffect(() => {
+        if (!user || user.length === 0) {
             navigate("/login");
         }
     }, [navigate]);
@@ -43,12 +43,14 @@ export const ApplicationLayout = () => {
                 {renderActivePage()}
                 <div>{user}</div>
                 <Group>
-                    <Anchor
-                        style={(theme) => ({
-                            color: theme.colors.blue[2]
-                        })}
-                        component={Link} to="/active"
-                    >В роботі</Anchor>
+                    {activePageName=="activePageName" &&
+                        <Anchor
+                            style={(theme) => ({
+                                color: theme.colors.blue[2]
+                            })}
+                            component={Link} to="/active"
+                        >В роботі</Anchor>
+                    }
                     <Anchor
                         style={(theme) => ({
                             color: theme.colors.blue[2]

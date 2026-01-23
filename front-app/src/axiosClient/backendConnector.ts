@@ -44,7 +44,8 @@ const addNeedsRefreshInterceptor = (client: AxiosInstance)=> {
             }
 
             if (response?.status === 403) {
-                // access denied — no retry
+                // Access denied - go to login
+                window.location.href = "/login";
             }
 
             return Promise.reject(error);
