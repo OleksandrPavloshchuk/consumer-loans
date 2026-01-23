@@ -31,8 +31,7 @@ const addNeedsRefreshInterceptor = (client: AxiosInstance)=> {
         r => r,
         async error => {
             const { response, config } = error;
-
-            if (response?.status === 401 && !config._retry) {
+            if (response?.status === 401 && response.data.error === 'access_token_expired') {
                 config._retry = true;
                 try {
                     await refreshToken();

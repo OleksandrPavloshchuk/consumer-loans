@@ -1,5 +1,6 @@
 package tutorial.auth.jwt.spring.filter;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,6 +41,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 final Authentication auth = toCommonAuth(jwtProviderService.authenticate(token));
                 SecurityContextHolder.getContext().setAuthentication(auth);
             });
+        } catch (ExpiredJwtException exJwtException) {
+            LOGGER.log(Level.WARNING, exJwtException.getMessage(), exJwtException);
+            request.setAttribute("JWT_EXPIRED", true);
         } catch (AuthenticationException | IllegalArgumentException e) {
             clearAuthentication(response);
             return;

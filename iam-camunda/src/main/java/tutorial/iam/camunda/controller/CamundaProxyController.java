@@ -1,11 +1,11 @@
 package tutorial.iam.camunda.controller;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.*;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -18,7 +18,9 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Optional;
+
 
 /**
  * This proxy substitutes JWT token from frontend by basic authorization data
@@ -26,6 +28,7 @@ import java.util.Optional;
  */
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class CamundaProxyController {
 
     private final TempAuthenticationCache tempAuthenticationCache;
@@ -34,23 +37,30 @@ public class CamundaProxyController {
 
     @RequestMapping("/engine-rest-proxy/**")
     public ResponseEntity<?> proxy(HttpServletRequest request) throws IOException, AuthenticationException {
-        final Optional<String> authTokenOpt = JwtUtils.getJwtToken(request);
-        if (authTokenOpt.isPresent()) {
-            final String username = getUserNameFromToken(authTokenOpt.get());
-            final Optional<byte[]> passwordOpt = tempAuthenticationCache.load(username);
-            if (passwordOpt.isPresent()) {
-                final HttpHeaders headers = getHttpHeadersWithoutAuthorization(request);
-                headers.set(HttpHeaders.AUTHORIZATION, "Basic " + createBasicAuth(username, passwordOpt.get()));
-                final ResponseEntity<byte[]> response = exchangeWithEndpoint(request, headers);
-                return ResponseEntity
-                        .status(response.getStatusCode())
-                        .headers(response.getHeaders())
-                        .body(response.getBody());
+        try {
+            final Optional<String> authTokenOpt = JwtUtils.getJwtToken(request);
+            if (authTokenOpt.isPresent()) {
+                final String username = getUserNameFromToken(authTokenOpt.get());
+                final Optional<byte[]> passwordOpt = tempAuthenticationCache.load(username);
+                if (passwordOpt.isPresent()) {
+                    final HttpHeaders headers = getHttpHeadersWithoutAuthorization(request);
+                    headers.set(HttpHeaders.AUTHORIZATION, "Basic " + createBasicAuth(username, passwordOpt.get()));
+                    final ResponseEntity<byte[]> response = exchangeWithEndpoint(request, headers);
+                    return ResponseEntity
+                            .status(response.getStatusCode())
+                            .headers(response.getHeaders())
+                            .body(response.getBody());
+                } else {
+                    throw new AuthenticationException("Authentication failed");
+                }
             } else {
                 throw new AuthenticationException("Authentication failed");
             }
-        } else {
-            throw new AuthenticationException("Authentication failed");
+        } catch (ExpiredJwtException ex) {
+            log.warn(ex.getMessage());
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("error", "access_token_expired"));
         }
     }
 

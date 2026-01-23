@@ -26,6 +26,7 @@ dependencies {
     api "org.springframework.security:spring-security-web"
     api "org.springframework.security:spring-security-config"
     api "org.springframework.boot:spring-boot-starter-logging"
+    api "io.jsonwebtoken:jjwt-api:0.11.5"
 
     implementation "org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter:${camundaVersion}"
     implementation "org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp:${camundaVersion}"

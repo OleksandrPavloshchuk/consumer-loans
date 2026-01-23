@@ -32,7 +32,7 @@ camunda:
 security:
   jwt:
     secret: ${JWT_SECRET}
-    access-ttl-minutes: 15
+    access-ttl-minutes: 5
     refresh-ttl-days: 7
 
 logging:
