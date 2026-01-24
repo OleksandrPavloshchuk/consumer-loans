@@ -34,7 +34,7 @@ export const ArchiveMainTable: React.FC = () => {
                         <Table.Th>Дата і час закінчення обробки</Table.Th>
                         <Table.Th>Тривалість</Table.Th>
                         <Table.Th>Фінальний стан позички</Table.Th>
-                        <Table.Th>Причина видалення</Table.Th>
+                        <Table.Th>Причина архівації</Table.Th>
                     </Table.Tr>
                 </Table.Thead>
                 <Table.Tbody>
