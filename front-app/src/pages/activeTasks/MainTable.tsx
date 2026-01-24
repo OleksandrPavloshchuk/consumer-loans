@@ -22,9 +22,15 @@ export const ActiveTasksMainTable: React.FC<Props> = ({openTask}) => {
     }, [onRefresh]);
 
     return (
-        <ScrollArea h={600}>
+        <ScrollArea h={720}>
             <Table>
-                <Table.Thead>
+                <Table.Thead
+                    style={{
+                        top: 0,
+                        backgroundColor: 'var(--mantine-color-body)',
+                        zIndex: 1
+                    }}
+                >
                     <Table.Tr>
                         <Table.Th>ID задачі</Table.Th>
                         <Table.Th>Назва</Table.Th>

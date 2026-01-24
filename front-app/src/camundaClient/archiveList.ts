@@ -3,10 +3,11 @@ import {toJson, URI_CAMUNDA_BASE} from "../utils/utils.ts";
 import type {CamundaTask} from "./domain.ts";
 import {createJwtConnector} from "../axiosClient/backendConnector.ts";
 import {useLoginState} from "../pages/login/LoginState.ts";
+import {ArchiveRecord} from "./domain.ts";
 
 // TODO use CamundaTask as archive data for a while
 export interface CamundaArchiveListModel {
-    result: CamundaTask[],
+    result: ArchiveRecord[],
     retrieve: (setError: (e: Error) => void) => void,
     doRefresh: () => void,
     onRefresh: string | undefined
@@ -25,8 +26,8 @@ export const useCamundaArchiveList = create<CamundaArchiveListModel>((set) => ({
                 // auth: getAuthentication()
             })
             .then(toJson)
-            .then((tasks: CamundaTask[]) => {
-                set({result: tasks});
+            .then((records: ArchiveRecord[]) => {
+                set({result: records});
             })
             .catch((e: Error) => setError(e));
 

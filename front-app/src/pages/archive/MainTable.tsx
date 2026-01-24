@@ -1,7 +1,8 @@
-import {Table} from "@mantine/core";
+import {ScrollArea, Table} from "@mantine/core";
 import {showError, toLocalDateTime} from "../../utils/utils.ts";
 import {useCamundaArchiveList} from "../../camundaClient/archiveList.ts";
 import {useEffect} from "react";
+import {formatDuration} from "../../utils/duration.ts";
 
 export const ArchiveMainTable: React.FC = () => {
 
@@ -17,15 +18,23 @@ export const ArchiveMainTable: React.FC = () => {
     }, [onRefresh]);
 
     return (
-        <ScrollArea h={600}>
+        <ScrollArea h={720}>
             <Table>
-                <Table.Thead>
+                <Table.Thead
+                    style={{
+                        position: 'sticky',
+                        top: 0,
+                        backgroundColor: 'var(--mantine-color-body)',
+                        zIndex: 1
+                    }}
+                >
                     <Table.Tr>
-                        <Table.Th>Ідентифікатор почички</Table.Th>
+                        <Table.Th>Ідентифікатор позички</Table.Th>
                         <Table.Th>Дата і час подання заявки</Table.Th>
-                        <Table.Th>Позичальник</Table.Th>
-                        <Table.Th>Сума</Table.Th>
-                        <Table.Th>Рішення по позичці</Table.Th>
+                        <Table.Th>Дата і час закінчення обробки</Table.Th>
+                        <Table.Th>Тривалість</Table.Th>
+                        <Table.Th>Фінальний стан позички</Table.Th>
+                        <Table.Th>Причина видалення</Table.Th>
                     </Table.Tr>
                 </Table.Thead>
                 <Table.Tbody>
@@ -33,10 +42,11 @@ export const ArchiveMainTable: React.FC = () => {
                         result.map((item) =>
                             <Table.Tr key={item.id}>
                                 <Table.Td>{item.id}</Table.Td>
-                                <Table.Td>{toLocalDateTime(item.created)}</Table.Td>
-                                <Table.Td>{"TODO item.personName"}</Table.Td>
-                                <Table.Td>{"TODO item.amount"}</Table.Td>
-                                <Table.Td>{"TODO item.decision"}</Table.Td>
+                                <Table.Td>{toLocalDateTime(item.startTime)}</Table.Td>
+                                <Table.Td>{toLocalDateTime(item.endTime)}</Table.Td>
+                                <Table.Td>{formatDuration(item.duration, {locale: 'ua'})}</Table.Td>
+                                <Table.Td>{item.taskState}</Table.Td>
+                                <Table.Td>{item.deleteReason}</Table.Td>
                             </Table.Tr>)
                     }
                 </Table.Tbody>
