@@ -17,29 +17,31 @@ export const ArchiveMainTable: React.FC = () => {
     }, [onRefresh]);
 
     return (
-        <Table>
-            <Table.Thead>
-                <Table.Tr>
-                    <Table.Th>Ідентифікатор почички</Table.Th>
-                    <Table.Th>Дата і час подання заявки</Table.Th>
-                    <Table.Th>Позичальник</Table.Th>
-                    <Table.Th>Сума</Table.Th>
-                    <Table.Th>Рішення по позичці</Table.Th>
-                </Table.Tr>
-            </Table.Thead>
-            <Table.Tbody>
-                {
-                    result.map((item) =>
-                        <Table.Tr key={item.id}>
-                            <Table.Td>{item.id}</Table.Td>
-                            <Table.Td>{toLocalDateTime(item.created)}</Table.Td>
-                            <Table.Td>{"TODO item.personName"}</Table.Td>
-                            <Table.Td>{"TODO item.amount"}</Table.Td>
-                            <Table.Td>{"TODO item.decision"}</Table.Td>
-                        </Table.Tr>)
-                }
-            </Table.Tbody>
-        </Table>
+        <ScrollArea h={600}>
+            <Table>
+                <Table.Thead>
+                    <Table.Tr>
+                        <Table.Th>Ідентифікатор почички</Table.Th>
+                        <Table.Th>Дата і час подання заявки</Table.Th>
+                        <Table.Th>Позичальник</Table.Th>
+                        <Table.Th>Сума</Table.Th>
+                        <Table.Th>Рішення по позичці</Table.Th>
+                    </Table.Tr>
+                </Table.Thead>
+                <Table.Tbody>
+                    {
+                        result.map((item) =>
+                            <Table.Tr key={item.id}>
+                                <Table.Td>{item.id}</Table.Td>
+                                <Table.Td>{toLocalDateTime(item.created)}</Table.Td>
+                                <Table.Td>{"TODO item.personName"}</Table.Td>
+                                <Table.Td>{"TODO item.amount"}</Table.Td>
+                                <Table.Td>{"TODO item.decision"}</Table.Td>
+                            </Table.Tr>)
+                    }
+                </Table.Tbody>
+            </Table>
+        </ScrollArea>
     );
 
 }

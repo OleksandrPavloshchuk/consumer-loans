@@ -1,4 +1,4 @@
-import {Table} from "@mantine/core";
+import {ScrollArea, Table} from "@mantine/core";
 import {showError, toLocalDateTime} from "../../utils/utils.ts";
 import {useCamundaTaskList} from "../../camundaClient/taskList.ts";
 import {useEffect} from "react";
@@ -22,30 +22,32 @@ export const ActiveTasksMainTable: React.FC<Props> = ({openTask}) => {
     }, [onRefresh]);
 
     return (
-        <Table>
-            <Table.Thead>
-                <Table.Tr>
-                    <Table.Th>ID задачі</Table.Th>
-                    <Table.Th>Назва</Table.Th>
-                    <Table.Th>ID працюючого процесу</Table.Th>
-                    <Table.Th>Дата і час створення задачі</Table.Th>
-                </Table.Tr>
-            </Table.Thead>
-            <Table.Tbody>
-                {
-                    result.map((item) =>
-                        <Table.Tr key={item.id}
-                                  onClick={() => openTask(item)}
-                                  className={"activeTask"}
-                        >
-                            <Table.Td>{item.id}</Table.Td>
-                            <Table.Td>{item.name}</Table.Td>
-                            <Table.Td>{item.processInstanceId}</Table.Td>
-                            <Table.Td>{toLocalDateTime(item.created)}</Table.Td>
-                        </Table.Tr>)
-                }
-            </Table.Tbody>
-        </Table>
+        <ScrollArea h={600}>
+            <Table>
+                <Table.Thead>
+                    <Table.Tr>
+                        <Table.Th>ID задачі</Table.Th>
+                        <Table.Th>Назва</Table.Th>
+                        <Table.Th>ID працюючого процесу</Table.Th>
+                        <Table.Th>Дата і час створення задачі</Table.Th>
+                    </Table.Tr>
+                </Table.Thead>
+                <Table.Tbody>
+                    {
+                        result.map((item) =>
+                            <Table.Tr key={item.id}
+                                      onClick={() => openTask(item)}
+                                      className={"activeTask"}
+                            >
+                                <Table.Td>{item.id}</Table.Td>
+                                <Table.Td>{item.name}</Table.Td>
+                                <Table.Td>{item.processInstanceId}</Table.Td>
+                                <Table.Td>{toLocalDateTime(item.created)}</Table.Td>
+                            </Table.Tr>)
+                    }
+                </Table.Tbody>
+            </Table>
+        </ScrollArea>
     );
 
 }

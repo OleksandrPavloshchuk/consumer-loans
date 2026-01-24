@@ -5,7 +5,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -46,9 +45,13 @@ public class CamundaProxyController {
                     final HttpHeaders headers = getHttpHeadersWithoutAuthorization(request);
                     headers.set(HttpHeaders.AUTHORIZATION, "Basic " + createBasicAuth(username, passwordOpt.get()));
                     final ResponseEntity<byte[]> response = exchangeWithEndpoint(request, headers);
+                    MediaType contentType = response.getHeaders().getContentType();
+                    if (contentType == null ) {
+                        contentType = MediaType.APPLICATION_OCTET_STREAM;
+                    }
                     return ResponseEntity
                             .status(response.getStatusCode())
-                            .headers(response.getHeaders())
+                            .contentType(contentType)
                             .body(response.getBody());
                 } else {
                     throw new AuthenticationException("Authentication failed");
