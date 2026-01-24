@@ -3,6 +3,7 @@ import {ApplicationLayout} from "./ApplicationLayout.tsx";
 import {ActiveTasksRoot} from "./pages/activeTasks/Root.tsx";
 import {LoginRoot} from "./pages/login/Root.tsx";
 import {AuthenticationGuardian} from "./authentication/AuthenticationGuardian.tsx";
+import {ArchiveRoot} from "./pages/archive/Root.tsx";
 
 export const router = createBrowserRouter([
     {
@@ -17,6 +18,7 @@ export const router = createBrowserRouter([
             children: [
                 { index: true, element: <ActiveTasksRoot /> },
                 { path: "active", element: <ActiveTasksRoot /> },
+                { path: "archive", element: <ArchiveRoot /> },
             ]
         }]
     }

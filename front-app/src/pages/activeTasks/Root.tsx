@@ -10,8 +10,12 @@ import {renderDeliverDecisionForm} from "./detailsForms/internal/DeliverDecision
 import {renderManualReviewForm} from "./detailsForms/internal/ManualReviewForm.tsx";
 import {EnterApplicationForm} from "./detailsForms/internal/EnterApplicationForm.tsx";
 import {useAuthorizationState} from "../../authentication/AuthorizationState.ts";
+import {useApplicationState} from "../../ApplicationState.ts";
 
 export const ActiveTasksRoot: React.FC = () => {
+
+    const setActivePageName = useApplicationState((s) => s.setActivePageName);
+    setActivePageName("activeTasks");
 
     const doRefresh = useCamundaTaskList((s) => s.doRefresh);
 

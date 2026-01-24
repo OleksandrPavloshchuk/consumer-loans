@@ -1,7 +1,7 @@
 import {Anchor, AppShell, Group, Title} from "@mantine/core";
 import {Link, Outlet} from "react-router-dom";
 import {useLoginState} from "./pages/login/LoginState.ts";
-import {useApplicationState} from "./ApplicationState.ts";
+import {getActivePageNameLocalized, useApplicationState} from "./ApplicationState.ts";
 import {useNavigate} from "react-router";
 import {useEffect} from "react";
 
@@ -17,7 +17,10 @@ export const ApplicationLayout = () => {
 
     const renderActivePage = () => {
         return activePageName
-            ? (<Group><Title order={4}>{applicationTitle}</Title>/<Title order={5}>{activePageName}</Title></Group>)
+            ? (<Group>
+                <Title order={4}>{applicationTitle}</Title>/
+                <Title order={5}>{getActivePageNameLocalized(activePageName)}</Title>
+            </Group>)
             : null;
     };
 
@@ -43,14 +46,23 @@ export const ApplicationLayout = () => {
                 {renderActivePage()}
                 <div>{user}</div>
                 <Group>
-                    {activePageName=="activePageName" &&
+                    {activePageName!=="activeTasks" &&
                         <Anchor
                             style={(theme) => ({
                                 color: theme.colors.blue[2]
                             })}
                             component={Link} to="/active"
-                        >В роботі</Anchor>
+                        >{getActivePageNameLocalized("activeTasks")}</Anchor>
                     }
+                    {activePageName!=="archive" &&
+                        <Anchor
+                            style={(theme) => ({
+                                color: theme.colors.blue[2]
+                            })}
+                            component={Link} to="/archive"
+                        >{getActivePageNameLocalized("archive")}</Anchor>
+                    }
+                    |
                     <Anchor
                         style={(theme) => ({
                             color: theme.colors.blue[2]
