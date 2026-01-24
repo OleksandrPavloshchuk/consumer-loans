@@ -1,22 +1,20 @@
 import {Table} from "@mantine/core";
 import {showError, toLocalDateTime} from "../../utils/utils.ts";
-import {useCamundaTaskList} from "../../camundaClient/taskList.ts";
+import {useCamundaArchiveList} from "../../camundaClient/archiveList.ts";
 import {useEffect} from "react";
-import type {CamundaTask} from "../../camundaClient/domain.ts";
 
 export const ArchiveMainTable: React.FC = () => {
 
-    // TODO temporary
-    const result = [
-        {
-            id: "1",
-            created: "2026/01/26 10:10",
-            personName: "The 1st person",
-            amount: 101.23,
-            decision: "APPROVED"
-        }
+    const result = useCamundaArchiveList((s) => s.result);
+    const retrieve = useCamundaArchiveList((s) => s.retrieve);
+    const onRefresh = useCamundaArchiveList((s) => s.onRefresh);
 
-    ];
+    useEffect(() => {
+        retrieve(showError);
+    }, []);
+    useEffect(() => {
+        retrieve(showError);
+    }, [onRefresh]);
 
     return (
         <Table>
@@ -35,9 +33,9 @@ export const ArchiveMainTable: React.FC = () => {
                         <Table.Tr key={item.id}>
                             <Table.Td>{item.id}</Table.Td>
                             <Table.Td>{toLocalDateTime(item.created)}</Table.Td>
-                            <Table.Td>{item.personName}</Table.Td>
-                            <Table.Td>{item.amount}</Table.Td>
-                            <Table.Td>{item.decision}</Table.Td>
+                            <Table.Td>{"TODO item.personName"}</Table.Td>
+                            <Table.Td>{"TODO item.amount"}</Table.Td>
+                            <Table.Td>{"TODO item.decision"}</Table.Td>
                         </Table.Tr>)
                 }
             </Table.Tbody>
