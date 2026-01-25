@@ -1,7 +1,7 @@
 import {ActionIcon, Button, CloseIcon, Flex, Tabs} from "@mantine/core";
 import {notify, showError} from "../../utils/utils.ts";
 import {ActiveTasksMainTable} from "./MainTable.tsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useCamundaTaskList} from "../../camundaClient/taskList.ts";
 import {createNewCamundaTask} from "../../camundaClient/newProcess.ts";
 import type {CamundaTask} from "../../camundaClient/domain.ts";
@@ -14,8 +14,12 @@ import {useApplicationState} from "../../ApplicationState.ts";
 
 export const ActiveTasksRoot: React.FC = () => {
 
-    const setActivePageName = useApplicationState((s) => s.setActivePageName);
-    setActivePageName("activeTasks");
+    const setActivePageName = useApplicationState(
+        (s) => s.setActivePageName
+    );
+    useEffect(() => {
+        setActivePageName("activeTasks");
+    }, [setActivePageName]);
 
     const doRefresh = useCamundaTaskList((s) => s.doRefresh);
 

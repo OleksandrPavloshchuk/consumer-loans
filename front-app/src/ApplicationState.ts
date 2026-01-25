@@ -3,8 +3,8 @@ import {create} from "zustand";
 type PageId = "activeTasks"|"archive";
 
 export interface ApplicationState {
-    activePageName: PageId;
-    setActivePageName: (s:PageId) => void
+    activePageName: PageId | undefined;
+    setActivePageName: (s:PageId | undefined) => void
 }
 
 export const useApplicationState = create<ApplicationState>((set) => ({

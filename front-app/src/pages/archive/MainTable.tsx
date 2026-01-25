@@ -3,8 +3,14 @@ import {showError, toLocalDateTime} from "../../utils/utils.ts";
 import {useCamundaArchiveList} from "../../camundaClient/archiveList.ts";
 import {useEffect} from "react";
 import {formatDuration} from "../../utils/duration.ts";
+import type {CamundaTask} from "../../camundaClient/domain.ts";
+import {ArchiveRecord} from "../../camundaClient/domain.ts";
 
-export const ArchiveMainTable: React.FC = () => {
+type Props = {
+    openRecord: (record: ArchiveRecord) => void
+}
+
+export const ArchiveMainTable: React.FC<Props> = ({openRecord}) => {
 
     const result = useCamundaArchiveList((s) => s.result);
     const retrieve = useCamundaArchiveList((s) => s.retrieve);
@@ -40,7 +46,10 @@ export const ArchiveMainTable: React.FC = () => {
                 <Table.Tbody>
                     {
                         result.map((item) =>
-                            <Table.Tr key={item.id}>
+                            <Table.Tr key={item.id}
+                                      className={"activeTask"}
+                                      onClick={() => openRecord(item)}
+                            >
                                 <Table.Td>{item.id}</Table.Td>
                                 <Table.Td>{toLocalDateTime(item.startTime)}</Table.Td>
                                 <Table.Td>{toLocalDateTime(item.endTime)}</Table.Td>

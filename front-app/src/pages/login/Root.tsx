@@ -5,11 +5,16 @@ import {useNavigate} from "react-router";
 import {notify} from "../../utils/utils.ts";
 import {useApplicationState} from "../../ApplicationState.ts";
 import {applicationTitle} from "../../ApplicationLayout.tsx";
+import {useEffect} from "react";
 
 export const LoginRoot: React.FC = () => {
 
-    const setActivePageName = useApplicationState((s) => s.setActivePageName);
-    setActivePageName(undefined);
+    const setActivePageName = useApplicationState(
+        (s) => s.setActivePageName
+    );
+    useEffect(() => {
+        setActivePageName(undefined);
+    }, [setActivePageName]);
 
     const user = useLoginState((s) => s.user);
     const setUser = useLoginState((s) => s.setUser);
