@@ -10,6 +10,8 @@ export interface CamundaArchiveListModel {
     retrieve: (setError: (e: Error) => void) => void,
     doRefresh: () => void,
     onRefresh: string | undefined,
+    useExtraFilters: boolean,
+    setUseExtraFilters: (b:boolean) => void,
     startedFrom: Date | undefined,
     setStartedFrom: (d: Date | undefined) => void
 }
@@ -40,11 +42,17 @@ export const useCamundaArchiveList = create<CamundaArchiveListModel>((set) => ({
     },
     doRefresh: () => set({onRefresh: crypto.randomUUID().toString()}),
     onRefresh: undefined,
+    useExtraFilters: false,
+    setUseExtraFilters: (b:boolean) => set({useExtraFilters: b}),
     startedFrom: undefined,
     setStartedFrom: (d: Date | undefined) => set({startedFrom: d})
 }));
 
 const filterResponse = (src: ArchiveRecord[]) => {
+    if (!useCamundaArchiveList.getState().useExtraFilters) {
+        return src;
+    }
+
     const startedFrom = useCamundaArchiveList.getState().startedFrom;
 
     return src.filter( (item: ArchiveRecord) => {

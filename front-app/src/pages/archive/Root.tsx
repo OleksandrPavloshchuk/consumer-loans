@@ -2,14 +2,21 @@ import {useApplicationState} from "../../ApplicationState.ts";
 import {ArchiveMainTable} from "./MainTable.tsx";
 import {Flex, Stack, Switch} from "@mantine/core";
 import {MainTableFilter} from "./MainTableFilter.tsx";
-import {useState} from "react";
+import {useCamundaArchiveList} from "../../camundaClient/archiveList.ts";
+import {useEffect} from "react";
 
 export const ArchiveRoot: React.FC = () => {
 
-    const [extraFilters, setExtraFilters] = useState(false);
+    const useExtraFilters = useCamundaArchiveList((s) => s.useExtraFilters);
+    const setUseExtraFilters = useCamundaArchiveList((s) => s.setUseExtraFilters);
 
     const setActivePageName = useApplicationState((s) => s.setActivePageName);
     setActivePageName("archive");
+
+    const doRefresh = useCamundaArchiveList((s) => s.doRefresh);
+    useEffect(() => {
+        doRefresh();
+    }, [useExtraFilters]);
 
     return (
         <Stack gap="xs">
@@ -18,10 +25,10 @@ export const ArchiveRoot: React.FC = () => {
             >
                 <Switch
                     label="Фільтри"
-                    checked={extraFilters}
-                    onChange={(event) => setExtraFilters(event.currentTarget.checked)}
+                    checked={useExtraFilters}
+                    onChange={(event) => setUseExtraFilters(event.currentTarget.checked)}
                 />
-                {extraFilters &&
+                {useExtraFilters &&
                     <MainTableFilter/>
                 }
             </Flex>
