@@ -37,8 +37,7 @@ const completeTask = async (
     return createJwtConnector()
         .post(`${URI_CAMUNDA_BASE}task/${taskId}/complete`, vars,
             {
-                signal: controller.signal,
-                // auth: getAuthentication()
+                signal: controller.signal
             })
         .then((res) => res.status >= 200 && res.status < 300)
 };

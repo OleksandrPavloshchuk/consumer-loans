@@ -19,8 +19,7 @@ export const createNewCamundaTask = (
     createJwtConnector().post(`${URI_CAMUNDA_BASE}process-definition/key/consumer-loan/start`,
         request,
         {
-            signal: controller.signal,
-            // auth: getAuthentication()
+            signal: controller.signal
         })
         .then((res) => {
             doRefresh();

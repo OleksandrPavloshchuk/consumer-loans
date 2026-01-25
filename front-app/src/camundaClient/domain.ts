@@ -25,9 +25,15 @@ export class CamundaTask {
 
 export class ArchiveRecord {
     id: string = "";
+    processInstanceId: string = "";
     startTime: string = "";
     endTime: string | undefined = undefined;
     duration: number;
     taskState: string | undefined;
     deleteReason: string | undefined;
+}
+
+export class ArchiveVar {
+    name: string;
+    value: any;
 }

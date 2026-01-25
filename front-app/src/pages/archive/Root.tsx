@@ -84,7 +84,7 @@ export const ArchiveRoot: React.FC = () => {
             {
                 openRecords.map((record) =>
                     (<Tabs.Panel key={record.id} value={record.id}>
-                        <ArchiveRecordDetails/>
+                        <ArchiveRecordDetails record={record} />
                     </Tabs.Panel>))
             }
 

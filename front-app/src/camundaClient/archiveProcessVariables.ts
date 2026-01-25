@@ -1,17 +1,18 @@
 import {toJson, URI_CAMUNDA_BASE} from "../utils/utils.ts";
-import type {CamundaProcessVars} from "./domain.ts";
+import {ArchiveVar} from "./domain.ts";
 import {createJwtConnector} from "../axiosClient/backendConnector.ts";
 
-export const getCamundaProcessVariables = (
+export const getCamundaArchiveProcessVariables = (
     processInstanceId: string,
-    setResult: (v: CamundaProcessVars) => void,
+    setResult: (v: ArchiveVar[]) => void,
     setError: (e: Error) => void) => {
     const controller = new AbortController();
 
-    createJwtConnector().get(`${URI_CAMUNDA_BASE}process-instance/${processInstanceId}/variables`, {
+    createJwtConnector().get(`${URI_CAMUNDA_BASE}history/variable-instance?processInstanceId=${processInstanceId}`, {
         signal: controller.signal
     })
         .then(toJson)
+        .then( (v) => {console.log("TRACE", v); return v;})
         .then(setResult)
         .catch((e: Error) => setError(e))
 
