@@ -62,7 +62,7 @@ export const ArchiveRecordDetails: React.FC<Props> = ({record}) => {
             </Table.Tr>
             {
                 processVars.map( (v) => (
-                    <Table.Tr>
+                    <Table.Tr key={v.name}>
                         <Table.Td>{v.name}</Table.Td>
                         <Table.Td>{renderValue(v.value)}</Table.Td>
                     </Table.Tr>

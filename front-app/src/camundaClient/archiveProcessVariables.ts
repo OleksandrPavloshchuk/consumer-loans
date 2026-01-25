@@ -12,7 +12,6 @@ export const getCamundaArchiveProcessVariables = (
         signal: controller.signal
     })
         .then(toJson)
-        .then( (v) => {console.log("TRACE", v); return v;})
         .then(setResult)
         .catch((e: Error) => setError(e))
 

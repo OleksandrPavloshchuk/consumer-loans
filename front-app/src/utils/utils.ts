@@ -27,9 +27,10 @@ export const toLocalDateTime = (s: string | undefined) => s ?
 export const toJson = (res: AxiosResponse) => res.data;
 
 export const showError = (e: Error) => {
-    if (e.name !== "AbortError") {
-        notify("Error", `${e}`)
+    if (e.code == "ERR_CANCELED" || e.name !== "AbortError") {
+        return;
     }
+    notify("Error", `${e}`)
 }
 
 export const URI_CAMUNDA_BASE = "/engine-rest-proxy/";
