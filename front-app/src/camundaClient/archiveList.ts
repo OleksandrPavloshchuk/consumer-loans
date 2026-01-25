@@ -5,12 +5,13 @@ import {createJwtConnector} from "../axiosClient/backendConnector.ts";
 import {useLoginState} from "../pages/login/LoginState.ts";
 import {ArchiveRecord} from "./domain.ts";
 
-// TODO use CamundaTask as archive data for a while
 export interface CamundaArchiveListModel {
     result: ArchiveRecord[],
     retrieve: (setError: (e: Error) => void) => void,
     doRefresh: () => void,
-    onRefresh: string | undefined
+    onRefresh: string | undefined,
+    startedFrom: Date | undefined,
+    setStartedFrom: (d: Date | undefined) => void
 }
 
 export const useCamundaArchiveList = create<CamundaArchiveListModel>((set) => ({
@@ -19,20 +20,35 @@ export const useCamundaArchiveList = create<CamundaArchiveListModel>((set) => ({
         setError: (e: Error) => void) => {
         const controller = new AbortController();
 
-        createJwtConnector().get(
-            `${URI_CAMUNDA_BASE}history/task?includeProcessVariables=true`,
+        createJwtConnector().post(
+            `${URI_CAMUNDA_BASE}history/task`,
             {
-                signal: controller.signal,
-                // auth: getAuthentication()
-            })
+                finished: true,
+                includeProcessVariables: true
+            },
+            {
+                signal: controller.signal
+            }
+        )
             .then(toJson)
             .then((records: ArchiveRecord[]) => {
-                set({result: records});
+                set({result: filterResponse(records)});
             })
             .catch((e: Error) => setError(e));
 
         return () => controller.abort();
     },
     doRefresh: () => set({onRefresh: crypto.randomUUID().toString()}),
-    onRefresh: undefined
+    onRefresh: undefined,
+    startedFrom: undefined,
+    setStartedFrom: (d: Date | undefined) => set({startedFrom: d})
 }));
+
+const filterResponse = (src: ArchiveRecord[]) => {
+    const startedFrom = useCamundaArchiveList.getState().startedFrom;
+
+    return src.filter( (item: ArchiveRecord) => {
+        const isGreaterThanStartedFrom = !startedFrom || new Date(item.startTime) > startedFrom
+        return isGreaterThanStartedFrom;
+    });
+}

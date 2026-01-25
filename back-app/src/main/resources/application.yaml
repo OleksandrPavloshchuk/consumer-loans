@@ -28,6 +28,7 @@ camunda:
       id: ${CAMUNDA_ADMIN_ID}
       password: ${CAMUNDA_ADMIN_PASSWORD}
       first-name: ${CAMUNDA_ADMIN_FIRST_NAME}
+    history-level: full
 
 security:
   jwt:
