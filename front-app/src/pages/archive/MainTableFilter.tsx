@@ -7,6 +7,8 @@ export const MainTableFilter: React.FC = () => {
     const doRefresh = useCamundaArchiveList((s) => s.doRefresh);
     const startedFrom = useCamundaArchiveList((s) => s.startedFrom);
     const setStartedFrom = useCamundaArchiveList((s) => s.setStartedFrom);
+    const startedTo = useCamundaArchiveList((s) => s.startedTo);
+    const setStartedTo = useCamundaArchiveList((s) => s.setStartedTo);
 
     return (
         <Flex w="100%" gap="sm" align="center">
@@ -15,6 +17,19 @@ export const MainTableFilter: React.FC = () => {
                 placeholder="Початок"
                 value={startedFrom}
                 onChange={setStartedFrom}
+                clearable
+                styles={{
+                    calendarHeaderControl: {
+                        width: 28,
+                        height: 28,
+                    },
+                }}
+            />
+            <DateTimePicker
+                label="Створення позички до"
+                placeholder="Кінець"
+                value={startedTo}
+                onChange={setStartedTo}
                 clearable
                 styles={{
                     calendarHeaderControl: {

@@ -49,7 +49,7 @@ export const useCamundaArchiveList = create<CamundaArchiveListModel>((set) => ({
     startedFrom: undefined,
     setStartedFrom: (d: Date | undefined) => set({startedFrom: d}),
     startedTo: undefined,
-    setStartedTo: (d: Date | undefined) => set({startedFrom: d})
+    setStartedTo: (d: Date | undefined) => set({startedTo: d})
 }));
 
 const filterResponse = (src: ArchiveRecord[]) => {
