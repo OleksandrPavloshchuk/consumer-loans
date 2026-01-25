@@ -14,6 +14,8 @@ export interface CamundaArchiveListModel {
     setUseExtraFilters: (b:boolean) => void,
     startedFrom: Date | undefined,
     setStartedFrom: (d: Date | undefined) => void
+    startedTo: Date | undefined,
+    setStartedTo: (d: Date | undefined) => void
 }
 
 export const useCamundaArchiveList = create<CamundaArchiveListModel>((set) => ({
@@ -45,7 +47,9 @@ export const useCamundaArchiveList = create<CamundaArchiveListModel>((set) => ({
     useExtraFilters: false,
     setUseExtraFilters: (b:boolean) => set({useExtraFilters: b}),
     startedFrom: undefined,
-    setStartedFrom: (d: Date | undefined) => set({startedFrom: d})
+    setStartedFrom: (d: Date | undefined) => set({startedFrom: d}),
+    startedTo: undefined,
+    setStartedTo: (d: Date | undefined) => set({startedFrom: d})
 }));
 
 const filterResponse = (src: ArchiveRecord[]) => {
@@ -54,9 +58,12 @@ const filterResponse = (src: ArchiveRecord[]) => {
     }
 
     const startedFrom = useCamundaArchiveList.getState().startedFrom;
+    const startedTo = useCamundaArchiveList.getState().startedTo;
 
     return src.filter( (item: ArchiveRecord) => {
         const isGreaterThanStartedFrom = !startedFrom || new Date(item.startTime) > startedFrom
-        return isGreaterThanStartedFrom;
+        const isLessThanStartedTo = !startedTo || new Date(item.startTime) < startedTo
+        return isGreaterThanStartedFrom
+            && isLessThanStartedTo;
     });
 }
