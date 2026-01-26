@@ -12,13 +12,9 @@ export const ArchiveRoot: React.FC = () => {
     const useExtraFilters = useCamundaArchiveList((s) => s.useExtraFilters);
     const setUseExtraFilters = useCamundaArchiveList((s) => s.setUseExtraFilters);
     const doRefresh = useCamundaArchiveList((s) => s.doRefresh);
-    useEffect(() => {
-        doRefresh();
-    }, [useExtraFilters]);
+    useEffect(() => doRefresh(), [useExtraFilters]);
 
-    const renderDetailsTab = (item: TabbedPageItem) => {
-        return <ArchiveRecordDetails record={item as ArchiveRecord}/>
-    };
+    const renderDetailsTab = (item: TabbedPageItem) => <ArchiveRecordDetails record={item as ArchiveRecord}/>;
 
     const renderListTab = (openTab: (item: TabbedPageItem) => void) => (
         <Stack gap="xs">
