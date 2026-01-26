@@ -28,12 +28,28 @@ export class ArchiveRecord {
     processInstanceId: string = "";
     startTime: string = "";
     endTime: string | undefined = undefined;
-    duration: number;
-    taskState: string | undefined;
-    deleteReason: string | undefined;
+    durationInMillis: number;
+    state: string | undefined;
 }
 
 export class ArchiveVar {
     name: string;
     value: any;
+}
+
+export const getFieldLabel = (name: string) => {
+    switch (name) {
+        case "businessKey": return "Бізнес-ключ";
+        case "personName": return "Позичальник";
+        case "amount": return "Сума позички";
+        case "personCheckScores": return "Рейтинг перевірки особи";
+        case "personCheckReasons": return "Деталі перевірки особи";
+        case "financeCheckScores": return "Рейтинг перевірки фінансів";
+        case "financeCheckReasons": return "Деталі перевірки фінансів";
+        case "totalScores": return "Загальний рейтинг перевірки";
+        case "totalReasons": return "Загальні деталі перевірки";
+        case "scoringResult": return "Результат перевірки";
+        case "decision": return "Рішення";
+        default: return undefined;
+    }
 }

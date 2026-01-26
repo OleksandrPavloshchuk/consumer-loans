@@ -1,5 +1,5 @@
 import type {ArchiveRecord} from "../../camundaClient/domain.ts";
-import {ArchiveVar} from "../../camundaClient/domain.ts";
+import {ArchiveVar, getFieldLabel} from "../../camundaClient/domain.ts";
 import {Table} from "@mantine/core";
 import {showError, toLocalDateTime} from "../../utils/utils.ts";
 import {formatDuration} from "../../utils/duration.ts";
@@ -61,9 +61,11 @@ export const ArchiveRecordDetails: React.FC<Props> = ({record}) => {
                 <Table.Td>{record.deleteReason}</Table.Td>
             </Table.Tr>
             {
-                processVars.map( (v) => (
+                processVars
+                    .sort((i1, i2)=> i1.name.localeCompare(i2.name))
+                    .map( (v) => (
                     <Table.Tr key={v.name}>
-                        <Table.Td>{v.name}</Table.Td>
+                        <Table.Td>{getFieldLabel(v.name)}</Table.Td>
                         <Table.Td>{renderValue(v.value)}</Table.Td>
                     </Table.Tr>
                 ))

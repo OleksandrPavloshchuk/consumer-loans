@@ -40,7 +40,6 @@ export const ArchiveMainTable: React.FC<Props> = ({openRecord}) => {
                         <Table.Th>Дата і час закінчення обробки</Table.Th>
                         <Table.Th>Тривалість</Table.Th>
                         <Table.Th>Фінальний стан позички</Table.Th>
-                        <Table.Th>Причина архівації</Table.Th>
                     </Table.Tr>
                 </Table.Thead>
                 <Table.Tbody>
@@ -53,9 +52,8 @@ export const ArchiveMainTable: React.FC<Props> = ({openRecord}) => {
                                 <Table.Td>{item.id}</Table.Td>
                                 <Table.Td>{toLocalDateTime(item.startTime)}</Table.Td>
                                 <Table.Td>{toLocalDateTime(item.endTime)}</Table.Td>
-                                <Table.Td>{formatDuration(item.duration, {locale: 'ua'})}</Table.Td>
-                                <Table.Td>{item.taskState}</Table.Td>
-                                <Table.Td>{item.deleteReason}</Table.Td>
+                                <Table.Td>{formatDuration(item.durationInMillis, {locale: 'ua'})}</Table.Td>
+                                <Table.Td>{item.state}</Table.Td>
                             </Table.Tr>)
                     }
                 </Table.Tbody>

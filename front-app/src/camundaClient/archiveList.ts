@@ -25,7 +25,7 @@ export const useCamundaArchiveList = create<CamundaArchiveListModel>((set) => ({
         const controller = new AbortController();
 
         createJwtConnector().post(
-            `${URI_CAMUNDA_BASE}history/task`,
+            `${URI_CAMUNDA_BASE}history/process-instance`,
             {
                 finished: true,
                 includeProcessVariables: true

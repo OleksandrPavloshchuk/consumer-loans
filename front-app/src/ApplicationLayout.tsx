@@ -18,7 +18,7 @@ export const ApplicationLayout = () => {
     const renderActivePage = () => {
         return activePageName
             ? (<Group>
-                <Title order={4}>{applicationTitle}</Title>/
+                <Title order={5}>{applicationTitle}</Title>/
                 <Title order={5}>{getActivePageNameLocalized(activePageName)}</Title>
             </Group>)
             : null;
