@@ -1,112 +1,62 @@
-import {ActionIcon, Button, CloseIcon, Flex, Tabs} from "@mantine/core";
+import {Button, Flex} from "@mantine/core";
 import {notify, showError} from "../../utils/utils.ts";
 import {ActiveTasksMainTable} from "./MainTable.tsx";
-import {useEffect, useState} from "react";
 import {useCamundaTaskList} from "../../camundaClient/taskList.ts";
 import {createNewCamundaTask} from "../../camundaClient/newProcess.ts";
 import type {CamundaTask} from "../../camundaClient/domain.ts";
+import {TabbedPageItem} from "../../camundaClient/domain.ts";
 import {DetailsFormsBase} from "./detailsForms/DetailsFormBase.tsx";
 import {renderDeliverDecisionForm} from "./detailsForms/internal/DeliverDecisionForm.tsx";
 import {renderManualReviewForm} from "./detailsForms/internal/ManualReviewForm.tsx";
 import {EnterApplicationForm} from "./detailsForms/internal/EnterApplicationForm.tsx";
 import {useAuthorizationState} from "../../authentication/AuthorizationState.ts";
-import {useApplicationState} from "../../ApplicationState.ts";
+import {TabbedPage} from "../lib/TabbedPage.tsx";
 
 export const ActiveTasksRoot: React.FC = () => {
 
-    const setActivePageName = useApplicationState(
-        (s) => s.setActivePageName
-    );
-    useEffect(() => {
-        setActivePageName("activeTasks");
-    }, [setActivePageName]);
-
     const doRefresh = useCamundaTaskList((s) => s.doRefresh);
+    const createNewTask = () => createNewCamundaTask(doRefresh, showError);
 
-    const [activeTab, setActiveTab] = useState<string | null>("list");
-    const [openTasks, setOpenTasks] = useState<CamundaTask[]>([]);
+    const roles = useAuthorizationState((s) => s.groups);
+    const isLoanConsultant = () => roles.includes("loanConsultants");
 
-    const openTaskTab = (task: CamundaTask) => {
-        if (!openTasks.find((item) => task.id == item.id)) {
-            setOpenTasks([...openTasks, task]);
-        }
-        setActiveTab(task.id ? task.id : null);
-    };
+    const renderListTab = (openTab: (item: TabbedPageItem) => void) => (<>
+        <Flex w="100%" gap="sm">
+            {isLoanConsultant() &&
+                <Button onClick={createNewTask}>Нова позичка</Button>
+            }
+            <Button onClick={doRefresh}>Оновити список</Button>
+        </Flex>
+        <ActiveTasksMainTable openTask={openTab}/>
+    </>);
 
-    const closeTaskTab = (taskId: string) => {
-        setOpenTasks(prev => prev.filter(item => item.id !== taskId));
-
-        setActiveTab(current =>
-            current === taskId ? "list" : current
-        );
-    }
-
-    const createNewTask = () =>
-        createNewCamundaTask(doRefresh, showError);
-
-    const getTaskForm = (task: CamundaTask) => {
+    const getTaskForm = (task: CamundaTask, closeTab: (id: string) => void) => {
         switch (task.taskDefinitionKey) {
             case "enterApplication":
                 return <DetailsFormsBase
-                    task={task} closeTab={closeTaskTab}
+                    task={task} closeTab={closeTab}
                     renderFormInternal={
                         (processVars, onSave) =>
                             <EnterApplicationForm processVars={processVars} onSave={onSave}/>}/>;
             case "manualReview":
                 return <DetailsFormsBase
-                    task={task} closeTab={closeTaskTab}
+                    task={task} closeTab={closeTab}
                     renderFormInternal={renderManualReviewForm}/>;
             case "deliverDecision":
                 return <DetailsFormsBase
-                    task={task} closeTab={closeTaskTab}
+                    task={task} closeTab={closeTab}
                     renderFormInternal={renderDeliverDecisionForm}/>;
             default:
                 notify("TODO", "form is not ready");
         }
     }
-
-    const roles = useAuthorizationState((s) => s.groups);
-    const isLoanConsultant = () =>
-        roles.indexOf("loanConsultants") >=0;
+    const renderDetailsTab = (item: TabbedPageItem, closeTab: (id: string) => void) => getTaskForm(item as CamundaTask, closeTab);
 
     return (
-        <Tabs defaultValue={"list"} value={activeTab} onChange={setActiveTab}>
-            <Tabs.List>
-                <Tabs.Tab key="list" value={"list"}>Список</Tabs.Tab>
-                {
-                    openTasks.map((task) =>
-                        (<Tabs.Tab key={task.id} value={task.id}>
-                            {`${task.name}`}&nbsp;
-                            <ActionIcon
-                                component="span"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    e.preventDefault();
-                                    closeTaskTab(task.id);
-                                }}
-                                variant="light"
-                                size="xs">
-                                <CloseIcon/>
-                            </ActionIcon>
-                        </Tabs.Tab>))
-                }
-            </Tabs.List>
-            <Tabs.Panel value={"list"} mt={"md"}>
-                <Flex w="100%" gap="sm">
-                    {isLoanConsultant() &&
-                        <Button
-                            onClick={createNewTask}
-                        >Нова позичка</Button>
-                    }
-                    <Button
-                        onClick={doRefresh}
-                    >Оновити список</Button>
-                </Flex>
-                <ActiveTasksMainTable openTask={openTaskTab}/>
-            </Tabs.Panel>
-            {
-                openTasks.map((task) =>
-                    (<Tabs.Panel key={task.id} value={task.id}>{getTaskForm(task)}</Tabs.Panel>))
-            }
-        </Tabs>);
+        <TabbedPage
+            pageId={"activeTasks"}
+            getDetailsTabTitle={(item: TabbedPageItem) => (item as CamundaTask).name}
+            renderListTab={renderListTab}
+            renderDetailsTab={renderDetailsTab}
+        />);
 }

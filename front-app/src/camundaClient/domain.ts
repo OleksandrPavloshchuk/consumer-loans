@@ -14,8 +14,11 @@ export class CamundaProcessVars {
     amount?: CamundaVar<number>
 }
 
-export class CamundaTask {
+export class TabbedPageItem {
     id: string = "";
+}
+
+export class CamundaTask extends TabbedPageItem {
     name: string = "";
     created: string = "";
     lastUpdated: string | undefined = undefined;
@@ -23,8 +26,7 @@ export class CamundaTask {
     taskDefinitionKey: string = "";
 }
 
-export class ArchiveRecord {
-    id: string = "";
+export class ArchiveRecord extends TabbedPageItem {
     processInstanceId: string = "";
     startTime: string = "";
     endTime: string | undefined = undefined;

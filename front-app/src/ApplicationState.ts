@@ -1,6 +1,6 @@
 import {create} from "zustand";
 
-type PageId = "activeTasks"|"archive";
+export type PageId = "activeTasks"|"archive";
 
 export interface ApplicationState {
     activePageName: PageId | undefined;
