@@ -16,7 +16,7 @@ export const ArchiveRecordDetails: React.FC<Props> = ({record}) => {
 
     useEffect(() => {
         return getCamundaArchiveProcessVariables(
-            record.processInstanceId,
+            record.id,
             setProcessVars,
             showError);
     }, [record.processInstanceId]);
@@ -50,15 +50,11 @@ export const ArchiveRecordDetails: React.FC<Props> = ({record}) => {
             </Table.Tr>
             <Table.Tr>
                 <Table.Td>Тривалість</Table.Td>
-                <Table.Td>{formatDuration(record.duration, {locale: 'ua'})}</Table.Td>
+                <Table.Td>{formatDuration(record.durationInMillis, {locale: 'ua'})}</Table.Td>
             </Table.Tr>
             <Table.Tr>
                 <Table.Td>Фінальний стан позички</Table.Td>
-                <Table.Td>{record.taskState}</Table.Td>
-            </Table.Tr>
-            <Table.Tr>
-                <Table.Td>Причина архівації</Table.Td>
-                <Table.Td>{record.deleteReason}</Table.Td>
+                <Table.Td>{record.state}</Table.Td>
             </Table.Tr>
             {
                 processVars

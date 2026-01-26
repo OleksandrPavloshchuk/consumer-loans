@@ -27,8 +27,7 @@ export const useCamundaArchiveList = create<CamundaArchiveListModel>((set) => ({
         createJwtConnector().post(
             `${URI_CAMUNDA_BASE}history/process-instance`,
             {
-                finished: true,
-                includeProcessVariables: true
+                finished: true
             },
             {
                 signal: controller.signal
