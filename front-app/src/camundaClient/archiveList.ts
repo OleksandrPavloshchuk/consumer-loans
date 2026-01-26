@@ -4,6 +4,7 @@ import type {CamundaTask} from "./domain.ts";
 import {createJwtConnector} from "../axiosClient/backendConnector.ts";
 import {useLoginState} from "../pages/login/LoginState.ts";
 import {ArchiveRecord} from "./domain.ts";
+import type {SortMode} from "../pages/lib/SortArrow.tsx";
 
 export interface CamundaArchiveListModel {
     result: ArchiveRecord[],
@@ -15,7 +16,9 @@ export interface CamundaArchiveListModel {
     startedFrom: Date | undefined,
     setStartedFrom: (d: Date | undefined) => void
     startedTo: Date | undefined,
-    setStartedTo: (d: Date | undefined) => void
+    setStartedTo: (d: Date | undefined) => void,
+    startDateOrder: SortMode,
+    setStartDateOrder: (m: SortMode) => void
 }
 
 export const useCamundaArchiveList = create<CamundaArchiveListModel>((set) => ({
@@ -24,9 +27,13 @@ export const useCamundaArchiveList = create<CamundaArchiveListModel>((set) => ({
         setError: (e: Error) => void) => {
         const controller = new AbortController();
 
+        const startDateOrder = useCamundaArchiveList.getState().startDateOrder;
+
         createJwtConnector().post(
             `${URI_CAMUNDA_BASE}history/process-instance`,
             {
+                sortBy: "startTime",
+                sortOrder: startDateOrder,
                 finished: true
             },
             {
@@ -48,7 +55,9 @@ export const useCamundaArchiveList = create<CamundaArchiveListModel>((set) => ({
     startedFrom: undefined,
     setStartedFrom: (d: Date | undefined) => set({startedFrom: d}),
     startedTo: undefined,
-    setStartedTo: (d: Date | undefined) => set({startedTo: d})
+    setStartedTo: (d: Date | undefined) => set({startedTo: d}),
+    startDateOrder: "asc",
+    setStartDateOrder: (m: SortMode) => set({startDateOrder: m})
 }));
 
 const filterResponse = (src: ArchiveRecord[]) => {

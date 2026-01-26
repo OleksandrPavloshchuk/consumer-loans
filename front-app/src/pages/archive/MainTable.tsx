@@ -3,8 +3,8 @@ import {showError, toLocalDateTime} from "../../utils/utils.ts";
 import {useCamundaArchiveList} from "../../camundaClient/archiveList.ts";
 import {useEffect} from "react";
 import {formatDuration} from "../../utils/duration.ts";
-import type {CamundaTask} from "../../camundaClient/domain.ts";
 import {ArchiveRecord} from "../../camundaClient/domain.ts";
+import {SortArrow} from "../lib/SortArrow.tsx";
 
 type Props = {
     openRecord: (record: ArchiveRecord) => void
@@ -15,13 +15,15 @@ export const ArchiveMainTable: React.FC<Props> = ({openRecord}) => {
     const result = useCamundaArchiveList((s) => s.result);
     const retrieve = useCamundaArchiveList((s) => s.retrieve);
     const onRefresh = useCamundaArchiveList((s) => s.onRefresh);
+    const order = useCamundaArchiveList((s) => s.startDateOrder);
+    const setOrder = useCamundaArchiveList((s) => s.setStartDateOrder);
 
     useEffect(() => {
         retrieve(showError);
     }, []);
     useEffect(() => {
         retrieve(showError);
-    }, [onRefresh]);
+    }, [onRefresh, order]);
 
     return (
         <ScrollArea h={720}>
@@ -36,7 +38,7 @@ export const ArchiveMainTable: React.FC<Props> = ({openRecord}) => {
                 >
                     <Table.Tr>
                         <Table.Th>Ідентифікатор позички</Table.Th>
-                        <Table.Th>Дата і час подання заявки</Table.Th>
+                        <Table.Th>Дата і час подання заявки&nbsp;<SortArrow order={order} setOrder={setOrder}/></Table.Th>
                         <Table.Th>Дата і час закінчення обробки</Table.Th>
                         <Table.Th>Тривалість</Table.Th>
                         <Table.Th>Фінальний стан позички</Table.Th>
