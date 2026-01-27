@@ -1,4 +1,4 @@
-import axios, {type AxiosInstance, type AxiosResponse} from "axios";
+import axios, {type AxiosInstance} from "axios";
 import {getAccessToken, refreshToken} from "../authentication/authenticationService.ts";
 
 export const createConnector = () => axios.create({
