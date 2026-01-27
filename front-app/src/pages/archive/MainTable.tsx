@@ -5,6 +5,7 @@ import {useEffect} from "react";
 import {formatDuration} from "../../utils/duration.ts";
 import {ArchiveRecord} from "../../camundaClient/domain.ts";
 import {SortArrow} from "../lib/SortArrow.tsx";
+import * as React from "react";
 
 type Props = {
     openRecord: (record: ArchiveRecord) => void

@@ -1,6 +1,7 @@
 import {useCamundaArchiveList} from "../../camundaClient/archiveList.ts";
 import {Button, Flex} from "@mantine/core";
 import {DateTimePicker} from "@mantine/dates";
+import * as React from "react";
 
 export const MainTableFilter: React.FC = () => {
 

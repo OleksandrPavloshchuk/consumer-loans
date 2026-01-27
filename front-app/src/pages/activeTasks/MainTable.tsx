@@ -3,6 +3,7 @@ import {showError, toLocalDateTime} from "../../utils/utils.ts";
 import {useCamundaTaskList} from "../../camundaClient/taskList.ts";
 import {useEffect} from "react";
 import type {CamundaTask} from "../../camundaClient/domain.ts";
+import * as React from "react";
 
 type Props = {
     openTask: (task: CamundaTask) => void

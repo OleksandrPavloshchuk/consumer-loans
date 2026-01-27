@@ -1,6 +1,7 @@
 import {Table} from "@mantine/core";
 import {toLocalDateTime} from "../../../../utils/utils.ts";
 import type {CamundaTask} from "../../../../camundaClient/domain.ts";
+import * as React from "react";
 
 type Props = {
     task: CamundaTask

@@ -6,6 +6,7 @@ import {notify} from "../../utils/utils.ts";
 import {useApplicationState} from "../../ApplicationState.ts";
 import {applicationTitle} from "../../ApplicationLayout.tsx";
 import {useEffect} from "react";
+import * as React from "react";
 
 export const LoginRoot: React.FC = () => {
 

@@ -1,6 +1,7 @@
 import {Table} from "@mantine/core";
 import type {CamundaProcessVars} from "../../../../camundaClient/domain.ts";
 import {stringList} from "./StringList.tsx";
+import * as React from "react";
 
 type Props = {
     processVars: CamundaProcessVars | undefined

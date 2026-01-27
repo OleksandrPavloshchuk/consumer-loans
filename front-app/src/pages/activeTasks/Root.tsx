@@ -11,6 +11,7 @@ import {renderManualReviewForm} from "./detailsForms/internal/ManualReviewForm.t
 import {EnterApplicationForm} from "./detailsForms/internal/EnterApplicationForm.tsx";
 import {useAuthorizationState} from "../../authentication/AuthorizationState.ts";
 import {TabbedPage} from "../lib/TabbedPage.tsx";
+import * as React from "react";
 
 export const ActiveTasksRoot: React.FC = () => {
 

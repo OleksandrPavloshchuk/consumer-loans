@@ -1,5 +1,6 @@
 import {ActionIcon} from "@mantine/core";
 import {IconChevronDown, IconChevronUp} from "@tabler/icons-react";
+import * as React from "react";
 
 export type SortMode = "asc" | "desc";
 

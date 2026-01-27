@@ -5,6 +5,7 @@ import {showError, toLocalDateTime} from "../../utils/utils.ts";
 import {formatDuration} from "../../utils/duration.ts";
 import {useEffect, useState} from "react";
 import {getCamundaArchiveProcessVariables} from "../../camundaClient/archiveProcessVariables.ts";
+import * as React from "react";
 
 type Props = {
     record: ArchiveRecord

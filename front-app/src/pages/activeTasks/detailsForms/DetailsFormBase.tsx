@@ -5,6 +5,7 @@ import {getCamundaProcessVariables} from "../../../camundaClient/processVariable
 import {showError} from "../../../utils/utils.ts";
 import {type CamundaInputVar, updateCamundaTask} from "../../../camundaClient/updateTask.ts";
 import {useCamundaTaskList} from "../../../camundaClient/taskList.ts";
+import * as React from "react";
 
 type Props = {
     task: CamundaTask,

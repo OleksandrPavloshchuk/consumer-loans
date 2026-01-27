@@ -2,6 +2,7 @@ import type {CamundaInputVar} from "../../../../camundaClient/updateTask.ts";
 import type {CamundaProcessVars} from "../../../../camundaClient/domain.ts";
 import {Button, NumberInput, Paper, Stack, Table, TextInput} from "@mantine/core";
 import {useState} from "react";
+import * as React from "react";
 
 interface DetailsInput {
     personName: string;
