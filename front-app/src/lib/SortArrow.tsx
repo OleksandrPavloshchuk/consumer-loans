@@ -14,6 +14,7 @@ export const SortArrow: React.FC<Props> = ({order, setOrder}) => {
     return (
         order == "asc"
             ? <ActionIcon
+                aria-label="sort-arrow"
                 onClick={() => setOrder("desc")}
                 variant="light"
                 size="md">
@@ -21,6 +22,7 @@ export const SortArrow: React.FC<Props> = ({order, setOrder}) => {
             </ActionIcon>
 
             : <ActionIcon
+                aria-label="sort-arrow"
                 onClick={() => setOrder("asc")}
                 variant="light"
                 size="md">
