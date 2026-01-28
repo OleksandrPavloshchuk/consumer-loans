@@ -2,7 +2,7 @@ import {Button, Container, Group, Paper, PasswordInput, Stack, TextInput, Title}
 import {useLoginState} from "./LoginState.ts";
 import {login} from "../../authentication/authenticationService.ts";
 import {useNavigate} from "react-router";
-import {notify} from "../../utils/utils.ts";
+import {notify} from "../../lib/utils.ts";
 import {useApplicationState} from "../../ApplicationState.ts";
 import {applicationTitle} from "../../ApplicationLayout.tsx";
 import {useEffect} from "react";

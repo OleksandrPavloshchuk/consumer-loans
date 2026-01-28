@@ -5,7 +5,7 @@ import {useCamundaArchiveList} from "../../camundaClient/archiveList.ts";
 import {useEffect} from "react";
 import {ArchiveRecord, TabbedPageItem} from "../../camundaClient/domain.ts";
 import {ArchiveRecordDetails} from "./ArchiveRecordDetails.tsx";
-import {TabbedPage} from "../lib/TabbedPage.tsx";
+import {TabbedPage} from "../../lib/TabbedPage.tsx";
 import * as React from "react";
 
 export const ArchiveRoot: React.FC = () => {

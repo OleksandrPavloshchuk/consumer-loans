@@ -1,7 +1,7 @@
 import {ActionIcon, CloseIcon, Tabs} from "@mantine/core";
 import {useEffect, useState} from "react";
-import {TabbedPageItem} from "../../camundaClient/domain.ts";
-import {type PageId, useApplicationState} from "../../ApplicationState.ts";
+import {TabbedPageItem} from "../camundaClient/domain.ts";
+import {type PageId, useApplicationState} from "../ApplicationState.ts";
 import * as React from "react";
 
 type Props = {

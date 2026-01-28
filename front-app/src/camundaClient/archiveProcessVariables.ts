@@ -1,4 +1,4 @@
-import {toJson, URI_CAMUNDA_BASE} from "../utils/utils.ts";
+import {toJson, URI_CAMUNDA_BASE} from "../lib/utils.ts";
 import {ArchiveVar} from "./domain.ts";
 import {createJwtConnector} from "../axiosClient/backendConnector.ts";
 

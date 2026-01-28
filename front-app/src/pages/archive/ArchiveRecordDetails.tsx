@@ -1,8 +1,8 @@
 import type {ArchiveRecord} from "../../camundaClient/domain.ts";
 import {ArchiveVar, getFieldLabel} from "../../camundaClient/domain.ts";
 import {Table} from "@mantine/core";
-import {showError, toLocalDateTime} from "../../utils/utils.ts";
-import {formatDuration} from "../../utils/duration.ts";
+import {showError, toLocalDateTime} from "../../lib/utils.ts";
+import {formatDuration} from "../../lib/duration.ts";
 import {useEffect, useState} from "react";
 import {getCamundaArchiveProcessVariables} from "../../camundaClient/archiveProcessVariables.ts";
 import * as React from "react";

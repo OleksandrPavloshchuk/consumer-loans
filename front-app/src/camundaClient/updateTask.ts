@@ -1,4 +1,4 @@
-import {URI_CAMUNDA_BASE} from "../utils/utils.ts";
+import {URI_CAMUNDA_BASE} from "../lib/utils.ts";
 import {createJwtConnector} from "../axiosClient/backendConnector.ts";
 
 export type CamundaVarType =

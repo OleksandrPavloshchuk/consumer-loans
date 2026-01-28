@@ -1,10 +1,10 @@
 import {create} from "zustand";
-import {toJson, URI_CAMUNDA_BASE} from "../utils/utils.ts";
+import {toJson, URI_CAMUNDA_BASE} from "../lib/utils.ts";
 import type {CamundaTask} from "./domain.ts";
 import {createJwtConnector} from "../axiosClient/backendConnector.ts";
 import {useLoginState} from "../pages/login/LoginState.ts";
 import {ArchiveRecord} from "./domain.ts";
-import type {SortMode} from "../pages/lib/SortArrow.tsx";
+import type {SortMode} from "../lib/SortArrow.tsx";
 
 export interface CamundaArchiveListModel {
     result: ArchiveRecord[],

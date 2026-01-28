@@ -1,10 +1,10 @@
 import {ScrollArea, Table} from "@mantine/core";
-import {showError, toLocalDateTime} from "../../utils/utils.ts";
+import {showError, toLocalDateTime} from "../../lib/utils.ts";
 import {useCamundaArchiveList} from "../../camundaClient/archiveList.ts";
 import {useEffect} from "react";
-import {formatDuration} from "../../utils/duration.ts";
+import {formatDuration} from "../../lib/duration.ts";
 import {ArchiveRecord} from "../../camundaClient/domain.ts";
-import {SortArrow} from "../lib/SortArrow.tsx";
+import {SortArrow} from "../../lib/SortArrow.tsx";
 import * as React from "react";
 
 type Props = {

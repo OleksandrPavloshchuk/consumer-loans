@@ -1,6 +1,6 @@
 import {Table} from "@mantine/core";
 import type {CamundaProcessVars} from "../../../../camundaClient/domain.ts";
-import {toCurrency} from "../../../../utils/utils.ts";
+import {toCurrency} from "../../../../lib/utils.ts";
 import * as React from "react";
 
 type Props = {

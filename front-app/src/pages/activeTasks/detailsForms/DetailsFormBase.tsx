@@ -2,7 +2,7 @@ import {CamundaTaskInfo} from "./parts/CamundaTaskInfo.tsx";
 import {CamundaProcessVars, type CamundaTask} from "../../../camundaClient/domain.ts";
 import {useEffect, useState} from "react";
 import {getCamundaProcessVariables} from "../../../camundaClient/processVariables.ts";
-import {showError} from "../../../utils/utils.ts";
+import {showError} from "../../../lib/utils.ts";
 import {type CamundaInputVar, updateCamundaTask} from "../../../camundaClient/updateTask.ts";
 import {useCamundaTaskList} from "../../../camundaClient/taskList.ts";
 import * as React from "react";

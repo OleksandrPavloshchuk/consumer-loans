@@ -1,5 +1,5 @@
 import {createConnector} from "../axiosClient/backendConnector.ts";
-import {toJson} from "../utils/utils.ts";
+import {toJson} from "../lib/utils.ts";
 import {jwtDecode} from "jwt-decode";
 import {useAuthorizationState} from "./AuthorizationState.ts";
 

@@ -1,5 +1,5 @@
 import {Button, Flex} from "@mantine/core";
-import {notify, showError} from "../../utils/utils.ts";
+import {notify, showError} from "../../lib/utils.ts";
 import {ActiveTasksMainTable} from "./MainTable.tsx";
 import {useCamundaTaskList} from "../../camundaClient/taskList.ts";
 import {createNewCamundaTask} from "../../camundaClient/newProcess.ts";
@@ -10,7 +10,7 @@ import {renderDeliverDecisionForm} from "./detailsForms/internal/DeliverDecision
 import {renderManualReviewForm} from "./detailsForms/internal/ManualReviewForm.tsx";
 import {EnterApplicationForm} from "./detailsForms/internal/EnterApplicationForm.tsx";
 import {useAuthorizationState} from "../../authentication/AuthorizationState.ts";
-import {TabbedPage} from "../lib/TabbedPage.tsx";
+import {TabbedPage} from "../../lib/TabbedPage.tsx";
 import * as React from "react";
 
 export const ActiveTasksRoot: React.FC = () => {
