@@ -16,6 +16,9 @@ export class CamundaProcessVars {
 
 export class TabbedPageItem {
     id: string = "";
+    constructor(id: string) {
+        this.id = id;
+    }
 }
 
 export class CamundaTask extends TabbedPageItem {

@@ -2,11 +2,12 @@ import {describe, it, vi, expect} from "vitest";
 import {render, screen, fireEvent} from "@testing-library/react";
 import {SortArrow} from "./SortArrow";
 import {MantineProvider} from "@mantine/core";
+import {mockMatchMedia} from "./utils.ts";
 
 describe("SortArrow", () => {
 
     it("switch from ASC to DESC", () => {
-        mockMatchMedia();
+        mockMatchMedia(vi);
 
         const setOrder = vi.fn();
         render(<MantineProvider withGlobalStyles withNormalizeCSS theme={{ colorScheme: "light" }}>
@@ -17,18 +18,16 @@ describe("SortArrow", () => {
         expect(setOrder).toHaveBeenCalledWith("desc");
     });
 
-});
+    it("switch from DESC to ASC", () => {
+        mockMatchMedia(vi);
 
-const mockMatchMedia = () => Object.defineProperty(window, "matchMedia", {
-    writable: true,
-    value: vi.fn().mockImplementation((query) => ({
-        matches: false,
-        media: query,
-        onchange: null,
-        addListener: vi.fn(), // legacy
-        removeListener: vi.fn(), // legacy
-        addEventListener: vi.fn(),
-        removeEventListener: vi.fn(),
-        dispatchEvent: vi.fn(),
-    })),
+        const setOrder = vi.fn();
+        render(<MantineProvider withGlobalStyles withNormalizeCSS theme={{ colorScheme: "light" }}>
+            <SortArrow order="desc" setOrder={setOrder}/>
+        </MantineProvider>);
+        const button = screen.getByLabelText("sort-arrow");
+        fireEvent.click(button);
+        expect(setOrder).toHaveBeenCalledWith("asc");
+    });
+
 });

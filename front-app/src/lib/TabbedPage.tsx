@@ -32,8 +32,14 @@ export const TabbedPage: React.FC<Props> = ({pageId, getDetailsTabTitle, renderL
     }
 
     const createTabHeader = (item: TabbedPageItem) =>
-        <Tabs.Tab key={item.id} value={item.id}>{getDetailsTabTitle(item)}&nbsp;
+        <Tabs.Tab
+            id={`tab-${item.id}`}
+            aria-label={`tab-header-${item.id}`}
+            aria-controls={`tab-panel-${item.id}`}
+            key={item.id}
+            value={item.id}>{getDetailsTabTitle(item)}&nbsp;
             <ActionIcon
+                aria-label={`close-tab-${item.id}`}
                 component="span"
                 onClick={(e) => {
                     e.stopPropagation();
@@ -47,15 +53,19 @@ export const TabbedPage: React.FC<Props> = ({pageId, getDetailsTabTitle, renderL
         </Tabs.Tab>;
 
     const createTabContent = (item: TabbedPageItem) =>
-        <Tabs.Panel key={item.id} value={item.id}>{renderDetailsTab(item, closeTab)}</Tabs.Panel>;
+        <Tabs.Panel
+            aria-labelledby={`tab-${item.id}`}
+            aria-label={`tab-panel-${item.id}`}
+            key={item.id}
+            value={item.id}>{renderDetailsTab(item, closeTab)}</Tabs.Panel>;
 
     return (
-        <Tabs defaultValue={"list"} value={activeTab} onChange={setActiveTab}>
+        <Tabs aria-label="page-tabs" defaultValue={"list"} value={activeTab} onChange={setActiveTab}>
             <Tabs.List>
-                <Tabs.Tab key="list" value={"list"}>Список</Tabs.Tab>
+                <Tabs.Tab aria-label="tab-header-list" key="list" value={"list"}>Список</Tabs.Tab>
                 {openItems.map(createTabHeader)}
             </Tabs.List>
-            <Tabs.Panel value={"list"} mt={"md"}>{renderListTab(openTab)}</Tabs.Panel>
+            <Tabs.Panel aria-label="tab-panel-list" value={"list"} mt={"md"}>{renderListTab(openTab)}</Tabs.Panel>
             {openItems.map(createTabContent)}
         </Tabs>);
 }

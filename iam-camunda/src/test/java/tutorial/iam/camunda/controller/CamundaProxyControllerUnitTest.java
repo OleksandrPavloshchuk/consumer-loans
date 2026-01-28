@@ -83,6 +83,7 @@ public class CamundaProxyControllerUnitTest {
         doReturn(HttpStatusCode.valueOf(200)).when(responseEntity).getStatusCode();
         doReturn(responseEntity).when(restTemplate)
                         .exchange(anyString(), any(HttpMethod.class), any(HttpEntity.class), any(Class.class));
+        doReturn(httpHeaders).when(responseEntity).getHeaders();
 
         camundaProxyController.proxy(request);
 

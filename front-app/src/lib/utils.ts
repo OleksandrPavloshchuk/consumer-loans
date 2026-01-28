@@ -33,4 +33,18 @@ export const showError = (e: Error) => {
     notify("Error", `${e}`)
 }
 
+export const mockMatchMedia = (vi: any) => Object.defineProperty(window, "matchMedia", {
+    writable: true,
+    value: vi.fn().mockImplementation((query) => ({
+        matches: false,
+        media: query,
+        onchange: null,
+        addListener: vi.fn(), // legacy
+        removeListener: vi.fn(), // legacy
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+        dispatchEvent: vi.fn(),
+    })),
+});
+
 export const URI_CAMUNDA_BASE = "/engine-rest-proxy/";
