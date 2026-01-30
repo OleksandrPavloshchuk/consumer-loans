@@ -1,4 +1,4 @@
-package tutorial.auth.jwt.spring.utils.utils;
+package tutorial.auth.jwt.spring.utils;
 
 import jakarta.servlet.http.HttpServletRequest;
 

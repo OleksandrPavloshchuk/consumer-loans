@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import tutorial.auth.jwt.core.service.AuthenticationException;
 import tutorial.auth.jwt.core.service.JwtProviderService;
-import tutorial.auth.jwt.spring.utils.utils.JwtUtils;
+import tutorial.auth.jwt.spring.utils.JwtUtils;
 import tutorial.iam.camunda.service.TempAuthenticationCache;
 
 import java.io.IOException;

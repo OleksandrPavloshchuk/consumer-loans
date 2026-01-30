@@ -13,14 +13,19 @@ export const LoginRoot: React.FC = () => {
     const setActivePageName = useApplicationState(
         (s) => s.setActivePageName
     );
-    useEffect(() => {
-        setActivePageName(undefined);
-    }, [setActivePageName]);
 
     const user = useLoginState((s) => s.user);
     const setUser = useLoginState((s) => s.setUser);
     const password = useLoginState((s) => s.password);
     const setPassword = useLoginState((s) => s.setPassword);
+
+    useEffect(() => {
+        setPassword("");
+        setUser("");
+    }, []);
+    useEffect(() => {
+        setActivePageName(undefined);
+    }, [setActivePageName]);
 
     const navigate = useNavigate();
 

@@ -17,7 +17,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import tutorial.auth.jwt.core.dto.BaseAuthentication;
 import tutorial.auth.jwt.core.service.AuthenticationException;
 import tutorial.auth.jwt.core.service.JwtProviderService;
-import tutorial.auth.jwt.spring.utils.utils.JwtUtils;
+import tutorial.auth.jwt.spring.utils.JwtUtils;
 
 import java.io.IOException;
 import java.util.List;

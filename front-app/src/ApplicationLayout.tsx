@@ -30,6 +30,12 @@ export const ApplicationLayout = () => {
         }
     }, [navigate]);
 
+    const renderLinkInHeader = (label: string | undefined, url: string) => (<Anchor
+        style={(theme) => ({
+            color: theme.colors.blue[2]
+        })}
+        component={Link} to={url}>{label}</Anchor>);
+
     return <AppShell
         header={{height: 60}}
         styles={(theme) => ({
@@ -46,29 +52,14 @@ export const ApplicationLayout = () => {
                 {renderActivePage()}
                 <div>{user}</div>
                 <Group>
-                    {activePageName!=="activeTasks" &&
-                        <Anchor
-                            style={(theme) => ({
-                                color: theme.colors.blue[2]
-                            })}
-                            component={Link} to="/active"
-                        >{getActivePageNameLocalized("activeTasks")}</Anchor>
+                    {activePageName !== "activeTasks" &&
+                        renderLinkInHeader(getActivePageNameLocalized("activeTasks"), "/active")
                     }
-                    {activePageName!=="archive" &&
-                        <Anchor
-                            style={(theme) => ({
-                                color: theme.colors.blue[2]
-                            })}
-                            component={Link} to="/archive"
-                        >{getActivePageNameLocalized("archive")}</Anchor>
+                    {activePageName !== "archive" &&
+                        renderLinkInHeader(getActivePageNameLocalized("archive"), "/archive")
                     }
                     |
-                    <Anchor
-                        style={(theme) => ({
-                            color: theme.colors.blue[2]
-                        })}
-                        component={Link} to="/login"
-                    >Вихід</Anchor>
+                    {renderLinkInHeader("Вихід", "/login")}
                 </Group>
             </Group>
         </AppShell.Header>
