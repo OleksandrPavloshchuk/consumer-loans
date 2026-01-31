@@ -1,6 +1,6 @@
 type DurationFormatOptions = {
     locale?: string;
-    maxUnits?: number; // скільки одиниць показувати (1–3)
+    maxUnits?: number; // how manu units to show (1..3)
 };
 
 export function formatDuration(

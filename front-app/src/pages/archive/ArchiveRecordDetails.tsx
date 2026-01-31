@@ -1,5 +1,5 @@
 import type {ArchiveRecord} from "../../camundaClient/domain.ts";
-import {ArchiveVar, getFieldLabel} from "../../camundaClient/domain.ts";
+import {ArchiveVar, getFieldIndex, getFieldLabel} from "../../camundaClient/domain.ts";
 import {Table} from "@mantine/core";
 import {showError, toLocalDateTime} from "../../lib/utils.ts";
 import {formatDuration} from "../../lib/duration.ts";
@@ -59,7 +59,7 @@ export const ArchiveRecordDetails: React.FC<Props> = ({record}) => {
             </Table.Tr>
             {
                 processVars
-                    .sort((i1, i2)=> i1.name.localeCompare(i2.name))
+                    .sort((i1, i2)=> getFieldIndex(i1.name) - getFieldIndex(i2.name))
                     .map( (v) => (
                     <Table.Tr key={v.name}>
                         <Table.Td>{getFieldLabel(v.name)}</Table.Td>

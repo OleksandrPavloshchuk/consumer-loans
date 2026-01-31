@@ -58,3 +58,20 @@ export const getFieldLabel = (name: string) => {
         default: return undefined;
     }
 }
+
+export const getFieldIndex = (name: string) => {
+    switch (name) {
+        case "businessKey": return 0;
+        case "personName": return 1;
+        case "amount": return 2;
+        case "personCheckScores": return 3;
+        case "personCheckReasons": return 4;
+        case "financeCheckScores": return 5;
+        case "financeCheckReasons": return 6;
+        case "totalScores": return 7;
+        case "totalReasons": return 8;
+        case "scoringResult": return 9;
+        case "decision": return 10;
+        default: return undefined;
+    }
+}

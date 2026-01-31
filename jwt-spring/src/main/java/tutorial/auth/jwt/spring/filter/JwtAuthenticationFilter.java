@@ -1,11 +1,13 @@
 package tutorial.auth.jwt.spring.filter;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,6 +28,7 @@ import java.util.logging.Logger;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private static final Logger LOGGER = Logger.getLogger(JwtAuthenticationFilter.class.getName());
 
@@ -49,6 +52,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
         filterChain.doFilter(request, response);
+    }
+
+    @PostConstruct
+    public void init() {
+        log.info("JWT Authentication Filter is created");
     }
 
     private Authentication toCommonAuth(BaseAuthentication src) {
