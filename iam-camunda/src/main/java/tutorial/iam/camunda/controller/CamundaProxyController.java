@@ -39,32 +39,43 @@ public class CamundaProxyController {
         try {
             final Optional<String> authTokenOpt = JwtUtils.getJwtToken(request);
             if (authTokenOpt.isPresent()) {
-                final String username = getUserNameFromToken(authTokenOpt.get());
-                final Optional<byte[]> passwordOpt = tempAuthenticationCache.load(username);
-                if (passwordOpt.isPresent()) {
-                    final HttpHeaders headers = getHttpHeadersWithoutAuthorization(request);
-                    headers.set(HttpHeaders.AUTHORIZATION, "Basic " + createBasicAuth(username, passwordOpt.get()));
-                    final ResponseEntity<byte[]> response = exchangeWithEndpoint(request, headers);
-                    MediaType contentType = response.getHeaders().getContentType();
-                    if (contentType == null ) {
-                        contentType = MediaType.APPLICATION_OCTET_STREAM;
-                    }
-                    return ResponseEntity
-                            .status(response.getStatusCode())
-                            .contentType(contentType)
-                            .body(response.getBody());
-                } else {
-                    throw new AuthenticationException("Authentication failed");
-                }
+                return getResponseForAuthToken(request, authTokenOpt.get());
             } else {
                 throw new AuthenticationException("Authentication failed");
             }
         } catch (ExpiredJwtException ex) {
-            log.warn(ex.getMessage());
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("error", "access_token_expired"));
+            return getResponseForJwtExpired(ex);
         }
+    }
+
+    private static ResponseEntity<Map<String, String>> getResponseForJwtExpired(ExpiredJwtException ex) {
+        log.warn(ex.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(Map.of("error", "access_token_expired"));
+    }
+
+    private ResponseEntity<byte[]> getResponseForAuthToken(HttpServletRequest request, String authToken) throws IOException {
+        final String username = getUserNameFromToken(authToken);
+        final Optional<byte[]> passwordOpt = tempAuthenticationCache.load(username);
+        if (passwordOpt.isPresent()) {
+            final HttpHeaders headers = getHttpHeadersWithoutAuthorization(request);
+            headers.set(HttpHeaders.AUTHORIZATION, "Basic " + createBasicAuth(username, passwordOpt.get()));
+            return createResponseEntity(exchangeWithEndpoint(request, headers));
+        } else {
+            throw new AuthenticationException("Authentication failed");
+        }
+    }
+
+    private static ResponseEntity<byte[]> createResponseEntity(ResponseEntity<byte[]> response) {
+        return ResponseEntity
+                .status(response.getStatusCode())
+                .contentType(getMediaType(response))
+                .body(response.getBody());
+    }
+
+    private static MediaType getMediaType(ResponseEntity<byte[]> response) {
+        return getOrDefault(response.getHeaders().getContentType(), MediaType.APPLICATION_OCTET_STREAM);
     }
 
     private String getUserNameFromToken(String token) {
@@ -85,16 +96,21 @@ public class CamundaProxyController {
     }
 
     private static String createBasicAuth(String username, byte[] password) {
-        final String passwordStr = new String(password, StandardCharsets.UTF_8);
         return Base64.getEncoder()
-                .encodeToString((username + ":" + passwordStr).getBytes(StandardCharsets.UTF_8));
+                .encodeToString(
+                        (username + ":" + new String(password, StandardCharsets.UTF_8))
+                                .getBytes(StandardCharsets.UTF_8));
     }
 
     private static String updateUrl(HttpServletRequest request) {
         final String targetPath = request.getRequestURI()
                 .replaceFirst("/engine-rest-proxy", "/engine-rest");
         final String query = request.getQueryString();
-        return "https://localhost:9091" + targetPath + (query != null ? "?" + query : "");
+        return "https://localhost:" + getServerPort() + targetPath + (query != null ? "?" + query : "");
+    }
+
+    private static String getServerPort() {
+        return getOrDefault(System.getenv("SERVER_PORT"), "9091");
     }
 
     private static HttpHeaders getHttpHeadersWithoutAuthorization(HttpServletRequest request) {
@@ -104,6 +120,10 @@ public class CamundaProxyController {
                 .filter(name -> !name.equalsIgnoreCase(HttpHeaders.AUTHORIZATION))
                 .forEach(name -> result.add(name, request.getHeader(name)));
         return result;
+    }
+
+    private static <T> T getOrDefault(T value, T defaultValue) {
+        return value == null ? defaultValue : value;
     }
 
 }

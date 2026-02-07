@@ -16,14 +16,8 @@ public class CamundaAuthenticationService implements AuthenticationService {
 
     @Override
     public boolean isAuthenticated(String username, byte[] password) {
-        final boolean result = identityService
-                .createUserQuery()
-                .userId(username)
-                .singleResult() != null
-                && identityService.checkPassword(
-                username,
-                new String(password, StandardCharsets.UTF_8)
-        );
+        final boolean result = identityService.createUserQuery().userId(username).singleResult() != null
+                && identityService.checkPassword(username, new String(password, StandardCharsets.UTF_8));
         tempAuthenticationCache.store(username, password, result);
         return result;
     }

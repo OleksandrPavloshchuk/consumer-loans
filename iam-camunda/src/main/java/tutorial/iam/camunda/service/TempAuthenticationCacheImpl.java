@@ -6,6 +6,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * The external storage for passwords is necessary for interaction with Camunda,
+ * because Camunda does not return passwords for its users.
+ * This password is necessary for basic authentication.
+ * We use the simplest implementation here.
+ */
 @Service
 public class TempAuthenticationCacheImpl implements TempAuthenticationCache {
 

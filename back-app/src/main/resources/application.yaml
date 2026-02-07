@@ -17,9 +17,6 @@ camunda:
   bpm:
     authorization:
       enabled: true
-    webapp:
-      security:
-        enabled: false
     database:
       schema-name: camunda
       table-prefix: camunda.
