@@ -17,13 +17,3 @@ export const useApplicationState = create<ApplicationState>((set) => ({
     setActivePageName: (s: PageId)=> set({activePageName: s})
 }));
 
-export const getActivePageNameLocalized = (id: PageId) => {
-    let r: string|undefined;
-    switch (id) {
-        case "activeTasks":
-            r = "В роботі"; break;
-        case "archive":
-            r = "Архів"; break;
-    }
-    return r;
-}

@@ -1,25 +1,29 @@
 import {Anchor, AppShell, Group, Title} from "@mantine/core";
 import {Link, Outlet} from "react-router-dom";
 import {useLoginState} from "./pages/login/LoginState.ts";
-import {getActivePageNameLocalized, useApplicationState} from "./ApplicationState.ts";
+import {useApplicationState} from "./ApplicationState.ts";
 import {useNavigate} from "react-router";
+import * as React from "react";
 import {useEffect} from "react";
-
-export const applicationTitle = "💎️ Споживчі позички";
+import {LanguagesDropdown} from "./lib/LanguageDropdown.tsx";
+import {getLocalization} from "./i18n/language.ts";
 
 export const ApplicationLayout = () => {
 
     const navigate = useNavigate();
 
     const user = useLoginState((s) => s.user);
+    const language = useApplicationState((s) => s.language);
+    const setLanguage = useApplicationState((s) => s.setLanguage);
 
+    let loc = getLocalization(language);
     const activePageName = useApplicationState((s) => s.activePageName);
 
     const renderActivePage = () => {
         return activePageName
             ? (<Group>
-                <Title order={5}>{applicationTitle}</Title>/
-                <Title order={5}>{getActivePageNameLocalized(activePageName)}</Title>
+                <Title order={5}>{loc.common.title}</Title>/
+                <Title order={5}>{loc.page[activePageName].title}</Title>
             </Group>)
             : null;
     };
@@ -53,13 +57,13 @@ export const ApplicationLayout = () => {
                 <div>{user}</div>
                 <Group>
                     {activePageName !== "activeTasks" &&
-                        renderLinkInHeader(getActivePageNameLocalized("activeTasks"), "/active")
+                        renderLinkInHeader(loc.page["activeTasks"].title, "/active")
                     }
                     {activePageName !== "archive" &&
-                        renderLinkInHeader(getActivePageNameLocalized("archive"), "/archive")
+                        renderLinkInHeader(loc.page["archive"].title, "/archive")
                     }
-                    |
-                    {renderLinkInHeader("Вихід", "/login")}
+                    <LanguagesDropdown value={language} setValue={setLanguage}/>
+                    {renderLinkInHeader(loc.common.logout, "/login")}
                 </Group>
             </Group>
         </AppShell.Header>

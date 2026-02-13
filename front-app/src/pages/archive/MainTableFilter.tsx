@@ -2,6 +2,8 @@ import {useCamundaArchiveList} from "../../camundaClient/archiveList.ts";
 import {Button, Flex} from "@mantine/core";
 import {DateTimePicker} from "@mantine/dates";
 import * as React from "react";
+import {useApplicationState} from "../../ApplicationState.ts";
+import {getLocalization} from "../../i18n/language.ts";
 
 export const MainTableFilter: React.FC = () => {
 
@@ -11,11 +13,14 @@ export const MainTableFilter: React.FC = () => {
     const startedTo = useCamundaArchiveList((s) => s.startedTo);
     const setStartedTo = useCamundaArchiveList((s) => s.setStartedTo);
 
+    const language = useApplicationState((s) => s.language);
+    let loc = getLocalization(language);
+
     return (
         <Flex w="100%" gap="sm" align="center">
             <DateTimePicker
-                label="Створення позички від"
-                placeholder="Початок"
+                label={loc.page.archive.filters.startedFrom.label}
+                placeholder={loc.page.archive.filters.startedFrom.placeholder}
                 value={startedFrom}
                 onChange={setStartedFrom}
                 clearable
@@ -27,8 +32,8 @@ export const MainTableFilter: React.FC = () => {
                 }}
             />
             <DateTimePicker
-                label="Створення позички до"
-                placeholder="Кінець"
+                label={loc.page.archive.filters.startedTo.label}
+                placeholder={loc.page.archive.filters.startedTo.placeholder}
                 value={startedTo}
                 onChange={setStartedTo}
                 clearable
@@ -39,7 +44,7 @@ export const MainTableFilter: React.FC = () => {
                     },
                 }}
             />
-            <Button onClick={doRefresh}>Застосувати фільтр</Button>
+            <Button onClick={doRefresh}>{loc.page.archive.filters.apply}</Button>
         </Flex>
     );
 }

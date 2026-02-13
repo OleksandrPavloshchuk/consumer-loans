@@ -5,7 +5,7 @@ import {useNavigate} from "react-router";
 import {notify} from "../../lib/utils.ts";
 import {useApplicationState} from "../../ApplicationState.ts";
 import * as React from "react";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {LanguagesDropdown} from "../../lib/LanguageDropdown.tsx";
 import {getLocalization} from "../../i18n/language.ts";
 
@@ -36,8 +36,8 @@ export const LoginRoot: React.FC = () => {
             login(user, password)
                 .then(() => navigate("/", {replace: true}))
                 .catch(() => notify(
-                    loc.login.notify.accessDenied.title,
-                    loc.login.notify.accessDenied.message
+                    loc.page.login.notify.accessDenied.title,
+                    loc.page.login.notify.accessDenied.message
                 ));
         }
     }
@@ -53,25 +53,25 @@ export const LoginRoot: React.FC = () => {
                 textShadow: "2px 2px #666666",
                 color: theme.colors.gray[3],
                 padding: "1em"
-            })}><Title order={4}>{loc.header.title}</Title>
+            })}><Title order={4}>{loc.common.title}</Title>
             <LanguagesDropdown value={language} setValue={setLanguage}/>
         </Group>
         <Paper p="xs">
             <Stack gap="xs">
                 <h3 style={{
                     textAlign: "center"
-                }}>{loc.login.title}</h3>
-                <div>{loc.login.user}</div>
+                }}>{loc.page.login.title}</h3>
+                <div>{loc.page.login.user}</div>
                 <TextInput
                     value={user}
                     onChange={(e) => setUser(e.currentTarget.value)}
                 />
-                <div>{loc.login.password}</div>
+                <div>{loc.page.login.password}</div>
                 <PasswordInput
                     value={password}
                     onChange={(e) => setPassword(e.currentTarget.value)}
                 />
-                <Button onClick={doLogin}>{loc.login.submit}</Button>
+                <Button onClick={doLogin}>{loc.page.login.submit}</Button>
             </Stack>
         </Paper>
     </Container>);
