@@ -18,11 +18,20 @@ export const English = {
             }
         },
         activeTasks: {
-            title: "Active Tasks"
+            title: "Active Tasks",
+            newLoan: "New Loan",
+            refresh: "Refresh",
+            table: {
+                columns: {
+                    loanId: "Loan Id",
+                    stateName: "State Name",
+                    processId: "Working Process Id",
+                    claimTimestamp: "Claim timestamp"
+                }
+            }
         },
         archive: {
             title: "Archive",
-            list: "Список",
             filters: {
                 label: "Filters",
                 startedFrom: {
@@ -34,7 +43,17 @@ export const English = {
                     placeholder: "End"
                 },
                 apply: "Apply"
+            },
+            table: {
+                columns: {
+                    loanId: "Loan Id",
+                    claimTimestamp: "Claim timestamp",
+                    processingEndTimestamp: "Processing end timestamp",
+                    duration: "Duration",
+                    finalState: "Final state"
+                }
             }
+
         }
     }
 };

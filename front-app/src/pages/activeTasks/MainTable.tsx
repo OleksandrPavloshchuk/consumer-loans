@@ -4,6 +4,8 @@ import {useCamundaTaskList} from "../../camundaClient/taskList.ts";
 import {useEffect} from "react";
 import type {CamundaTask} from "../../camundaClient/domain.ts";
 import * as React from "react";
+import {useApplicationState} from "../../ApplicationState.ts";
+import {getLocalization} from "../../i18n/language.ts";
 
 type Props = {
     openTask: (task: CamundaTask) => void
@@ -22,6 +24,9 @@ export const ActiveTasksMainTable: React.FC<Props> = ({openTask}) => {
         retrieve(showError);
     }, [onRefresh]);
 
+    const language = useApplicationState((s) => s.language);
+    let loc = getLocalization(language);
+
     return (
         <ScrollArea h={720}>
             <Table>
@@ -33,10 +38,10 @@ export const ActiveTasksMainTable: React.FC<Props> = ({openTask}) => {
                     }}
                 >
                     <Table.Tr>
-                        <Table.Th>ID задачі</Table.Th>
-                        <Table.Th>Назва</Table.Th>
-                        <Table.Th>ID працюючого процесу</Table.Th>
-                        <Table.Th>Дата і час створення задачі</Table.Th>
+                        <Table.Th>{loc.page.activeTasks.table.columns.loanId}</Table.Th>
+                        <Table.Th>{loc.page.activeTasks.table.columns.stateName}</Table.Th>
+                        <Table.Th>{loc.page.activeTasks.table.columns.processId}</Table.Th>
+                        <Table.Th>{loc.page.activeTasks.table.columns.claimTimestamp}</Table.Th>
                     </Table.Tr>
                 </Table.Thead>
                 <Table.Tbody>

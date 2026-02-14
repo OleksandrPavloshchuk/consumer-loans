@@ -12,6 +12,8 @@ import {EnterApplicationForm} from "./detailsForms/internal/EnterApplicationForm
 import {useAuthorizationState} from "../../authentication/AuthorizationState.ts";
 import {TabbedPage} from "../../lib/TabbedPage.tsx";
 import * as React from "react";
+import {useApplicationState} from "../../ApplicationState.ts";
+import {getLocalization} from "../../i18n/language.ts";
 
 export const ActiveTasksRoot: React.FC = () => {
 
@@ -21,12 +23,15 @@ export const ActiveTasksRoot: React.FC = () => {
     const roles = useAuthorizationState((s) => s.groups);
     const isLoanConsultant = () => roles.includes("loanConsultants");
 
+    const language = useApplicationState((s) => s.language);
+    let loc = getLocalization(language);
+
     const renderListTab = (openTab: (item: TabbedPageItem) => void) => (<>
         <Flex w="100%" gap="sm">
             {isLoanConsultant() &&
-                <Button onClick={createNewTask}>Нова позичка</Button>
+                <Button onClick={createNewTask}>{loc.page.activeTasks.newLoan}</Button>
             }
-            <Button onClick={doRefresh}>Оновити список</Button>
+            <Button onClick={doRefresh}>{loc.page.activeTasks.refresh}</Button>
         </Flex>
         <ActiveTasksMainTable openTask={openTab}/>
     </>);

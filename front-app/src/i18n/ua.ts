@@ -1,7 +1,9 @@
 import {type Localization} from "./en.ts";
+import {Table} from "@mantine/core";
+import {SortArrow} from "../lib/SortArrow.tsx";
 
 export const Ukrainian = {
-    common : {
+    common: {
         title: "Споживчі позички",
         logout: "Вихід",
         list: "Список"
@@ -20,11 +22,20 @@ export const Ukrainian = {
             }
         },
         activeTasks: {
-            title: "В роботі"
+            title: "В роботі",
+            newLoan: "Нова позичка",
+            refresh: "Обновити",
+            table: {
+                columns: {
+                    loanId: "Ідентифікатор позички",
+                    stateName: "Назва статусу",
+                    processId: "Ідентифікатор працюючого процесу",
+                    claimTimestamp: "Дата і час початку оформлення позички"
+                }
+            }
         },
         archive: {
             title: "Архів",
-            list: "List",
             filters: {
                 label: "Фільтри",
                 startedFrom: {
@@ -36,6 +47,15 @@ export const Ukrainian = {
                     placeholder: "Кінець"
                 },
                 apply: "Застосувати"
+            },
+            table: {
+                columns: {
+                    loanId: "Ідентифікатор позички",
+                    claimTimestamp: "Дата і час подання заявки",
+                    processingEndTimestamp: "Дата і час закінчення обробки",
+                    duration: "Тривалість",
+                    finalState: "Фінальний стан позички"
+                }
             }
         }
     }

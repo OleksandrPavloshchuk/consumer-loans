@@ -6,6 +6,8 @@ import {formatDuration} from "../../lib/duration.ts";
 import {ArchiveRecord} from "../../camundaClient/domain.ts";
 import {SortArrow} from "../../lib/SortArrow.tsx";
 import * as React from "react";
+import {useApplicationState} from "../../ApplicationState.ts";
+import {getLocalization} from "../../i18n/language.ts";
 
 type Props = {
     openRecord: (record: ArchiveRecord) => void
@@ -26,6 +28,9 @@ export const ArchiveMainTable: React.FC<Props> = ({openRecord}) => {
         retrieve(showError);
     }, [onRefresh, order]);
 
+    const language = useApplicationState((s) => s.language);
+    let loc = getLocalization(language);
+
     return (
         <ScrollArea h={720}>
             <Table>
@@ -38,11 +43,11 @@ export const ArchiveMainTable: React.FC<Props> = ({openRecord}) => {
                     }}
                 >
                     <Table.Tr>
-                        <Table.Th>Ідентифікатор позички</Table.Th>
-                        <Table.Th>Дата і час подання заявки&nbsp;<SortArrow order={order} setOrder={setOrder}/></Table.Th>
-                        <Table.Th>Дата і час закінчення обробки</Table.Th>
-                        <Table.Th>Тривалість</Table.Th>
-                        <Table.Th>Фінальний стан позички</Table.Th>
+                        <Table.Th>{loc.page.archive.table.columns.loanId}</Table.Th>
+                        <Table.Th>{loc.page.archive.table.columns.claimTimestamp}&nbsp;<SortArrow order={order} setOrder={setOrder}/></Table.Th>
+                        <Table.Th>{loc.page.archive.table.columns.processingEndTimestamp}</Table.Th>
+                        <Table.Th>{loc.page.archive.table.columns.duration}</Table.Th>
+                        <Table.Th>{loc.page.archive.table.columns.finalState}</Table.Th>
                     </Table.Tr>
                 </Table.Thead>
                 <Table.Tbody>
