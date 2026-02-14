@@ -20,15 +20,7 @@ export const English = {
         activeTasks: {
             title: "Active Tasks",
             newLoan: "New Loan",
-            refresh: "Refresh",
-            table: {
-                columns: {
-                    loanId: "Loan Id",
-                    stateName: "State Name",
-                    processId: "Working Process Id",
-                    claimTimestamp: "Claim timestamp"
-                }
-            }
+            refresh: "Refresh"
         },
         archive: {
             title: "Archive",
@@ -43,18 +35,31 @@ export const English = {
                     placeholder: "End"
                 },
                 apply: "Apply"
-            },
-            table: {
-                columns: {
-                    loanId: "Loan Id",
-                    claimTimestamp: "Claim timestamp",
-                    processingEndTimestamp: "Processing end timestamp",
-                    duration: "Duration",
-                    finalState: "Final state"
-                }
             }
-
         }
+    },
+    field: {
+        taskId: "Task Id",
+        taskName: "Task Name",
+        loanId: "Loan Id",
+        stateName: "State Name",
+        processId: "Working Process Id",
+        claimTimestamp: "Claim Timestamp",
+        lastUpdateTimestamp: "Last Update Timestamp",
+        processingEndTimestamp: "Processing end timestamp",
+        duration: "Duration",
+        finalState: "Final State",
+        businessKey: "Business Key",
+        personName: "Borrower",
+        amount: "Amount",
+        personCheckScores: "Person Check Scores",
+        personCheckReasons: "Person Check Details",
+        financeCheckScores: "Finance Check Scores",
+        financeCheckReasons: "Finance Check Details",
+        totalScores: "Total Check Rate",
+        totalReasons: "Total Check Scores",
+        scoringResult: "Scoring Result",
+        decision: "Decision"
     }
 };
 

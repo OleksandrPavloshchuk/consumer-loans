@@ -43,11 +43,11 @@ export const ArchiveMainTable: React.FC<Props> = ({openRecord}) => {
                     }}
                 >
                     <Table.Tr>
-                        <Table.Th>{loc.page.archive.table.columns.loanId}</Table.Th>
-                        <Table.Th>{loc.page.archive.table.columns.claimTimestamp}&nbsp;<SortArrow order={order} setOrder={setOrder}/></Table.Th>
-                        <Table.Th>{loc.page.archive.table.columns.processingEndTimestamp}</Table.Th>
-                        <Table.Th>{loc.page.archive.table.columns.duration}</Table.Th>
-                        <Table.Th>{loc.page.archive.table.columns.finalState}</Table.Th>
+                        <Table.Th>{loc.field.loanId}</Table.Th>
+                        <Table.Th>{loc.field.claimTimestamp}&nbsp;<SortArrow order={order} setOrder={setOrder}/></Table.Th>
+                        <Table.Th>{loc.field.processingEndTimestamp}</Table.Th>
+                        <Table.Th>{loc.field.duration}</Table.Th>
+                        <Table.Th>{loc.field.finalState}</Table.Th>
                     </Table.Tr>
                 </Table.Thead>
                 <Table.Tbody>

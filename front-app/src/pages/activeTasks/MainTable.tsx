@@ -38,10 +38,10 @@ export const ActiveTasksMainTable: React.FC<Props> = ({openTask}) => {
                     }}
                 >
                     <Table.Tr>
-                        <Table.Th>{loc.page.activeTasks.table.columns.loanId}</Table.Th>
-                        <Table.Th>{loc.page.activeTasks.table.columns.stateName}</Table.Th>
-                        <Table.Th>{loc.page.activeTasks.table.columns.processId}</Table.Th>
-                        <Table.Th>{loc.page.activeTasks.table.columns.claimTimestamp}</Table.Th>
+                        <Table.Th>{loc.field.loanId}</Table.Th>
+                        <Table.Th>{loc.field.stateName}</Table.Th>
+                        <Table.Th>{loc.field.processId}</Table.Th>
+                        <Table.Th>{loc.field.claimTimestamp}</Table.Th>
                     </Table.Tr>
                 </Table.Thead>
                 <Table.Tbody>

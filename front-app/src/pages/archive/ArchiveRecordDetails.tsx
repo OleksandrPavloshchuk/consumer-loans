@@ -1,11 +1,13 @@
 import type {ArchiveRecord} from "../../camundaClient/domain.ts";
-import {ArchiveVar, getFieldIndex, getFieldLabel} from "../../camundaClient/domain.ts";
+import {ArchiveVar, getFieldIndex} from "../../camundaClient/domain.ts";
 import {Table} from "@mantine/core";
 import {showError, toLocalDateTime} from "../../lib/utils.ts";
 import {formatDuration} from "../../lib/duration.ts";
+import * as React from "react";
 import {useEffect, useState} from "react";
 import {getCamundaArchiveProcessVariables} from "../../camundaClient/archiveProcessVariables.ts";
-import * as React from "react";
+import {useApplicationState} from "../../ApplicationState.ts";
+import {getLocalization} from "../../i18n/language.ts";
 
 type Props = {
     record: ArchiveRecord
@@ -34,27 +36,30 @@ export const ArchiveRecordDetails: React.FC<Props> = ({record}) => {
         return String(value);
     };
 
+    const language = useApplicationState((s) => s.language);
+    let loc = getLocalization(language);
+
     return (<Table>
         <Table.Tbody>
             <Table.Tr>
-                <Table.Td>Ідентифікатор позички</Table.Td>
+                <Table.Td>{loc.field.loanId}</Table.Td>
                 <Table.Td>{record.id}</Table.Td>
             </Table.Tr>
 
             <Table.Tr>
-                <Table.Td>Дата і час подання заявки</Table.Td>
+                <Table.Td>{loc.field.claimTimestamp}</Table.Td>
                 <Table.Td>{toLocalDateTime(record.startTime)}</Table.Td>
             </Table.Tr>
             <Table.Tr>
-                <Table.Td>Дата і час закінчення обробки</Table.Td>
+                <Table.Td>{loc.field.processingEndTimestamp}</Table.Td>
                 <Table.Td>{toLocalDateTime(record.endTime)}</Table.Td>
             </Table.Tr>
             <Table.Tr>
-                <Table.Td>Тривалість</Table.Td>
+                <Table.Td>{loc.field.duration}</Table.Td>
                 <Table.Td>{formatDuration(record.durationInMillis, {locale: 'ua'})}</Table.Td>
             </Table.Tr>
             <Table.Tr>
-                <Table.Td>Фінальний стан позички</Table.Td>
+                <Table.Td>{loc.field.finalState}</Table.Td>
                 <Table.Td>{record.state}</Table.Td>
             </Table.Tr>
             {
@@ -62,7 +67,7 @@ export const ArchiveRecordDetails: React.FC<Props> = ({record}) => {
                     .sort((i1, i2)=> getFieldIndex(i1.name) - getFieldIndex(i2.name))
                     .map( (v) => (
                     <Table.Tr key={v.name}>
-                        <Table.Td>{getFieldLabel(v.name)}</Table.Td>
+                        <Table.Td>{loc.field[v.name]}</Table.Td>
                         <Table.Td>{renderValue(v.value)}</Table.Td>
                     </Table.Tr>
                 ))
