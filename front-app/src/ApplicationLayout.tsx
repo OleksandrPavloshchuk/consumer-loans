@@ -3,7 +3,6 @@ import {Link, Outlet} from "react-router-dom";
 import {useLoginState} from "./pages/login/LoginState.ts";
 import {useApplicationState} from "./ApplicationState.ts";
 import {useNavigate} from "react-router";
-import * as React from "react";
 import {useEffect} from "react";
 import {LanguagesDropdown} from "./lib/LanguageDropdown.tsx";
 import {getLocalization} from "./i18n/language.ts";

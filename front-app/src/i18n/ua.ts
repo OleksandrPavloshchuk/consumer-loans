@@ -78,6 +78,13 @@ export const Ukrainian = {
         MANUAL: "Ручне рішення",
         AUTO_APPROVE: "Автоматичне схвалення",
         AUTO_REJECT: "Автоматичне відхилення"
+    },
+    loanStatus: {
+        "Manual review and final decision": "Ручна перевірка і фінальне рішення",
+        "Deliver decision to the consumer": "Доставка рішення позичальнику",
+        "Enter loan application": "Введення даних позички",
+        "Person check": "Перевірка особи",
+        "Finance check": "Перевірка фінансів",
+        "Aggregate scoring": "Агрегація очків"
     }
-
 } satisfies Localization;

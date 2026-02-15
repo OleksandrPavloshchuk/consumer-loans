@@ -1,5 +1,5 @@
 import {ScrollArea, Table} from "@mantine/core";
-import {showError, toLocalDateTime} from "../../lib/utils.ts";
+import {getActiveTaskTitle, showError, toLocalDateTime} from "../../lib/utils.ts";
 import {useCamundaTaskList} from "../../camundaClient/taskList.ts";
 import {useEffect} from "react";
 import type {CamundaTask} from "../../camundaClient/domain.ts";
@@ -25,7 +25,7 @@ export const ActiveTasksMainTable: React.FC<Props> = ({openTask}) => {
     }, [onRefresh]);
 
     const language = useApplicationState((s) => s.language);
-    let loc = getLocalization(language);
+    const loc = getLocalization(language);
 
     return (
         <ScrollArea h={720}>
@@ -52,7 +52,7 @@ export const ActiveTasksMainTable: React.FC<Props> = ({openTask}) => {
                                       className={"activeItem"}
                             >
                                 <Table.Td>{item.id}</Table.Td>
-                                <Table.Td>{item.name}</Table.Td>
+                                <Table.Td>{getActiveTaskTitle(loc, item.name)}</Table.Td>
                                 <Table.Td>{item.processInstanceId}</Table.Td>
                                 <Table.Td>{toLocalDateTime(item.created)}</Table.Td>
                             </Table.Tr>)

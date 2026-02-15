@@ -1,5 +1,5 @@
 import {Button, Flex} from "@mantine/core";
-import {notify, showError} from "../../lib/utils.ts";
+import {getActiveTaskTitle, notify, showError} from "../../lib/utils.ts";
 import {ActiveTasksMainTable} from "./MainTable.tsx";
 import {useCamundaTaskList} from "../../camundaClient/taskList.ts";
 import {createNewCamundaTask} from "../../camundaClient/newProcess.ts";
@@ -24,7 +24,7 @@ export const ActiveTasksRoot: React.FC = () => {
     const isLoanConsultant = () => roles.includes("loanConsultants");
 
     const language = useApplicationState((s) => s.language);
-    let loc = getLocalization(language);
+    const loc = getLocalization(language);
 
     const renderListTab = (openTab: (item: TabbedPageItem) => void) => (<>
         <Flex w="100%" gap="sm">
@@ -61,7 +61,7 @@ export const ActiveTasksRoot: React.FC = () => {
     return (
         <TabbedPage
             pageId={"activeTasks"}
-            getDetailsTabTitle={(item: TabbedPageItem) => (item as CamundaTask).name}
+            getDetailsTabTitle={(item: TabbedPageItem) => getActiveTaskTitle(loc, (item as CamundaTask).name)}
             renderListTab={renderListTab}
             renderDetailsTab={renderDetailsTab}
         />);

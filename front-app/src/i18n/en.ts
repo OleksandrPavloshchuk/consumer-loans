@@ -76,6 +76,14 @@ export const English = {
         MANUAL: "Manual",
         AUTO_APPROVE: "Auto approve",
         AUTO_REJECT: "Auto reject"
+    },
+    loanStatus: {
+        "Manual review and final decision": "Manual review and final decision",
+        "Deliver decision to the consumer": "Deliver decision to the consumer",
+        "Enter loan application": "Enter loan application",
+        "Person check": "Person check",
+        "Finance check": "Finance check",
+        "Aggregate scoring": "Aggregate scoring"
     }
 };
 

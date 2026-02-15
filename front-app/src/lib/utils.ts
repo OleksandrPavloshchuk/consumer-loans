@@ -1,5 +1,7 @@
 import {notifications} from "@mantine/notifications";
 import type {AxiosResponse} from "axios";
+import {type CamundaTask, TabbedPageItem} from "../camundaClient/domain.ts";
+import type {Localization} from "../i18n/en.ts";
 
 export const notify = (title: string, text: string) => {
     notifications.show({
@@ -46,5 +48,9 @@ export const mockMatchMedia = (vi: any) => Object.defineProperty(window, "matchM
         dispatchEvent: vi.fn(),
     })),
 });
+
+export const getActiveTaskTitle = (loc: Localization, code: string) => (
+    loc.loanStatus[code as keyof typeof loc.loanStatus]
+);
 
 export const URI_CAMUNDA_BASE = "/engine-rest-proxy/";
