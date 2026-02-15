@@ -9,19 +9,29 @@ export const DropdownArrow: React.FC<Props> = ({target}) => {
     return (
         target.dropdownOpened
             ? <ActionIcon
+                aria-label="dropdown-arrow"
                 onClick={() => target.closeDropdown()}
                 variant="light"
                 size="md"
-                title="Close">
-                <IconChevronUp size={16}/>
+                style={{color: "white"}}
+            >
+                <IconChevronUp
+                    size={16}
+                    style={{color: "white"}}
+                />
             </ActionIcon>
 
             : <ActionIcon
+                aria-label="dropdown-arrow"
                 onClick={() => target.openDropdown()}
                 variant="light"
                 size="md"
-                title="Open">
-                <IconChevronDown size={16}/>
+                style={{color: "white"}}
+            >
+                <IconChevronDown
+                    size={16}
+                    style={{color: "white"}}
+                />
             </ActionIcon>
     );
 }

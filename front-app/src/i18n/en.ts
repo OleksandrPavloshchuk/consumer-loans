@@ -2,7 +2,8 @@ export const English = {
     common : {
         title: "Consumer Loans",
         logout: "Logout",
-        list: "List"
+        list: "List",
+        language: "Language"
     },
     page: {
         login: {

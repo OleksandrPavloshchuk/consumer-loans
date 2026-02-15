@@ -49,7 +49,7 @@ export const ActiveTasksMainTable: React.FC<Props> = ({openTask}) => {
                         result.map((item) =>
                             <Table.Tr key={item.id}
                                       onClick={() => openTask(item)}
-                                      className={"activeTask"}
+                                      className={"activeItem"}
                             >
                                 <Table.Td>{item.id}</Table.Td>
                                 <Table.Td>{item.name}</Table.Td>

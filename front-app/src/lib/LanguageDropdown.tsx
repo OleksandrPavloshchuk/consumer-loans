@@ -1,7 +1,7 @@
 import {Combobox, TextInput, useCombobox} from "@mantine/core";
 import {DropdownArrow} from "./DropdownArrow.tsx";
-import type {Language} from "../i18n/language.ts";
-import {LANGUAGES} from "../i18n/language.ts";
+import {getLocalization, type Language, LANGUAGES} from "../i18n/language.ts";
+import {useApplicationState} from "../ApplicationState.ts";
 
 type Props = {
     value: Language,
@@ -26,19 +26,29 @@ export const LanguagesDropdown: React.FC<Props> = ({value, setValue}) => {
         combobox.updateSelectedOptionIndex();
     };
 
+    const language = useApplicationState((s) => s.language);
+    const loc = getLocalization(language);
+
     return (
         <Combobox
+            aria-label={"language-dropdown"}
             w={75}
             withinPortal={true}
             zIndex={8000}
             store={combobox}
             onOptionSubmit={(v) => handleSelect(v as Language)}
+            styles={ (theme) => ({
+                dropdown: {
+                    color: theme.colors.gray[1],
+                    backgroundColor: theme.colors.gray[6]
+                }
+            })}
         >
             <Combobox.Target>
                 <TextInput
-                    title={"Language"}
+                    title={loc.common.language}
                     value={value}
-                    placeholder="Country"
+                    placeholder={loc.common.language}
                     onFocus={() => combobox.openDropdown()}
                     onClick={() => combobox.openDropdown()}
                     onBlur={() => combobox.closeDropdown()}
@@ -46,6 +56,12 @@ export const LanguagesDropdown: React.FC<Props> = ({value, setValue}) => {
                     onChange={(event) =>
                         handleChange(event.currentTarget.value)
                     }
+                    styles={(theme) => ({
+                        input: {
+                            color: theme.colors.gray[1],
+                            backgroundColor: theme.colors.gray[6]
+                        }
+                    })}
                 />
             </Combobox.Target>
             <Combobox.Dropdown
@@ -61,7 +77,8 @@ export const LanguagesDropdown: React.FC<Props> = ({value, setValue}) => {
                                 <Combobox.Option
                                     value={item}
                                     key={item}
-                                >{item}</Combobox.Option>)
+                                    className="activeItem"
+                                > {item}</Combobox.Option>)
                     }
                 </Combobox.Options>
             </Combobox.Dropdown>

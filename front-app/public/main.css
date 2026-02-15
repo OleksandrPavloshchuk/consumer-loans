@@ -7,10 +7,11 @@ body {
     padding: 0.5em;
 }
 
-.activeTask {
+.activeItem {
     cursor: pointer;
 }
 
-.activeTask:hover {
+.activeItem:hover {
     background-color: var(--mantine-color-blue-2);
+    color: black;
 }

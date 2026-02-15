@@ -54,7 +54,7 @@ export const ArchiveMainTable: React.FC<Props> = ({openRecord}) => {
                     {
                         result.map((item) =>
                             <Table.Tr key={item.id}
-                                      className={"activeTask"}
+                                      className={"activeItem"}
                                       onClick={() => openRecord(item)}
                             >
                                 <Table.Td>{item.id}</Table.Td>

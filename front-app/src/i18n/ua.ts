@@ -4,7 +4,8 @@ export const Ukrainian = {
     common: {
         title: "Споживчі позички",
         logout: "Вихід",
-        list: "Список"
+        list: "Список",
+        language: "Мова"
     },
     page: {
         login: {
