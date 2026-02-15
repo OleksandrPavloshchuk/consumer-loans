@@ -62,5 +62,21 @@ export const Ukrainian = {
         totalReasons: "Загальні деталі перевірки",
         scoringResult: "Результат перевірки",
         decision: "Рішення"
+    },
+    action : {
+        completeTask: "Закінчити задачу",
+        enterLoanData: "Ввести дані позички",
+        approveLoan: "Видати позичку",
+        rejectLoan: "Відхилити позичку"
+    },
+    decision: {
+        APPROVE: "Схвалено",
+        REJECT: "Відхилено"
+    },
+    scoringResult: {
+        MANUAL: "Ручне рішення",
+        AUTO_APPROVE: "Автоматичне схвалення",
+        AUTO_REJECT: "Автоматичне відхилення"
     }
+
 } satisfies Localization;

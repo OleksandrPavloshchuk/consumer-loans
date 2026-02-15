@@ -60,6 +60,21 @@ export const English = {
         totalReasons: "Total Check Scores",
         scoringResult: "Scoring Result",
         decision: "Decision"
+    },
+    action : {
+        completeTask: "Complete the task",
+        enterLoanData: "Enter loan data",
+        approveLoan: "Approve loan",
+        rejectLoan: "Reject loan"
+    },
+    decision: {
+        APPROVE: "Approve",
+        REJECT: "Reject"
+    },
+    scoringResult: {
+        MANUAL: "Manual",
+        AUTO_APPROVE: "Auto approve",
+        AUTO_REJECT: "Auto reject"
     }
 };
 

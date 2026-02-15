@@ -17,7 +17,7 @@ export const LoanDecisionInfo: React.FC<Props> = ({processVars}) => {
     return (<>
         <Table.Tr>
             <Table.Td>{loc.field.scoringResult}</Table.Td>
-            <Table.Td>{processVars?.scoringResult?.value}</Table.Td>
+            <Table.Td>{loc.scoringResult[processVars?.scoringResult?.value]}</Table.Td>
         </Table.Tr>
         <Table.Tr>
             <Table.Td>{loc.field.personCheckScores}</Table.Td>

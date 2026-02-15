@@ -24,7 +24,11 @@ export const ArchiveRecordDetails: React.FC<Props> = ({record}) => {
             showError);
     }, [record.processInstanceId]);
 
-    const renderValue = (value: any) => {
+    const language = useApplicationState((s) => s.language);
+    let loc = getLocalization(language);
+
+    const renderValue = (v: ArchiveVar) => {
+        const value = v.value;
         if (Array.isArray(value)) {
             return value.join(", ");
         }
@@ -33,11 +37,14 @@ export const ArchiveRecordDetails: React.FC<Props> = ({record}) => {
             return JSON.stringify(value, null, 2);
         }
 
-        return String(value);
+        if (v.name == "decision") {
+            return loc.decision[value];
+        } else if (v.name == "scoringResult") {
+            return loc.scoringResult[value];
+        } else {
+            return String(value);
+        }
     };
-
-    const language = useApplicationState((s) => s.language);
-    let loc = getLocalization(language);
 
     return (<Table>
         <Table.Tbody>
@@ -64,14 +71,14 @@ export const ArchiveRecordDetails: React.FC<Props> = ({record}) => {
             </Table.Tr>
             {
                 processVars
-                    .sort((i1, i2)=> getFieldIndex(i1.name) - getFieldIndex(i2.name))
-                    .map( (v) => (
-                    <Table.Tr key={v.name}>
-                        <Table.Td>{loc.field[v.name]}</Table.Td>
-                        <Table.Td>{renderValue(v.value)}</Table.Td>
-                    </Table.Tr>
-                ))
+                    .sort((i1, i2) => getFieldIndex(i1.name) - getFieldIndex(i2.name))
+                    .map((v) => (
+                        <Table.Tr key={v.name}>
+                            <Table.Td>{loc.field[v.name]}</Table.Td>
+                            <Table.Td>{renderValue(v)}</Table.Td>
+                        </Table.Tr>
+                    ))
             }
-    </Table.Tbody>
-</Table>)
+        </Table.Tbody>
+    </Table>)
 };

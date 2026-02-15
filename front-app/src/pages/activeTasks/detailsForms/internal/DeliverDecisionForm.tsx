@@ -22,13 +22,13 @@ export const renderDeliverDecisionForm = (
                     <LoanDecisionInfo processVars={processVars}/>
                     <Table.Tr>
                         <Table.Td>{loc.field.decision}</Table.Td>
-                        <Table.Td>{processVars?.decision?.value}</Table.Td>
+                        <Table.Td>{loc.decision[processVars?.decision?.value]}</Table.Td>
                     </Table.Tr>
                 </Table.Tbody>
             </Table>
             <Paper p="xs">
                 <Stack gap="xs">
-                    <Button onClick={() => onSave(undefined)}>Закінчити задачу</Button>
+                    <Button onClick={() => onSave(undefined)}>{loc.action.completeTask}</Button>
                 </Stack>
             </Paper>
         </>
