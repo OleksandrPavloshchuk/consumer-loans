@@ -73,6 +73,7 @@ export const TabbedPage: React.FC<Props> = ({pageId, getDetailsTabTitle, renderL
                     <div style={{marginLeft: "auto"}}>
                         <OpenTabList
                             openItems={openItems}
+                            activeTab={activeTab}
                             selectTab={openTab}
                             getDetailsTabTitle={getDetailsTabTitle}
                         />
@@ -86,11 +87,12 @@ export const TabbedPage: React.FC<Props> = ({pageId, getDetailsTabTitle, renderL
 
 type OpenTabListProps = {
     openItems: TabbedPageItem[],
+    activeTab: string | null,
     selectTab: (item: TabbedPageItem) => void,
     getDetailsTabTitle: (item: TabbedPageItem) => string
 };
 
-const OpenTabList: React.FC<OpenTabListProps> = ({openItems, selectTab, getDetailsTabTitle}) => {
+const OpenTabList: React.FC<OpenTabListProps> = ({openItems, activeTab, selectTab, getDetailsTabTitle}) => {
 
     const combobox = useCombobox();
 
@@ -117,7 +119,7 @@ const OpenTabList: React.FC<OpenTabListProps> = ({openItems, selectTab, getDetai
             })}
         >
             <Combobox.Target>
-                <DropdownArrow target={combobox} />
+                <DropdownArrow target={combobox} count={openItems.length}/>
             </Combobox.Target>
             <Combobox.Dropdown
                 style={{
@@ -132,7 +134,7 @@ const OpenTabList: React.FC<OpenTabListProps> = ({openItems, selectTab, getDetai
                                 <Combobox.Option
                                     value={item.id}
                                     key={item.id}
-                                    className="activeItem"
+                                    className={`activeItem ${activeTab == item.id ? "selectedItem" : ""}`}
                                 > {getDetailsTabTitle(item)}</Combobox.Option>)
                     }
                 </Combobox.Options>

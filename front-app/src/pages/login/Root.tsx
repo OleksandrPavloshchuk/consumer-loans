@@ -8,6 +8,7 @@ import * as React from "react";
 import {useEffect} from "react";
 import {LanguagesDropdown} from "../../lib/LanguageDropdown.tsx";
 import {getLocalization} from "../../i18n/language.ts";
+import {useCamundaArchiveList} from "../../camundaClient/archiveList.ts";
 
 export const LoginRoot: React.FC = () => {
 
@@ -20,10 +21,13 @@ export const LoginRoot: React.FC = () => {
     const password = useLoginState((s) => s.password);
     const setPassword = useLoginState((s) => s.setPassword);
 
+    const setUseExtraFilters = useCamundaArchiveList((s)=>s.setUseExtraFilters);
+
     let loc = getLocalization(language);
     useEffect(() => {
         setPassword("");
         setUser("");
+        setUseExtraFilters(false);
     }, []);
     useEffect(() => {
         setActivePageName(undefined);

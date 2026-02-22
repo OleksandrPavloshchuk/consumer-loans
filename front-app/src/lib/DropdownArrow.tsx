@@ -3,11 +3,17 @@ import {IconChevronDown, IconChevronUp} from "@tabler/icons-react";
 import { forwardRef } from "react";
 
 type Props = {
-    target: ComboboxStore
+    target: ComboboxStore,
+    count?: number,
     color?: string
 }
 
-export const DropdownArrow: React.FC<Props> = forwardRef<HTMLButtonElement, Props>(({target, color}, ref) => {
+export const DropdownArrow: React.FC<Props> = forwardRef<HTMLButtonElement, Props>(({target, count, color}, ref) => {
+
+    const countTag = count && count>0
+        ? <span className="openTabsCount">{count}</span>
+        : null;
+
     return (
         target.dropdownOpened
             ? <ActionIcon
@@ -20,6 +26,7 @@ export const DropdownArrow: React.FC<Props> = forwardRef<HTMLButtonElement, Prop
                 <IconChevronUp
                     size={16} style={{color: color}}
                 />
+                {countTag}
             </ActionIcon>
 
             : <ActionIcon
@@ -32,6 +39,7 @@ export const DropdownArrow: React.FC<Props> = forwardRef<HTMLButtonElement, Prop
                 <IconChevronDown
                     size={16} style={{color: color}}
                 />
+                {countTag}
             </ActionIcon>
     );
 });

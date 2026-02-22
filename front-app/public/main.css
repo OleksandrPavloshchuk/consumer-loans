@@ -16,3 +16,14 @@ body {
     background-color: var(--mantine-color-blue-2);
     color: black;
 }
+
+.selectedItem {
+    background-color: var(--mantine-color-blue-1);
+}
+
+.openTabsCount {
+    font-size: 10px;
+    margin-left: 4px;
+    margin-right: 4px;
+    opacity: 0.7;
+}
