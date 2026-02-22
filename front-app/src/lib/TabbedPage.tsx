@@ -1,9 +1,10 @@
-import {ActionIcon, CloseIcon, Tabs} from "@mantine/core";
+import {ActionIcon, CloseIcon, Combobox, Tabs, useCombobox} from "@mantine/core";
+import * as React from "react";
 import {useEffect, useState} from "react";
 import {TabbedPageItem} from "../camundaClient/domain.ts";
 import {type PageId, useApplicationState} from "../ApplicationState.ts";
-import * as React from "react";
 import {getLocalization} from "../i18n/language.ts";
+import {DropdownArrow} from "./DropdownArrow.tsx";
 
 type Props = {
     pageId: PageId,
@@ -64,12 +65,78 @@ export const TabbedPage: React.FC<Props> = ({pageId, getDetailsTabTitle, renderL
     let loc = getLocalization(language);
 
     return (
-        <Tabs aria-label="page-tabs" defaultValue={"list"} value={activeTab} onChange={setActiveTab}>
-            <Tabs.List>
-                <Tabs.Tab aria-label="tab-header-list" key="list" value={"list"}>{loc.common.list}</Tabs.Tab>
-                {openItems.map(createTabHeader)}
-            </Tabs.List>
-            <Tabs.Panel aria-label="tab-panel-list" value={"list"} mt={"md"}>{renderListTab(openTab)}</Tabs.Panel>
-            {openItems.map(createTabContent)}
-        </Tabs>);
+        <>
+            <Tabs aria-label="page-tabs" defaultValue={"list"} value={activeTab} onChange={setActiveTab}>
+                <Tabs.List style={{display: "flex", alignItems: "center"}}>
+                    <Tabs.Tab aria-label="tab-header-list" key="list" value={"list"}>{loc.common.list}</Tabs.Tab>
+                    {openItems.map(createTabHeader)}
+                    <div style={{marginLeft: "auto"}}>
+                        <OpenTabList
+                            openItems={openItems}
+                            selectTab={openTab}
+                            getDetailsTabTitle={getDetailsTabTitle}
+                        />
+                    </div>
+                </Tabs.List>
+                <Tabs.Panel aria-label="tab-panel-list" value={"list"} mt={"md"}>{renderListTab(openTab)}</Tabs.Panel>
+                {openItems.map(createTabContent)}
+            </Tabs>
+        </>);
+}
+
+type OpenTabListProps = {
+    openItems: TabbedPageItem[],
+    selectTab: (item: TabbedPageItem) => void,
+    getDetailsTabTitle: (item: TabbedPageItem) => string
+};
+
+const OpenTabList: React.FC<OpenTabListProps> = ({openItems, selectTab, getDetailsTabTitle}) => {
+
+    const combobox = useCombobox();
+
+    const handleSelect = (key: string) => {
+        const item = openItems.find((i) => i.id === key);
+        combobox.resetSelectedOption();
+        if (item) {
+            selectTab(item);
+        }
+        combobox.closeDropdown();
+    }
+
+    return (
+        <Combobox
+            width={400}
+            aria-label={"open-tabs-dropdown"}
+            zIndex={8000}
+            store={combobox}
+            onOptionSubmit={(v) => handleSelect(v)}
+            styles={() => ({
+                dropdown: {
+                    width: "auto"
+                }
+            })}
+        >
+            <Combobox.Target>
+                <DropdownArrow target={combobox} />
+            </Combobox.Target>
+            <Combobox.Dropdown
+                style={{
+                    maxHeight: '400px',
+                    overflowY: 'auto',
+                }}
+            >
+                <Combobox.Options>
+                    {
+                        openItems
+                            .map((item) =>
+                                <Combobox.Option
+                                    value={item.id}
+                                    key={item.id}
+                                    className="activeItem"
+                                > {getDetailsTabTitle(item)}</Combobox.Option>)
+                    }
+                </Combobox.Options>
+            </Combobox.Dropdown>
+        </Combobox>
+    );
 }

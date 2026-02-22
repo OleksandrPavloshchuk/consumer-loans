@@ -27,7 +27,7 @@ export const CamundaTaskInfo: React.FC<Props> = ({task}) => {
                 </Table.Tr>
                 <Table.Tr>
                     <Table.Td>{loc.field.taskName}</Table.Td>
-                    <Table.Td>{getActiveTaskTitle(loc, task.name)}</Table.Td>
+                    <Table.Td>{getActiveTaskTitle(loc, task)}</Table.Td>
                 </Table.Tr>
                 <Table.Tr>
                     <Table.Td>{loc.field.claimTimestamp}</Table.Td>

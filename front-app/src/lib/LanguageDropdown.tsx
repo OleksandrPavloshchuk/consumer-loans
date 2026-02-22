@@ -52,7 +52,7 @@ export const LanguagesDropdown: React.FC<Props> = ({value, setValue}) => {
                     onFocus={() => combobox.openDropdown()}
                     onClick={() => combobox.openDropdown()}
                     onBlur={() => combobox.closeDropdown()}
-                    rightSection={<DropdownArrow target={combobox}/>}
+                    rightSection={<DropdownArrow target={combobox} color={"white"} />}
                     onChange={(event) =>
                         handleChange(event.currentTarget.value)
                     }

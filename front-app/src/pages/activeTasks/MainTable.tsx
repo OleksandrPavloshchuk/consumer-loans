@@ -5,7 +5,7 @@ import {useEffect} from "react";
 import type {CamundaTask} from "../../camundaClient/domain.ts";
 import * as React from "react";
 import {useApplicationState} from "../../ApplicationState.ts";
-import {getLocalization} from "../../i18n/language.ts";
+import {getLocalization, localized} from "../../i18n/language.ts";
 
 type Props = {
     openTask: (task: CamundaTask) => void
@@ -52,7 +52,7 @@ export const ActiveTasksMainTable: React.FC<Props> = ({openTask}) => {
                                       className={"activeItem"}
                             >
                                 <Table.Td>{item.id}</Table.Td>
-                                <Table.Td>{getActiveTaskTitle(loc, item.name)}</Table.Td>
+                                <Table.Td>{localized(loc.loanStatus, item.name)}</Table.Td>
                                 <Table.Td>{item.processInstanceId}</Table.Td>
                                 <Table.Td>{toLocalDateTime(item.created)}</Table.Td>
                             </Table.Tr>)

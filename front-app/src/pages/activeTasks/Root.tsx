@@ -61,7 +61,7 @@ export const ActiveTasksRoot: React.FC = () => {
     return (
         <TabbedPage
             pageId={"activeTasks"}
-            getDetailsTabTitle={(item: TabbedPageItem) => getActiveTaskTitle(loc, (item as CamundaTask).name)}
+            getDetailsTabTitle={(item: TabbedPageItem) => getActiveTaskTitle(loc, item as CamundaTask)}
             renderListTab={renderListTab}
             renderDetailsTab={renderDetailsTab}
         />);

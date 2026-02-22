@@ -49,8 +49,8 @@ export const mockMatchMedia = (vi: any) => Object.defineProperty(window, "matchM
     })),
 });
 
-export const getActiveTaskTitle = (loc: Localization, code: string) => (
-    loc.loanStatus[code as keyof typeof loc.loanStatus]
+export const getActiveTaskTitle = (loc: Localization, task: CamundaTask) => (
+    `${task.id}: ${loc.loanStatus[task.name as keyof typeof loc.loanStatus]}`
 );
 
 export const URI_CAMUNDA_BASE = "/engine-rest-proxy/";
