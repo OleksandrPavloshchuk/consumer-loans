@@ -1,6 +1,3 @@
-import type {Language} from "../i18n/language.ts";
-import {getLocalization} from "../i18n/language.ts";
-
 export class CamundaVar<T> {
     value!: T
 }
@@ -37,7 +34,7 @@ export class ArchiveRecord extends TabbedPageItem {
     startTime: string = "";
     endTime: string | undefined = undefined;
     durationInMillis: number;
-    state: string | undefined;
+    state: string|undefined;
 }
 
 export class ArchiveVar {

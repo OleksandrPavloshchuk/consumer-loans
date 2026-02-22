@@ -13,3 +13,7 @@ export const getLocalization = (l: Language) => {
     }
 };
 
+export const localized = (
+    section: Record<string, string>|undefined,
+    key: string|undefined
+) => key && section && section[key ?? ""] ? section[key] : "-";

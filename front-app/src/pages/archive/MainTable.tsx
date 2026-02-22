@@ -7,7 +7,7 @@ import {ArchiveRecord} from "../../camundaClient/domain.ts";
 import {SortArrow} from "../../lib/SortArrow.tsx";
 import * as React from "react";
 import {useApplicationState} from "../../ApplicationState.ts";
-import {getLocalization} from "../../i18n/language.ts";
+import {getLocalization, localized} from "../../i18n/language.ts";
 
 type Props = {
     openRecord: (record: ArchiveRecord) => void
@@ -61,7 +61,7 @@ export const ArchiveMainTable: React.FC<Props> = ({openRecord}) => {
                                 <Table.Td>{toLocalDateTime(item.startTime)}</Table.Td>
                                 <Table.Td>{toLocalDateTime(item.endTime)}</Table.Td>
                                 <Table.Td>{formatDuration(item.durationInMillis, {locale: 'ua'})}</Table.Td>
-                                <Table.Td>{item.state}</Table.Td>
+                                <Table.Td>{localized(loc.status, item.state)}</Table.Td>
                             </Table.Tr>)
                     }
                 </Table.Tbody>

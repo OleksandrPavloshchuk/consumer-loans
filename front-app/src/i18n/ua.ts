@@ -86,5 +86,8 @@ export const Ukrainian = {
         "Person check": "Перевірка особи",
         "Finance check": "Перевірка фінансів",
         "Aggregate scoring": "Агрегація очків"
+    },
+    status: {
+        COMPLETED: "Закінчено"
     }
 } satisfies Localization;

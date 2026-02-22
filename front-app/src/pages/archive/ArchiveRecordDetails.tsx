@@ -7,7 +7,7 @@ import * as React from "react";
 import {useEffect, useState} from "react";
 import {getCamundaArchiveProcessVariables} from "../../camundaClient/archiveProcessVariables.ts";
 import {useApplicationState} from "../../ApplicationState.ts";
-import {getLocalization} from "../../i18n/language.ts";
+import {getLocalization, localized} from "../../i18n/language.ts";
 
 type Props = {
     record: ArchiveRecord
@@ -67,14 +67,14 @@ export const ArchiveRecordDetails: React.FC<Props> = ({record}) => {
             </Table.Tr>
             <Table.Tr>
                 <Table.Td>{loc.field.finalState}</Table.Td>
-                <Table.Td>{record.state}</Table.Td>
+                <Table.Td>{localized(loc.status, record.state)}</Table.Td>
             </Table.Tr>
             {
                 processVars
                     .sort((i1, i2) => getFieldIndex(i1.name) - getFieldIndex(i2.name))
                     .map((v) => (
                         <Table.Tr key={v.name}>
-                            <Table.Td>{loc.field[v.name]}</Table.Td>
+                            <Table.Td>{localized(loc.field, v.name)}</Table.Td>
                             <Table.Td>{renderValue(v)}</Table.Td>
                         </Table.Tr>
                     ))

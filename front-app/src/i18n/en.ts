@@ -84,6 +84,9 @@ export const English = {
         "Person check": "Person check",
         "Finance check": "Finance check",
         "Aggregate scoring": "Aggregate scoring"
+    },
+    status: {
+        COMPLETED: "Completed"
     }
 };
 
