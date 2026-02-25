@@ -39,7 +39,7 @@ export const ArchiveMainTable: React.FC<Props> = ({openRecord}) => {
                 result.map((item) =>
                     <div
                         key={item.id}
-                        className="archive-card activeItem"
+                        className="card"
                         onClick={() => openRecord(item)}
                     >
                         <div className="card-item label g-1-1">{loc.field.loanId}</div>

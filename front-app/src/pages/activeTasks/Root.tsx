@@ -1,4 +1,4 @@
-import {Button, Flex} from "@mantine/core";
+import {Button, Flex, Paper, Stack} from "@mantine/core";
 import {getActiveTaskTitle, notify, showError} from "../../lib/utils.ts";
 import {ActiveTasksMainTable} from "./MainTable.tsx";
 import {useCamundaTaskList} from "../../camundaClient/taskList.ts";
@@ -26,15 +26,17 @@ export const ActiveTasksRoot: React.FC = () => {
     const language = useApplicationState((s) => s.language);
     const loc = getLocalization(language);
 
-    const renderListTab = (openTab: (item: TabbedPageItem) => void) => (<>
-        <Flex w="100%" gap="sm">
-            {isLoanConsultant() &&
-                <Button onClick={createNewTask}>{loc.page.activeTasks.newLoan}</Button>
-            }
-            <Button onClick={doRefresh}>{loc.page.activeTasks.refresh}</Button>
-        </Flex>
+    const renderListTab = (openTab: (item: TabbedPageItem) => void) => (<Stack>
+        <Paper shadow="sm" p="xs">
+            <Flex w="100%" gap="sm">
+                {isLoanConsultant() &&
+                    <Button onClick={createNewTask}>{loc.page.activeTasks.newLoan}</Button>
+                }
+                <Button onClick={doRefresh}>{loc.page.activeTasks.refresh}</Button>
+            </Flex>
+        </Paper>
         <ActiveTasksMainTable openTask={openTab}/>
-    </>);
+    </Stack>);
 
     const getTaskForm = (task: CamundaTask, closeTab: (id: string) => void) => {
         switch (task.taskDefinitionKey) {

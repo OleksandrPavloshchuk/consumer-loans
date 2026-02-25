@@ -1,9 +1,9 @@
-import {ScrollArea, Table} from "@mantine/core";
-import {getActiveTaskTitle, showError, toLocalDateTime} from "../../lib/utils.ts";
+import {ScrollArea} from "@mantine/core";
+import {showError, toLocalDateTime} from "../../lib/utils.ts";
 import {useCamundaTaskList} from "../../camundaClient/taskList.ts";
+import * as React from "react";
 import {useEffect} from "react";
 import type {CamundaTask} from "../../camundaClient/domain.ts";
-import * as React from "react";
 import {useApplicationState} from "../../ApplicationState.ts";
 import {getLocalization, localized} from "../../i18n/language.ts";
 
@@ -27,38 +27,34 @@ export const ActiveTasksMainTable: React.FC<Props> = ({openTask}) => {
     const language = useApplicationState((s) => s.language);
     const loc = getLocalization(language);
 
+    const getBorderStyle = (item: CamundaTask) => {
+        switch (item.name) {
+            case "Enter loan application":
+                return "border-enter";
+            default:
+                return "";
+        }
+    };
+
     return (
         <ScrollArea h={720}>
-            <Table>
-                <Table.Thead
-                    style={{
-                        top: 0,
-                        backgroundColor: 'var(--mantine-color-body)',
-                        zIndex: 1
-                    }}
-                >
-                    <Table.Tr>
-                        <Table.Th>{loc.field.loanId}</Table.Th>
-                        <Table.Th>{loc.field.stateName}</Table.Th>
-                        <Table.Th>{loc.field.processId}</Table.Th>
-                        <Table.Th>{loc.field.claimTimestamp}</Table.Th>
-                    </Table.Tr>
-                </Table.Thead>
-                <Table.Tbody>
-                    {
-                        result.map((item) =>
-                            <Table.Tr key={item.id}
-                                      onClick={() => openTask(item)}
-                                      className={"activeItem"}
-                            >
-                                <Table.Td>{item.id}</Table.Td>
-                                <Table.Td>{localized(loc.loanStatus, item.name)}</Table.Td>
-                                <Table.Td>{item.processInstanceId}</Table.Td>
-                                <Table.Td>{toLocalDateTime(item.created)}</Table.Td>
-                            </Table.Tr>)
-                    }
-                </Table.Tbody>
-            </Table>
+            <div className="card-set">{
+                result.map((item) =>
+                    <div
+                        key={item.id}
+                        className={`card ${getBorderStyle(item)}`}
+                        onClick={() => openTask(item)}
+                    >
+                        <div className="card-item label g-1-1">{loc.field.loanId}</div>
+                        <div className="card-item g-1-2">{item.id}</div>
+                        <div className="card-item label g-2-1">{loc.field.stateName}</div>
+                        <div className="card-item g-2-2">{localized(loc.loanStatus, item.name)}</div>
+                        <div className="card-item label g-3-1">{loc.field.processId}</div>
+                        <div className="card-item g-3-2">{item.processInstanceId}</div>
+                        <div className="card-item label g-4-1">{loc.field.claimTimestamp}</div>
+                        <div className="card-item g-4-2">{toLocalDateTime(item.created)}</div>
+                    </div>)
+            }</div>
         </ScrollArea>
     );
 

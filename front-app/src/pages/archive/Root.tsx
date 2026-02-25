@@ -23,7 +23,7 @@ export const ArchiveRoot: React.FC = () => {
     let loc = getLocalization(language);
 
     const renderListTab = (openTab: (item: TabbedPageItem) => void) => (
-        <Stack gap="xs">
+        <Stack>
             <Paper shadow="sm" p="xs">
                 <Flex w="100%" gap="sm" align="center"
                       style={{minHeight: 64}}
