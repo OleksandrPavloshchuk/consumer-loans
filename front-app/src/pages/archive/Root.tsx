@@ -1,5 +1,5 @@
 import {ArchiveMainTable} from "./MainTable.tsx";
-import {Flex, Stack, Switch} from "@mantine/core";
+import {Flex, Paper, Stack, Switch} from "@mantine/core";
 import {MainTableFilter} from "./MainTableFilter.tsx";
 import {useCamundaArchiveList} from "../../camundaClient/archiveList.ts";
 import * as React from "react";
@@ -24,18 +24,20 @@ export const ArchiveRoot: React.FC = () => {
 
     const renderListTab = (openTab: (item: TabbedPageItem) => void) => (
         <Stack gap="xs">
-            <Flex w="100%" gap="sm" align="center"
-                  style={{minHeight: 64}}
-            >
-                <Switch
-                    label={loc.page.archive.filters.label}
-                    checked={useExtraFilters}
-                    onChange={(event) => setUseExtraFilters(event.currentTarget.checked)}
-                />
-                {useExtraFilters &&
-                    <MainTableFilter/>
-                }
-            </Flex>
+            <Paper shadow="sm" p="xs">
+                <Flex w="100%" gap="sm" align="center"
+                      style={{minHeight: 64}}
+                >
+                    <Switch
+                        label={loc.page.archive.filters.label}
+                        checked={useExtraFilters}
+                        onChange={(event) => setUseExtraFilters(event.currentTarget.checked)}
+                    />
+                    {useExtraFilters &&
+                        <MainTableFilter/>
+                    }
+                </Flex>
+            </Paper>
             <ArchiveMainTable openRecord={openTab}/>
         </Stack>
     );

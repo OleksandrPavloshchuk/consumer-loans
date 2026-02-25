@@ -1,11 +1,10 @@
-import {ScrollArea, Table} from "@mantine/core";
+import {ScrollArea} from "@mantine/core";
 import {showError, toLocalDateTime} from "../../lib/utils.ts";
 import {useCamundaArchiveList} from "../../camundaClient/archiveList.ts";
+import * as React from "react";
 import {useEffect} from "react";
 import {formatDuration} from "../../lib/duration.ts";
 import {ArchiveRecord} from "../../camundaClient/domain.ts";
-import {SortArrow} from "../../lib/SortArrow.tsx";
-import * as React from "react";
 import {useApplicationState} from "../../ApplicationState.ts";
 import {getLocalization, localized} from "../../i18n/language.ts";
 
@@ -19,7 +18,7 @@ export const ArchiveMainTable: React.FC<Props> = ({openRecord}) => {
     const retrieve = useCamundaArchiveList((s) => s.retrieve);
     const onRefresh = useCamundaArchiveList((s) => s.onRefresh);
     const order = useCamundaArchiveList((s) => s.startDateOrder);
-    const setOrder = useCamundaArchiveList((s) => s.setStartDateOrder);
+    // const setOrder = useCamundaArchiveList((s) => s.setStartDateOrder);
 
     useEffect(() => {
         retrieve(showError);
@@ -31,41 +30,30 @@ export const ArchiveMainTable: React.FC<Props> = ({openRecord}) => {
     const language = useApplicationState((s) => s.language);
     let loc = getLocalization(language);
 
+
+    // <SortArrow order={order} setOrder={setOrder}/></Table.Th>
+
     return (
         <ScrollArea h={720}>
-            <Table>
-                <Table.Thead
-                    style={{
-                        position: 'sticky',
-                        top: 0,
-                        backgroundColor: 'var(--mantine-color-body)',
-                        zIndex: 1
-                    }}
-                >
-                    <Table.Tr>
-                        <Table.Th>{loc.field.loanId}</Table.Th>
-                        <Table.Th>{loc.field.claimTimestamp}&nbsp;<SortArrow order={order} setOrder={setOrder}/></Table.Th>
-                        <Table.Th>{loc.field.processingEndTimestamp}</Table.Th>
-                        <Table.Th>{loc.field.duration}</Table.Th>
-                        <Table.Th>{loc.field.finalState}</Table.Th>
-                    </Table.Tr>
-                </Table.Thead>
-                <Table.Tbody>
-                    {
-                        result.map((item) =>
-                            <Table.Tr key={item.id}
-                                      className={"activeItem"}
-                                      onClick={() => openRecord(item)}
-                            >
-                                <Table.Td>{item.id}</Table.Td>
-                                <Table.Td>{toLocalDateTime(item.startTime)}</Table.Td>
-                                <Table.Td>{toLocalDateTime(item.endTime)}</Table.Td>
-                                <Table.Td>{formatDuration(item.durationInMillis, {locale: 'ua'})}</Table.Td>
-                                <Table.Td>{localized(loc.status, item.state)}</Table.Td>
-                            </Table.Tr>)
-                    }
-                </Table.Tbody>
-            </Table>
+            <div className="card-set">{
+                result.map((item) =>
+                    <div
+                        key={item.id}
+                        className="archive-card activeItem"
+                        onClick={() => openRecord(item)}
+                    >
+                        <div className="card-item label g-1-1">{loc.field.loanId}</div>
+                        <div className="card-item g-1-2">{item.id}</div>
+                        <div className="card-item label g-2-1">{loc.field.claimTimestamp}</div>
+                        <div className="card-item g-2-2">{toLocalDateTime(item.startTime)}</div>
+                        <div className="card-item label g-3-1">{loc.field.processingEndTimestamp}</div>
+                        <div className="card-item g-3-2">{toLocalDateTime(item.endTime)}</div>
+                        <div className="card-item label g-4-1">{loc.field.duration}</div>
+                        <div className="card-item g-4-2">{formatDuration(item.durationInMillis, {locale: 'ua'})}</div>
+                        <div className="card-item label g-5-1">{loc.field.finalState}</div>
+                        <div className="card-item g-5-2">{localized(loc.status, item.state)}</div>
+                    </div>)
+            }</div>
         </ScrollArea>
     );
 
