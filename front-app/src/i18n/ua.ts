@@ -89,5 +89,10 @@ export const Ukrainian = {
     },
     status: {
         COMPLETED: "Закінчено"
+    },
+    sort: {
+        label: "Сортування",
+        asc: "старші нагорі",
+        desc: "молодші нагорі"
     }
 } satisfies Localization;

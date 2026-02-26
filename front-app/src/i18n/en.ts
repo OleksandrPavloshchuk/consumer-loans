@@ -87,6 +87,11 @@ export const English = {
     },
     status: {
         COMPLETED: "Completed"
+    },
+    sort: {
+        label: "Sort",
+        asc: "older on the top",
+        desc: "younger on the top"
     }
 };
 

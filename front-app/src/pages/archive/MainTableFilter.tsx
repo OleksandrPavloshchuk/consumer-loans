@@ -17,7 +17,7 @@ export const MainTableFilter: React.FC = () => {
     let loc = getLocalization(language);
 
     return (
-        <Flex w="100%" gap="sm" align="center">
+        <Flex gap="sm" align="center">
             <DateTimePicker
                 label={loc.page.archive.filters.startedFrom.label}
                 placeholder={loc.page.archive.filters.startedFrom.placeholder}
