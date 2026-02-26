@@ -16,13 +16,14 @@ export const ActiveTasksMainTable: React.FC<Props> = ({openTask}) => {
     const result = useCamundaTaskList((s) => s.result);
     const retrieve = useCamundaTaskList((s) => s.retrieve);
     const onRefresh = useCamundaTaskList((s) => s.onRefresh);
+    const order = useCamundaTaskList((s) => s.createdOrder);
 
     useEffect(() => {
         retrieve(showError);
     }, []);
     useEffect(() => {
         retrieve(showError);
-    }, [onRefresh]);
+    }, [onRefresh, order]);
 
     const language = useApplicationState((s) => s.language);
     const loc = getLocalization(language);

@@ -14,11 +14,14 @@ import {TabbedPage} from "../../lib/TabbedPage.tsx";
 import * as React from "react";
 import {useApplicationState} from "../../ApplicationState.ts";
 import {getLocalization} from "../../i18n/language.ts";
+import {SortDropdown} from "../../lib/SortDropdown.tsx";
 
 export const ActiveTasksRoot: React.FC = () => {
 
     const doRefresh = useCamundaTaskList((s) => s.doRefresh);
     const createNewTask = () => createNewCamundaTask(doRefresh, showError);
+    const createdOrder = useCamundaTaskList((s) => s.createdOrder);
+    const setCreatedOrder = useCamundaTaskList((s) => s.setCreatedOrder);
 
     const roles = useAuthorizationState((s) => s.groups);
     const isLoanConsultant = () => roles.includes("loanConsultants");
@@ -28,11 +31,13 @@ export const ActiveTasksRoot: React.FC = () => {
 
     const renderListTab = (openTab: (item: TabbedPageItem) => void) => (<Stack>
         <Paper shadow="sm" p="xs">
-            <Flex w="100%" gap="sm">
+            <Flex w="100%" gap="sm" align="center">
                 {isLoanConsultant() &&
                     <Button onClick={createNewTask}>{loc.page.activeTasks.newLoan}</Button>
                 }
                 <Button onClick={doRefresh}>{loc.page.activeTasks.refresh}</Button>
+                <span className={"custom-label"}>{`${loc.sort.label}: `}</span>
+                <SortDropdown value={createdOrder} setValue={setCreatedOrder} />
             </Flex>
         </Paper>
         <ActiveTasksMainTable openTask={openTab}/>
