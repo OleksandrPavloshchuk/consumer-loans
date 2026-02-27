@@ -38,16 +38,16 @@ export const ArchiveMainTable: React.FC<Props> = ({openRecord}) => {
                         className="card"
                         onClick={() => openRecord(item)}
                     >
-                        <div className="card-item label g-1-1">{loc.field.loanId}</div>
-                        <div className="card-item g-1-2">{item.id}</div>
-                        <div className="card-item label g-2-1">{loc.field.claimTimestamp}</div>
-                        <div className="card-item g-2-2">{toLocalDateTime(item.startTime)}</div>
-                        <div className="card-item label g-3-1">{loc.field.processingEndTimestamp}</div>
-                        <div className="card-item g-3-2">{toLocalDateTime(item.endTime)}</div>
-                        <div className="card-item label g-4-1">{loc.field.duration}</div>
-                        <div className="card-item g-4-2">{formatDuration(item.durationInMillis, {locale: 'ua'})}</div>
-                        <div className="card-item label g-5-1">{loc.field.finalState}</div>
-                        <div className="card-item g-5-2">{localized(loc.status, item.state)}</div>
+                        <div className="label">{loc.field.loanId}</div>
+                        <div>{item.id}</div>
+                        <div className="label">{loc.field.claimTimestamp}</div>
+                        <div>{toLocalDateTime(item.startTime)}</div>
+                        <div className="label">{loc.field.processingEndTimestamp}</div>
+                        <div>{toLocalDateTime(item.endTime)}</div>
+                        <div className="label">{loc.field.duration}</div>
+                        <div>{formatDuration(item.durationInMillis, {locale: 'ua'})}</div>
+                        <div className="label">{loc.field.finalState}</div>
+                        <div>{localized(loc.status, item.state)}</div>
                     </div>)
             }</div>
         </ScrollArea>

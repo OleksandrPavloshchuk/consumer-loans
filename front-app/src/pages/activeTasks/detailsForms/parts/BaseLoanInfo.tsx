@@ -1,4 +1,3 @@
-import {Table} from "@mantine/core";
 import type {CamundaProcessVars} from "../../../../camundaClient/domain.ts";
 import {toCurrency} from "../../../../lib/utils.ts";
 import * as React from "react";
@@ -15,17 +14,17 @@ export const BaseLoanInfo: React.FC<Props> = ({processVars}) => {
     let loc = getLocalization(language);
 
     return (<>
-        <Table.Tr>
-            <Table.Td>{loc.field.loanId}</Table.Td>
-            <Table.Td>{processVars?.businessKey?.value}</Table.Td>
-        </Table.Tr>
-        <Table.Tr>
-            <Table.Td>{loc.field.personName}</Table.Td>
-            <Table.Td>{processVars?.personName?.value}</Table.Td>
-        </Table.Tr>
-        <Table.Tr>
-            <Table.Td>{loc.field.amount}</Table.Td>
-            <Table.Td>{toCurrency(processVars?.amount?.value)}</Table.Td>
-        </Table.Tr>
+        <div className={"card-details-item"}>
+            <div className={"label"}>{loc.field.loanId}</div>
+            <div>{processVars?.businessKey?.value}</div>
+        </div>
+        <div className={"card-details-item"}>
+            <div className={"label"}>{loc.field.personName}</div>
+            <div>{processVars?.personName?.value}</div>
+        </div>
+        <div className={"card-details-item"}>
+            <div className={"label"}>{loc.field.amount}</div>
+            <div>{toCurrency(processVars?.amount?.value)}</div>
+        </div>
     </>);
 }

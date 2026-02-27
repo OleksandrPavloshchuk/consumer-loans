@@ -46,14 +46,14 @@ export const ActiveTasksMainTable: React.FC<Props> = ({openTask}) => {
                         className={`card ${getBorderStyle(item)}`}
                         onClick={() => openTask(item)}
                     >
-                        <div className="card-item label g-1-1">{loc.field.loanId}</div>
-                        <div className="card-item g-1-2">{item.id}</div>
-                        <div className="card-item label g-2-1">{loc.field.stateName}</div>
-                        <div className="card-item g-2-2">{localized(loc.loanStatus, item.name)}</div>
-                        <div className="card-item label g-3-1">{loc.field.processId}</div>
-                        <div className="card-item g-3-2">{item.processInstanceId}</div>
-                        <div className="card-item label g-4-1">{loc.field.claimTimestamp}</div>
-                        <div className="card-item g-4-2">{toLocalDateTime(item.created)}</div>
+                        <div className="label">{loc.field.loanId}</div>
+                        <div>{item.id}</div>
+                        <div className="label">{loc.field.stateName}</div>
+                        <div>{localized(loc.loanStatus, item.name)}</div>
+                        <div className="label">{loc.field.processId}</div>
+                        <div>{item.processInstanceId}</div>
+                        <div className="label">{loc.field.claimTimestamp}</div>
+                        <div>{toLocalDateTime(item.created)}</div>
                     </div>)
             }</div>
         </ScrollArea>

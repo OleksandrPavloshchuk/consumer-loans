@@ -38,9 +38,8 @@ export const DetailsFormsBase: React.FC<Props> = ({task, closeTab, renderFormInt
         );
     };
 
-    return (<>
+    return (<div className={"card-details"}>
         <CamundaTaskInfo task={task}/>
-        <hr/>
         {renderFormInternal(processVars, onSave)}
-    </>);
+    </div>);
 }

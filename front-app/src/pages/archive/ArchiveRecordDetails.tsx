@@ -49,32 +49,32 @@ export const ArchiveRecordDetails: React.FC<Props> = ({record}) => {
 
     return (<div className={"card-details"}>
         <div className={"card-details-item"}>
-            <div className={"g-1-1 label"}>{loc.field.loanId}</div>
-            <div className={"g-2-1"}>{record.id}</div>
+            <div className={"label"}>{loc.field.loanId}</div>
+            <div>{record.id}</div>
         </div>
         <div className={"card-details-item"}>
-            <div className={"g-1-1 label"}>{loc.field.finalState}</div>
-            <div className={"g-2-1"}>{localized(loc.status, record.state)}</div>
+            <div className={"label"}>{loc.field.finalState}</div>
+            <div>{localized(loc.status, record.state)}</div>
         </div>
         <div className={"card-details-item"}>
-            <div className={"g-1-1 label"}>{loc.field.claimTimestamp}</div>
-            <div className={"g-2-1"}>{toLocalDateTime(record.startTime)}</div>
+            <div className={"label"}>{loc.field.claimTimestamp}</div>
+            <div>{toLocalDateTime(record.startTime)}</div>
         </div>
         <div className={"card-details-item"}>
-            <div className={"g-1-1 label"}>{loc.field.processingEndTimestamp}</div>
-            <div className={"g-2-1"}>{toLocalDateTime(record.endTime)}</div>
+            <div className={"label"}>{loc.field.processingEndTimestamp}</div>
+            <div>{toLocalDateTime(record.endTime)}</div>
         </div>
         <div className={"card-details-item"}>
-            <div className={"g-1-1 label"}>{loc.field.duration}</div>
-            <div className={"g-2-1"}>{formatDuration(record.durationInMillis, {locale: 'ua'})}</div>
+            <div className={"label"}>{loc.field.duration}</div>
+            <div>{formatDuration(record.durationInMillis, {locale: 'ua'})}</div>
         </div>
         {
             processVars
                 .sort((i1, i2) => getFieldIndex(i1.name) - getFieldIndex(i2.name))
                 .map((v) => (
                     <div key={v.name} className={"card-details-item"}>
-                        <div className={"g-1-1 label"}>{localized(loc.field, v.name)}</div>
-                        <div className={"g-2-1"}>{renderValue(v)}</div>
+                        <div className={"label"}>{localized(loc.field, v.name)}</div>
+                        <div>{renderValue(v)}</div>
                     </div>
                 ))
         }

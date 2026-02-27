@@ -1,5 +1,4 @@
-import {Table} from "@mantine/core";
-import {getActiveTaskTitle, toLocalDateTime} from "../../../../lib/utils.ts";
+import {toLocalDateTime} from "../../../../lib/utils.ts";
 import type {CamundaTask} from "../../../../camundaClient/domain.ts";
 import * as React from "react";
 import {useApplicationState} from "../../../../ApplicationState.ts";
@@ -14,30 +13,26 @@ export const CamundaTaskInfo: React.FC<Props> = ({task}) => {
     const language = useApplicationState((s) => s.language);
     let loc = getLocalization(language);
 
-    return (
-        <Table>
-            <Table.Tbody>
-                <Table.Tr>
-                    <Table.Td>{loc.field.processId}</Table.Td>
-                    <Table.Td>{task.processInstanceId}</Table.Td>
-                </Table.Tr>
-                <Table.Tr>
-                    <Table.Td>{loc.field.taskId}</Table.Td>
-                    <Table.Td>{task.id}</Table.Td>
-                </Table.Tr>
-                <Table.Tr>
-                    <Table.Td>{loc.field.taskName}</Table.Td>
-                    <Table.Td>{getActiveTaskTitle(loc, task)}</Table.Td>
-                </Table.Tr>
-                <Table.Tr>
-                    <Table.Td>{loc.field.claimTimestamp}</Table.Td>
-                    <Table.Td>{toLocalDateTime(task.created)}</Table.Td>
-                </Table.Tr>
-                <Table.Tr>
-                    <Table.Td>{loc.field.lastUpdateTimestamp}</Table.Td>
-                    <Table.Td>{toLocalDateTime(task.lastUpdated)}</Table.Td>
-                </Table.Tr>
-            </Table.Tbody>
-        </Table>
-    )
+    return (<>
+        <div className={"card-details-item"}>
+            <div className={"label"}>{loc.field.processId}</div>
+            <div>{task.processInstanceId}</div>
+        </div>
+        <div className={"card-details-item"}>
+            <div className={"label"}>{loc.field.taskId}</div>
+            <div>{task.id}</div>
+        </div>
+        <div className={"card-details-item"}>
+            <div className={"label"}>{loc.field.taskName}</div>
+            <div>{loc.loanStatus[task.name as keyof typeof loc.loanStatus]}</div>
+        </div>
+        <div className={"card-details-item"}>
+            <div className={"label"}>{loc.field.claimTimestamp}</div>
+            <div>{toLocalDateTime(task.created)}</div>
+        </div>
+        <div className={"card-details-item"}>
+            <div className={"label"}>{loc.field.lastUpdateTimestamp}</div>
+            <div>{toLocalDateTime(task.lastUpdated)}</div>
+        </div>
+    </>)
 };

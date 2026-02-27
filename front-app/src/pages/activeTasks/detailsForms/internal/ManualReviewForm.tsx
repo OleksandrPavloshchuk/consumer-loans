@@ -1,6 +1,6 @@
 import type {CamundaInputVar} from "../../../../camundaClient/updateTask.ts";
 import type {CamundaProcessVars} from "../../../../camundaClient/domain.ts";
-import {Button, Paper, Stack, Table} from "@mantine/core";
+import {Button} from "@mantine/core";
 import {BaseLoanInfo} from "../parts/BaseLoanInfo.tsx";
 import {LoanDecisionInfo} from "../parts/LoanDecisionInfo.tsx";
 import {useApplicationState} from "../../../../ApplicationState.ts";
@@ -22,18 +22,14 @@ export const renderManualReviewForm = (
 
     return (
         <>
-            <Table>
-                <Table.Tbody>
-                    <BaseLoanInfo processVars={processVars} />
-                    <LoanDecisionInfo processVars={processVars}/>
-                </Table.Tbody>
-            </Table>
-            <Paper p="xs">
-                <Stack gap="xs">
-                    <Button onClick={()=>onSave(getOutputVars("APPROVE"))}>{loc.action.approveLoan}</Button>
-                    <Button onClick={()=>onSave(getOutputVars("REJECT"))}>{loc.action.rejectLoan}</Button>
-                </Stack>
-            </Paper>
+            <BaseLoanInfo processVars={processVars}/>
+            <LoanDecisionInfo processVars={processVars}/>
+            <div className={"card-details-item"}>
+                <Button onClick={() => onSave(getOutputVars("APPROVE"))}>{loc.action.approveLoan}</Button>
+            </div>
+            <div className={"card-details-item"}>
+                <Button onClick={() => onSave(getOutputVars("REJECT"))}>{loc.action.rejectLoan}</Button>
+            </div>
         </>
     );
 };
