@@ -44,7 +44,7 @@ export const refreshToken = async () => {
         .catch(handleError);
 };
 
-const retrieveAccessToken = (data: LoginResponse) => {
+const retrieveAccessToken = (data: LoginResponse|RefreshResponse) => {
     setAccessToken(data.accessToken);
     useAuthorizationState.getState().setGroups(getGroupsFromToken(data.accessToken));
 };
@@ -54,9 +54,8 @@ type TokenPayload = {
     groups?: string[]
 };
 
-const getGroupsFromToken = (token: string|null) => {
-    return (token) ? jwtDecode<TokenPayload>(token).groups : [];
-};
+const getGroupsFromToken = (token: string|null) =>
+    (token) ? jwtDecode<TokenPayload>(token).groups??[] : [];
 
 const getToken = (key : Key)=> localStorage.getItem(key);
 
@@ -68,6 +67,4 @@ const setToken = (key: Key, val: string|undefined)=> {
     }
 }
 
-const handleError = (err: Error)=> {
-    console.log(`Error: ${err}`);
-}
+const handleError = (err: Error)=> console.log(`Error: ${err}`);

@@ -5,8 +5,7 @@ import {formatDuration} from "../../lib/duration.ts";
 import * as React from "react";
 import {useEffect, useState} from "react";
 import {getCamundaArchiveProcessVariables} from "../../camundaClient/archiveProcessVariables.ts";
-import {useApplicationState} from "../../ApplicationState.ts";
-import {getLocalization, localized} from "../../i18n/language.ts";
+import {localized, useLocalization} from "../../i18n/language.ts";
 
 type Props = {
     record: ArchiveRecord
@@ -23,8 +22,7 @@ export const ArchiveRecordDetails: React.FC<Props> = ({record}) => {
             showError);
     }, [record.processInstanceId]);
 
-    const language = useApplicationState((s) => s.language);
-    let loc = getLocalization(language);
+    const loc = useLocalization();
 
     const renderValue = (v: ArchiveVar) => {
         const value = v.value;
@@ -46,6 +44,13 @@ export const ArchiveRecordDetails: React.FC<Props> = ({record}) => {
             return String(value);
         }
     };
+
+    const getDecisionCss = (fieldName: string, fieldValue: any) => {
+        if (fieldName != 'decision') {
+            return ""
+        }
+        return fieldValue=='APPROVE' ? 'approve' : 'reject';
+    }
 
     return (<div className={"card-details"}>
         <div className={"card-details-item"}>
@@ -70,9 +75,9 @@ export const ArchiveRecordDetails: React.FC<Props> = ({record}) => {
         </div>
         {
             processVars
-                .sort((i1, i2) => getFieldIndex(i1.name) - getFieldIndex(i2.name))
+                .sort((i1, i2) => getFieldIndex(i1?.name) - getFieldIndex(i2?.name))
                 .map((v) => (
-                    <div key={v.name} className={"card-details-item"}>
+                    <div key={v.name} className={`card-details-item ${getDecisionCss(v.name, v.value)}`}>
                         <div className={"label"}>{localized(loc.field, v.name)}</div>
                         <div>{renderValue(v)}</div>
                     </div>

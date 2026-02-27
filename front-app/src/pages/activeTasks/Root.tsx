@@ -12,8 +12,7 @@ import {EnterApplicationForm} from "./detailsForms/internal/EnterApplicationForm
 import {useAuthorizationState} from "../../authentication/AuthorizationState.ts";
 import {TabbedPage} from "../../lib/TabbedPage.tsx";
 import * as React from "react";
-import {useApplicationState} from "../../ApplicationState.ts";
-import {getLocalization} from "../../i18n/language.ts";
+import {useLocalization} from "../../i18n/language.ts";
 import {SortDropdown} from "../../lib/SortDropdown.tsx";
 
 export const ActiveTasksRoot: React.FC = () => {
@@ -26,8 +25,7 @@ export const ActiveTasksRoot: React.FC = () => {
     const roles = useAuthorizationState((s) => s.groups);
     const isLoanConsultant = () => roles.includes("loanConsultants");
 
-    const language = useApplicationState((s) => s.language);
-    const loc = getLocalization(language);
+    const loc = useLocalization();
 
     const renderListTab = (openTab: (item: TabbedPageItem) => void) => (<Stack>
         <Paper shadow="sm" p="xs">

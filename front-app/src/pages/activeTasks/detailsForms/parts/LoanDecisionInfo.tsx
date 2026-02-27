@@ -1,8 +1,7 @@
 import type {CamundaProcessVars} from "../../../../camundaClient/domain.ts";
 import {stringList} from "./StringList.tsx";
 import * as React from "react";
-import {useApplicationState} from "../../../../ApplicationState.ts";
-import {getLocalization, localized} from "../../../../i18n/language.ts";
+import {localized, useLocalization} from "../../../../i18n/language.ts";
 
 type Props = {
     processVars: CamundaProcessVars | undefined
@@ -10,8 +9,7 @@ type Props = {
 
 export const LoanDecisionInfo: React.FC<Props> = ({processVars}) => {
 
-    const language = useApplicationState((s) => s.language);
-    let loc = getLocalization(language);
+    const loc = useLocalization();
 
     return (<>
         <div className={"card-details-item"}>
@@ -31,7 +29,7 @@ export const LoanDecisionInfo: React.FC<Props> = ({processVars}) => {
             <div>{processVars?.financeCheckScores?.value}</div>
         </div>
         <div className={"card-details-item"}>
-            <div className={"label"}>{loc.field.personCheckReasons}</div>
+            <div className={"label"}>{loc.field.financeCheckReasons}</div>
             <div>{stringList(processVars?.financeCheckReasons?.value)}</div>
         </div>
     </>)};

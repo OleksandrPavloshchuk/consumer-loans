@@ -84,3 +84,11 @@ body {
     font-weight: bold;
     overflow: auto;
 }
+
+.reject {
+    background-color: seashell;
+}
+
+.approve {
+    background-color: honeydew;
+}

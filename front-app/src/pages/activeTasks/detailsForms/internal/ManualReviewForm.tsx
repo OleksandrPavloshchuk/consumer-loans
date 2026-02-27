@@ -3,8 +3,7 @@ import type {CamundaProcessVars} from "../../../../camundaClient/domain.ts";
 import {Button} from "@mantine/core";
 import {BaseLoanInfo} from "../parts/BaseLoanInfo.tsx";
 import {LoanDecisionInfo} from "../parts/LoanDecisionInfo.tsx";
-import {useApplicationState} from "../../../../ApplicationState.ts";
-import {getLocalization} from "../../../../i18n/language.ts";
+import {useLocalization} from "../../../../i18n/language.ts";
 
 export const renderManualReviewForm = (
     processVars: CamundaProcessVars | undefined,
@@ -17,17 +16,16 @@ export const renderManualReviewForm = (
         return vars;
     };
 
-    const language = useApplicationState((s) => s.language);
-    let loc = getLocalization(language);
+    const loc = useLocalization();
 
     return (
         <>
             <BaseLoanInfo processVars={processVars}/>
             <LoanDecisionInfo processVars={processVars}/>
-            <div className={"card-details-item"}>
+            <div className={"card-details-item approve"}>
                 <Button onClick={() => onSave(getOutputVars("APPROVE"))}>{loc.action.approveLoan}</Button>
             </div>
-            <div className={"card-details-item"}>
+            <div className={"card-details-item reject"}>
                 <Button onClick={() => onSave(getOutputVars("REJECT"))}>{loc.action.rejectLoan}</Button>
             </div>
         </>

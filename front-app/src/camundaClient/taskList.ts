@@ -25,8 +25,10 @@ export const useCamundaTaskList = create<CamundaTaskListModel>((set) => ({
         const createdOrder = useCamundaTaskList.getState().createdOrder;
 
         createJwtConnector().post(
-            `${URI_CAMUNDA_BASE}task?includeProcessVariables=true&candidateUser=${userName}`,
+            `${URI_CAMUNDA_BASE}task?includeProcessVariables=true`,
             {
+                // TODO do not pass user here. Back should extract his name from JWT
+                candidateUser: userName,
                 sortBy: "created",
                 sortOrder: createdOrder,
             },

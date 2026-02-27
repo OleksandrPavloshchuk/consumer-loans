@@ -42,7 +42,7 @@ export class ArchiveVar {
     value: any;
 }
 
-export const getFieldIndex = (name: string) => {
+export const getFieldIndex = (name: string|undefined) => {
     switch (name) {
         case "businessKey": return 0;
         case "personName": return 1;
@@ -55,6 +55,6 @@ export const getFieldIndex = (name: string) => {
         case "totalReasons": return 8;
         case "scoringResult": return 9;
         case "decision": return 10;
-        default: return undefined;
+        default: return 11;
     }
 }
