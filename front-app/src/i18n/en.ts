@@ -57,8 +57,8 @@ export const English = {
         personCheckReasons: "Person Check Details",
         financeCheckScores: "Finance Check Scores",
         financeCheckReasons: "Finance Check Details",
-        totalScores: "Total Check Rate",
-        totalReasons: "Total Check Scores",
+        totalScores: "Total Check Scores",
+        totalReasons: "Total Check Details",
         scoringResult: "Scoring Result",
         decision: "Decision"
     },

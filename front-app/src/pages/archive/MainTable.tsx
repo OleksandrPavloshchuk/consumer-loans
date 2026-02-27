@@ -18,7 +18,6 @@ export const ArchiveMainTable: React.FC<Props> = ({openRecord}) => {
     const retrieve = useCamundaArchiveList((s) => s.retrieve);
     const onRefresh = useCamundaArchiveList((s) => s.onRefresh);
     const order = useCamundaArchiveList((s) => s.startDateOrder);
-    // const setOrder = useCamundaArchiveList((s) => s.setStartDateOrder);
 
     useEffect(() => {
         retrieve(showError);
@@ -29,9 +28,6 @@ export const ArchiveMainTable: React.FC<Props> = ({openRecord}) => {
 
     const language = useApplicationState((s) => s.language);
     let loc = getLocalization(language);
-
-
-    // <SortArrow order={order} setOrder={setOrder}/></Table.Th>
 
     return (
         <ScrollArea h={720}>
