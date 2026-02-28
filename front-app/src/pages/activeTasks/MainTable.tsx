@@ -6,6 +6,7 @@ import {useEffect} from "react";
 import type {CamundaTask} from "../../camundaClient/domain.ts";
 import {localized} from "../../i18n/language.ts";
 import {useLocalization} from "../../i18n/useLocalization.ts";
+import {useLoginState} from "../login/LoginState.ts";
 
 type Props = {
     openTask: (task: CamundaTask) => void
@@ -17,13 +18,10 @@ export const ActiveTasksMainTable: React.FC<Props> = ({openTask}) => {
     const retrieve = useCamundaTaskList((s) => s.retrieve);
     const onRefresh = useCamundaTaskList((s) => s.onRefresh);
     const order = useCamundaTaskList((s) => s.createdOrder);
+    const userName = useLoginState((s) => s.user);
 
-    useEffect(() => {
-        retrieve(showError);
-    }, []);
-    useEffect(() => {
-        retrieve(showError);
-    }, [onRefresh, order]);
+    useEffect(() => retrieve(userName, showError), []);
+    useEffect(() => retrieve(userName, showError), [onRefresh, order]);
 
     const loc = useLocalization();
 

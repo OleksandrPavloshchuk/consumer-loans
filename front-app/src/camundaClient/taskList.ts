@@ -2,12 +2,11 @@ import {create} from "zustand";
 import {toJson, URI_CAMUNDA_BASE} from "../lib/utils.ts";
 import type {CamundaTask} from "./domain.ts";
 import {createJwtConnector} from "../axiosClient/backendConnector.ts";
-import {useLoginState} from "../pages/login/LoginState.ts";
 import type {SortMode} from "../lib/SortDropdown.tsx";
 
 export interface CamundaTaskListModel {
     result: CamundaTask[],
-    retrieve: (setError: (e: Error) => void) => void,
+    retrieve: (userName: string, setError: (e: Error) => void) => void,
     doRefresh: () => void,
     onRefresh: string | undefined,
     createdOrder: SortMode,
@@ -17,10 +16,9 @@ export interface CamundaTaskListModel {
 export const useCamundaTaskList = create<CamundaTaskListModel>((set) => ({
     result: [],
     retrieve: (
+        userName: string,
         setError: (e: Error) => void) => {
         const controller = new AbortController();
-
-        const userName = useLoginState.getState().user;
 
         const createdOrder = useCamundaTaskList.getState().createdOrder;
 
@@ -43,6 +41,7 @@ export const useCamundaTaskList = create<CamundaTaskListModel>((set) => ({
 
         return () => controller.abort();
     },
+    // Set the new variable value in order to trigger useEffect()
     doRefresh: () => set({onRefresh: crypto.randomUUID().toString()}),
     onRefresh: undefined,
     createdOrder: "desc",

@@ -7,7 +7,7 @@ import type {DateValue} from "@mantine/dates";
 
 export interface CamundaArchiveListModel {
     result: ArchiveRecord[],
-    retrieve: (setError: (e: Error) => void) => void,
+    retrieve: (startDateOrder: SortMode, setError: (e: Error) => void) => void,
     doRefresh: () => void,
     onRefresh: string | undefined,
     useExtraFilters: boolean,
@@ -23,10 +23,9 @@ export interface CamundaArchiveListModel {
 export const useCamundaArchiveList = create<CamundaArchiveListModel>((set) => ({
     result: [],
     retrieve: (
+        startDateOrder: SortMode,
         setError: (e: Error) => void) => {
         const controller = new AbortController();
-
-        const startDateOrder = useCamundaArchiveList.getState().startDateOrder;
 
         createJwtConnector().post(
             `${URI_CAMUNDA_BASE}history/process-instance`,
@@ -40,9 +39,7 @@ export const useCamundaArchiveList = create<CamundaArchiveListModel>((set) => ({
             }
         )
             .then(toJson)
-            .then((records: ArchiveRecord[]) => {
-                set({result: filterResponse(records)});
-            })
+            .then((records: ArchiveRecord[]) => set({result: filterResponse(records)}))
             .catch((e: Error) => setError(e));
 
         return () => controller.abort();

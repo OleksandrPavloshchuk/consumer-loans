@@ -6,19 +6,20 @@ import {showError} from "../../../lib/utils.ts";
 import {type CamundaInputVar, updateCamundaTask} from "../../../camundaClient/updateTask.ts";
 import {useCamundaTaskList} from "../../../camundaClient/taskList.ts";
 import * as React from "react";
+import {ScrollArea} from "@mantine/core";
 
 type Props = {
     task: CamundaTask,
     closeTab: (taskId: string) => void,
     renderFormInternal: (
-        processVars: CamundaProcessVars|undefined,
-        onSave: (outputVars: Map<string, CamundaInputVar>|undefined) => void
+        processVars: CamundaProcessVars | undefined,
+        onSave: (outputVars: Map<string, CamundaInputVar> | undefined) => void
     ) => React.ReactNode
 };
 
 export const DetailsFormsBase: React.FC<Props> = ({task, closeTab, renderFormInternal}) => {
 
-    const [processVars, setProcessVars] = useState<CamundaProcessVars|undefined>(undefined);
+    const [processVars, setProcessVars] = useState<CamundaProcessVars | undefined>(undefined);
     const doRefresh = useCamundaTaskList((s) => s.doRefresh);
 
     useEffect(() => {
@@ -28,7 +29,7 @@ export const DetailsFormsBase: React.FC<Props> = ({task, closeTab, renderFormInt
             showError);
     }, [task.processInstanceId]);
 
-    const onSave = (outputVars: Map<string, CamundaInputVar>|undefined) => {
+    const onSave = (outputVars: Map<string, CamundaInputVar> | undefined) => {
         updateCamundaTask(
             task.id,
             outputVars,
@@ -38,8 +39,10 @@ export const DetailsFormsBase: React.FC<Props> = ({task, closeTab, renderFormInt
         );
     };
 
-    return (<div className={"card-details"}>
-        <CamundaTaskInfo task={task}/>
-        {renderFormInternal(processVars, onSave)}
-    </div>);
+    return (<ScrollArea h={720}>
+        <div className={"card-details"}>
+            <CamundaTaskInfo task={task}/>
+            {renderFormInternal(processVars, onSave)}
+        </div>
+    </ScrollArea>);
 }

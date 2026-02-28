@@ -1,6 +1,6 @@
 import {useCamundaArchiveList} from "../../camundaClient/archiveList.ts";
 import {Button, Flex} from "@mantine/core";
-import {DateTimePicker} from "@mantine/dates";
+import {DateTimePicker, type DateValue} from "@mantine/dates";
 import * as React from "react";
 import {useLocalization} from "../../i18n/useLocalization.ts";
 
@@ -14,34 +14,28 @@ export const MainTableFilter: React.FC = () => {
 
     const loc = useLocalization();
 
+    const createDateTimePicker = (
+        l: { label: string, placeholder: string },
+        value: DateValue | undefined,
+        setValue: (v: DateValue | undefined) => void
+    ) => (<DateTimePicker
+        label={l.label}
+        placeholder={l.placeholder}
+        value={value}
+        onChange={setValue}
+        clearable
+        styles={{
+            calendarHeaderControl: {
+                width: 28,
+                height: 28,
+            },
+        }}
+    />);
+
     return (
         <Flex gap="sm" align="center">
-            <DateTimePicker
-                label={loc.page.archive.filters.startedFrom.label}
-                placeholder={loc.page.archive.filters.startedFrom.placeholder}
-                value={startedFrom}
-                onChange={setStartedFrom}
-                clearable
-                styles={{
-                    calendarHeaderControl: {
-                        width: 28,
-                        height: 28,
-                    },
-                }}
-            />
-            <DateTimePicker
-                label={loc.page.archive.filters.startedTo.label}
-                placeholder={loc.page.archive.filters.startedTo.placeholder}
-                value={startedTo}
-                onChange={setStartedTo}
-                clearable
-                styles={{
-                    calendarHeaderControl: {
-                        width: 28,
-                        height: 28,
-                    },
-                }}
-            />
+            {createDateTimePicker(loc.page.archive.filters.startedFrom, startedFrom, setStartedFrom)}
+            {createDateTimePicker(loc.page.archive.filters.startedTo, startedTo, setStartedTo)}
             <Button onClick={doRefresh}>{loc.page.archive.filters.apply}</Button>
         </Flex>
     );

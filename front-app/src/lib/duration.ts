@@ -4,14 +4,14 @@ type DurationFormatOptions = {
 };
 
 export function formatDuration(
-    durationMs: number,
+    durationMs: number | undefined,
     { locale = navigator.language, maxUnits = 2 }: DurationFormatOptions = {}
 ): string {
-    if (!Number.isFinite(durationMs) || durationMs < 0) {
+    if (durationMs && (!Number.isFinite(durationMs) || durationMs < 0)) {
         return "—";
     }
 
-    const totalSeconds = Math.floor(durationMs / 1000);
+    const totalSeconds = Math.floor(durationMs! / 1000);
 
     const units = [
         { label: "hour",   seconds: 3600 },

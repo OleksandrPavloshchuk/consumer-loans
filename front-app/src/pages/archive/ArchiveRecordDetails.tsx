@@ -7,6 +7,9 @@ import {useEffect, useState} from "react";
 import {getCamundaArchiveProcessVariables} from "../../camundaClient/archiveProcessVariables.ts";
 import {localized} from "../../i18n/language.ts";
 import {useLocalization} from "../../i18n/useLocalization.ts";
+import {getFieldPresentation} from "../../lib/getFieldPresentation.tsx";
+import {ScrollArea} from "@mantine/core";
+import {createDetailsCard} from "../../lib/controls.tsx";
 
 type Props = {
     record: ArchiveRecord
@@ -25,64 +28,30 @@ export const ArchiveRecordDetails: React.FC<Props> = ({record}) => {
 
     const loc = useLocalization();
 
-    const renderValue = (v: ArchiveVar) => {
-        const value = v.value;
-        if (Array.isArray(value)) {
-            return (<ul>
-                {value.map( (item) => <li>{item}</li>)}
-            </ul>);
-        }
-
-        if (typeof value === "object" && value !== null) {
-            return JSON.stringify(value, null, 2);
-        }
-
-        if (v.name == "decision") {
-            return localized(loc.decision, value);
-        } else if (v.name == "scoringResult") {
-            return localized(loc.scoringResult, value);
-        } else {
-            return String(value);
-        }
-    };
-
-    const getDecisionCss = (fieldName: string, fieldValue: any) => {
-        if (fieldName != 'decision') {
+    const getDecisionCss = (v: ArchiveVar) => {
+        if (v.name != 'decision') {
             return ""
         }
-        return fieldValue=='APPROVE' ? 'approve' : 'reject';
+        return v.value == 'APPROVE' ? 'approve' : 'reject';
     }
 
-    return (<div className={"card-details"}>
-        <div className={"card-details-item"}>
-            <div className={"label"}>{loc.field.loanId}</div>
-            <div>{record.id}</div>
+    return (<ScrollArea h={720}>
+        <div className={"card-details"}>
+            {createDetailsCard(loc.field.loanId, record.id)}
+            {createDetailsCard(loc.field.finalState, localized(loc.status, record.state))}
+            {createDetailsCard(loc.field.claimTimestamp, localized(loc.status, toLocalDateTime(record.startTime)))}
+            {createDetailsCard(loc.field.processingEndTimestamp, localized(loc.status, toLocalDateTime(record.endTime)))}
+            {createDetailsCard(loc.field.duration,formatDuration(record.durationInMillis, {locale: 'ua'}))}
+            {
+                processVars
+                    .sort((i1, i2) => getFieldIndex(i1?.name) - getFieldIndex(i2?.name))
+                    .map((v) => (
+                        <div key={v.name} className={`card-details-item ${getDecisionCss(v)}`}>
+                            <div className={"label"}>{localized(loc.field, v.name)}</div>
+                            <div>{getFieldPresentation(v, loc)}</div>
+                        </div>
+                    ))
+            }
         </div>
-        <div className={"card-details-item"}>
-            <div className={"label"}>{loc.field.finalState}</div>
-            <div>{localized(loc.status, record.state)}</div>
-        </div>
-        <div className={"card-details-item"}>
-            <div className={"label"}>{loc.field.claimTimestamp}</div>
-            <div>{toLocalDateTime(record.startTime)}</div>
-        </div>
-        <div className={"card-details-item"}>
-            <div className={"label"}>{loc.field.processingEndTimestamp}</div>
-            <div>{toLocalDateTime(record.endTime)}</div>
-        </div>
-        <div className={"card-details-item"}>
-            <div className={"label"}>{loc.field.duration}</div>
-            <div>{formatDuration(record.durationInMillis, {locale: 'ua'})}</div>
-        </div>
-        {
-            processVars
-                .sort((i1, i2) => getFieldIndex(i1?.name) - getFieldIndex(i2?.name))
-                .map((v) => (
-                    <div key={v.name} className={`card-details-item ${getDecisionCss(v.name, v.value)}`}>
-                        <div className={"label"}>{localized(loc.field, v.name)}</div>
-                        <div>{renderValue(v)}</div>
-                    </div>
-                ))
-        }
-    </div>);
+    </ScrollArea>);
 };

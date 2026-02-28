@@ -4,6 +4,7 @@ import {Button, NumberInput, TextInput} from "@mantine/core";
 import * as React from "react";
 import {useState} from "react";
 import {useLocalization} from "../../../../i18n/useLocalization.ts";
+import {createDetailsCard} from "../../../../lib/controls.tsx";
 
 interface DetailsInput {
     personName: string;
@@ -41,10 +42,7 @@ export const EnterApplicationForm: React.FC<Props> = ({processVars, onSave}) => 
 
     return (
         <>
-            <div className={"card-details-item"}>
-                <div className={"label"}>{loc.field.loanId}</div>
-                <div>{processVars?.businessKey?.value}</div>
-            </div>
+            {createDetailsCard(loc.field.loanId, processVars?.businessKey?.value)}
             <div className={"card-details-item"}>
                 <div className="label">{loc.field.personName}:</div>
                 <TextInput

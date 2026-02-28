@@ -24,7 +24,6 @@ export class TabbedPageItem {
 export class CamundaTask extends TabbedPageItem {
     name: string = "";
     created: string = "";
-    lastUpdated: string | undefined = undefined;
     processInstanceId: string = "";
     taskDefinitionKey: string = "";
 }
@@ -33,12 +32,12 @@ export class ArchiveRecord extends TabbedPageItem {
     processInstanceId: string = "";
     startTime: string = "";
     endTime: string | undefined = undefined;
-    durationInMillis: number;
-    state: string|undefined;
+    durationInMillis: number | undefined = undefined;
+    state: string|undefined = undefined;
 }
 
 export class ArchiveVar {
-    name: string;
+    name: string | undefined;
     value: any;
 }
 

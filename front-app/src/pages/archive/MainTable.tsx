@@ -19,8 +19,8 @@ export const ArchiveMainTable: React.FC<Props> = ({openRecord}) => {
     const onRefresh = useCamundaArchiveList((s) => s.onRefresh);
     const order = useCamundaArchiveList((s) => s.startDateOrder);
 
-    useEffect(() => retrieve(showError), []);
-    useEffect(() => retrieve(showError), [onRefresh, order]);
+    useEffect(() => retrieve(order, showError), []);
+    useEffect(() => retrieve(order, showError), [onRefresh, order]);
 
     const loc = useLocalization();
 
