@@ -5,8 +5,8 @@ import {formatDuration} from "../../lib/duration.ts";
 import * as React from "react";
 import {useEffect, useState} from "react";
 import {getCamundaArchiveProcessVariables} from "../../camundaClient/archiveProcessVariables.ts";
-import {getLocalization, localized} from "../../i18n/language.ts";
-import {useApplicationState} from "../../ApplicationState.ts";
+import {localized} from "../../i18n/language.ts";
+import {useLocalization} from "../../i18n/useLocalization.ts";
 
 type Props = {
     record: ArchiveRecord
@@ -23,8 +23,7 @@ export const ArchiveRecordDetails: React.FC<Props> = ({record}) => {
             showError);
     }, [record.processInstanceId]);
 
-    const language = useApplicationState((s) => s.language);
-    const loc = getLocalization(language);
+    const loc = useLocalization();
 
     const renderValue = (v: ArchiveVar) => {
         const value = v.value;

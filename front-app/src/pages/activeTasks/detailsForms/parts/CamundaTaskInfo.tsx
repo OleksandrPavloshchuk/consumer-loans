@@ -1,8 +1,7 @@
 import {toLocalDateTime} from "../../../../lib/utils.ts";
 import type {CamundaTask} from "../../../../camundaClient/domain.ts";
 import * as React from "react";
-import {getLocalization} from "../../../../i18n/language.ts";
-import {useApplicationState} from "../../../../ApplicationState.ts";
+import {useLocalization} from "../../../../i18n/useLocalization.ts";
 
 type Props = {
     task: CamundaTask
@@ -10,8 +9,7 @@ type Props = {
 
 export const CamundaTaskInfo: React.FC<Props> = ({task}) => {
 
-    const language = useApplicationState((s) => s.language);
-    const loc = getLocalization(language);
+    const loc = useLocalization();
 
     return (<>
         <div className={"card-details-item"}>

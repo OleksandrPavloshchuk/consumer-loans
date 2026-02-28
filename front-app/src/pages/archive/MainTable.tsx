@@ -5,8 +5,8 @@ import * as React from "react";
 import {useEffect} from "react";
 import {formatDuration} from "../../lib/duration.ts";
 import {ArchiveRecord} from "../../camundaClient/domain.ts";
-import {getLocalization, localized} from "../../i18n/language.ts";
-import {useApplicationState} from "../../ApplicationState.ts";
+import {localized} from "../../i18n/language.ts";
+import {useLocalization} from "../../i18n/useLocalization.ts";
 
 type Props = {
     openRecord: (record: ArchiveRecord) => void
@@ -22,8 +22,7 @@ export const ArchiveMainTable: React.FC<Props> = ({openRecord}) => {
     useEffect(() => retrieve(showError), []);
     useEffect(() => retrieve(showError), [onRefresh, order]);
 
-    const language = useApplicationState((s) => s.language);
-    const loc = getLocalization(language);
+    const loc = useLocalization();
 
     return (
         <ScrollArea h={720}>

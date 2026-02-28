@@ -3,8 +3,7 @@ import type {CamundaProcessVars} from "../../../../camundaClient/domain.ts";
 import {Button, NumberInput, TextInput} from "@mantine/core";
 import * as React from "react";
 import {useState} from "react";
-import {getLocalization} from "../../../../i18n/language.ts";
-import {useApplicationState} from "../../../../ApplicationState.ts";
+import {useLocalization} from "../../../../i18n/useLocalization.ts";
 
 interface DetailsInput {
     personName: string;
@@ -38,8 +37,7 @@ export const EnterApplicationForm: React.FC<Props> = ({processVars, onSave}) => 
         setDetailsInput((prev) => ({...prev, amount: n}));
     }
 
-    const language = useApplicationState((s) => s.language);
-    const loc = getLocalization(language);
+    const loc = useLocalization();
 
     return (
         <>

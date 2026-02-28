@@ -1,7 +1,7 @@
 import {Combobox, TextInput, useCombobox} from "@mantine/core";
 import {DropdownArrow} from "./DropdownArrow.tsx";
-import {getLocalization, type Language, LANGUAGES} from "../i18n/language.ts";
-import {useApplicationState} from "../ApplicationState.ts";
+import {type Language, LANGUAGES} from "../i18n/language.ts";
+import {useLocalization} from "../i18n/useLocalization.ts";
 
 type Props = {
     value: Language,
@@ -26,8 +26,7 @@ export const LanguagesDropdown: React.FC<Props> = ({value, setValue}) => {
         combobox.updateSelectedOptionIndex();
     };
 
-    const language = useApplicationState((s) => s.language);
-    const loc = getLocalization(language);
+    const loc = useLocalization();
 
     return (
         <Combobox

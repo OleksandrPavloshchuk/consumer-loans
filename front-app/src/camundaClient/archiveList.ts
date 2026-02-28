@@ -3,6 +3,7 @@ import {toJson, URI_CAMUNDA_BASE} from "../lib/utils.ts";
 import {createJwtConnector} from "../axiosClient/backendConnector.ts";
 import {ArchiveRecord} from "./domain.ts";
 import type {SortMode} from "../lib/SortDropdown.tsx";
+import type {DateValue} from "@mantine/dates";
 
 export interface CamundaArchiveListModel {
     result: ArchiveRecord[],
@@ -11,10 +12,10 @@ export interface CamundaArchiveListModel {
     onRefresh: string | undefined,
     useExtraFilters: boolean,
     setUseExtraFilters: (b:boolean) => void,
-    startedFrom: Date | undefined,
-    setStartedFrom: (d: Date | undefined) => void
-    startedTo: Date | undefined,
-    setStartedTo: (d: Date | undefined) => void,
+    startedFrom: DateValue | undefined,
+    setStartedFrom: (d: DateValue | undefined) => void
+    startedTo: DateValue | undefined,
+    setStartedTo: (d: DateValue | undefined) => void,
     startDateOrder: SortMode,
     setStartDateOrder: (m: SortMode) => void
 }
@@ -51,9 +52,9 @@ export const useCamundaArchiveList = create<CamundaArchiveListModel>((set) => ({
     useExtraFilters: false,
     setUseExtraFilters: (b:boolean) => set({useExtraFilters: b}),
     startedFrom: undefined,
-    setStartedFrom: (d: Date | undefined) => set({startedFrom: d}),
+    setStartedFrom: (d: DateValue | undefined) => set({startedFrom: d}),
     startedTo: undefined,
-    setStartedTo: (d: Date | undefined) => set({startedTo: d}),
+    setStartedTo: (d: DateValue | undefined) => set({startedTo: d}),
     startDateOrder: "asc",
     setStartDateOrder: (m: SortMode) => set({startDateOrder: m})
 }));
