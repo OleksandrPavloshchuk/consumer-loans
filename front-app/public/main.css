@@ -77,7 +77,7 @@ body {
 }
 
 .border-enter {
-    border-left-color: lawngreen;
+    border-left-color: chartreuse;
 }
 
 .label {
@@ -91,4 +91,9 @@ body {
 
 .approve {
     background-color: honeydew;
+}
+
+.approve,
+.reject {
+    transition: background-color 0.2s ease-in-out;
 }

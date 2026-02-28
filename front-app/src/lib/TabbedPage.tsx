@@ -3,7 +3,7 @@ import * as React from "react";
 import {useEffect, useState} from "react";
 import {TabbedPageItem} from "../camundaClient/domain.ts";
 import {type PageId, useApplicationState} from "../ApplicationState.ts";
-import {useLocalization} from "../i18n/language.ts";
+import {getLocalization} from "../i18n/language.ts";
 import {DropdownArrow} from "./DropdownArrow.tsx";
 
 type Props = {
@@ -61,7 +61,8 @@ export const TabbedPage: React.FC<Props> = ({pageId, getDetailsTabTitle, renderL
             key={item.id}
             value={item.id}>{renderDetailsTab(item, closeTab)}</Tabs.Panel>;
 
-    const loc = useLocalization();
+    const language = useApplicationState((s) => s.language);
+    const loc = getLocalization(language);
 
     return (
         <>

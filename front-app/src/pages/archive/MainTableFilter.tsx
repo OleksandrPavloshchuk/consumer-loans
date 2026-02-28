@@ -2,7 +2,8 @@ import {useCamundaArchiveList} from "../../camundaClient/archiveList.ts";
 import {Button, Flex} from "@mantine/core";
 import {DateTimePicker} from "@mantine/dates";
 import * as React from "react";
-import {useLocalization} from "../../i18n/language.ts";
+import {getLocalization} from "../../i18n/language.ts";
+import {useApplicationState} from "../../ApplicationState.ts";
 
 export const MainTableFilter: React.FC = () => {
 
@@ -12,7 +13,8 @@ export const MainTableFilter: React.FC = () => {
     const startedTo = useCamundaArchiveList((s) => s.startedTo);
     const setStartedTo = useCamundaArchiveList((s) => s.setStartedTo);
 
-    const loc = useLocalization();
+    const language = useApplicationState((s) => s.language);
+    const loc = getLocalization(language);
 
     return (
         <Flex gap="sm" align="center">

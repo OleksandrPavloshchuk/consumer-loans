@@ -5,7 +5,7 @@ import {useApplicationState} from "./ApplicationState.ts";
 import {useNavigate} from "react-router";
 import {useEffect} from "react";
 import {LanguagesDropdown} from "./lib/LanguageDropdown.tsx";
-import {useLocalization} from "./i18n/language.ts";
+import {getLocalization} from "./i18n/language.ts";
 
 export const ApplicationLayout = () => {
 
@@ -15,7 +15,7 @@ export const ApplicationLayout = () => {
     const language = useApplicationState((s) => s.language);
     const setLanguage = useApplicationState((s) => s.setLanguage);
 
-    const loc = useLocalization();
+    const loc = getLocalization(language);
     const activePageName = useApplicationState((s) => s.activePageName);
 
     const renderActivePage = () => {

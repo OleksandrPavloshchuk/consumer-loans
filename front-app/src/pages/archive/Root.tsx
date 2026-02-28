@@ -7,8 +7,9 @@ import {useEffect} from "react";
 import {ArchiveRecord, TabbedPageItem} from "../../camundaClient/domain.ts";
 import {ArchiveRecordDetails} from "./ArchiveRecordDetails.tsx";
 import {TabbedPage} from "../../lib/TabbedPage.tsx";
-import {useLocalization} from "../../i18n/language.ts";
+import {getLocalization} from "../../i18n/language.ts";
 import {SortDropdown} from "../../lib/SortDropdown.tsx";
+import {useApplicationState} from "../../ApplicationState.ts";
 
 export const ArchiveRoot: React.FC = () => {
 
@@ -22,7 +23,8 @@ export const ArchiveRoot: React.FC = () => {
 
     const renderDetailsTab = (item: TabbedPageItem) => <ArchiveRecordDetails record={item as ArchiveRecord}/>;
 
-    const loc = useLocalization();
+    const language = useApplicationState((s) => s.language);
+    const loc = getLocalization(language);
 
     const renderListTab = (openTab: (item: TabbedPageItem) => void) => (
         <Stack>

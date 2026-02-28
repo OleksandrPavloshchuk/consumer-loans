@@ -1,6 +1,7 @@
 import {Combobox, TextInput, useCombobox} from "@mantine/core";
 import {DropdownArrow} from "./DropdownArrow.tsx";
-import {localized, useLocalization} from "../i18n/language.ts";
+import {getLocalization, localized} from "../i18n/language.ts";
+import {useApplicationState} from "../ApplicationState.ts";
 
 export type SortMode = "asc" |"desc";
 const SORTS: SortMode[] = ["asc", "desc"];
@@ -28,7 +29,8 @@ export const SortDropdown: React.FC<Props> = ({value, setValue}) => {
         combobox.updateSelectedOptionIndex();
     };
 
-    const loc = useLocalization();
+    const language = useApplicationState((s) => s.language);
+    const loc = getLocalization(language);
 
     return (
         <Combobox
