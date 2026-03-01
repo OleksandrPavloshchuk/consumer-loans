@@ -92,6 +92,15 @@ export const English = {
         label: "Sort",
         asc: "older on the top",
         desc: "younger on the top"
+    },
+    error : {
+        amount: {
+            invalid: "Invalid value"
+        },
+        personName: {
+            empty: "Empty value",
+            tooLong: "Value is too long"
+        }
     }
 };
 

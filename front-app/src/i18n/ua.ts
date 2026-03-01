@@ -94,5 +94,14 @@ export const Ukrainian = {
         label: "Сортування",
         asc: "старші нагорі",
         desc: "молодші нагорі"
+    },
+    error : {
+        amount: {
+            invalid: "Неправильне значення"
+        },
+        personName: {
+            empty: "Порожнє значення",
+            tooLong: "Значення занадто довге"
+        }
     }
 } satisfies Localization;
