@@ -39,8 +39,8 @@ export const ArchiveRecordDetails: React.FC<Props> = ({record}) => {
         <div className={"card-details"}>
             {createDetailsCard(loc.field.loanId, record.id)}
             {createDetailsCard(loc.field.finalState, localized(loc.status, record.state))}
-            {createDetailsCard(loc.field.claimTimestamp, localized(loc.status, toLocalDateTime(record.startTime)))}
-            {createDetailsCard(loc.field.processingEndTimestamp, localized(loc.status, toLocalDateTime(record.endTime)))}
+            {createDetailsCard(loc.field.claimTimestamp, toLocalDateTime(record.startTime))}
+            {createDetailsCard(loc.field.processingEndTimestamp, toLocalDateTime(record.endTime))}
             {createDetailsCard(loc.field.duration,formatDuration(record.durationInMillis, {locale: 'ua'}))}
             {
                 processVars
