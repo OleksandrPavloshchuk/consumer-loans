@@ -15,7 +15,7 @@ export const notify = (title: string, text: string) => {
 
 export const toCurrency = (n: number | undefined) => {
     const lang = useApplicationState.getState().language;
-    return n ?
+    return n != null ?
         new Intl.NumberFormat(lang, {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
@@ -29,7 +29,7 @@ export const toLocalDateTime = (s: string | undefined) => {
         new Intl.DateTimeFormat(lang, {
             dateStyle: "long",
             timeStyle: "short"
-        }).format(Date.parse(s))
+        }).format(new Date(s))
         : '-';
 }
 
