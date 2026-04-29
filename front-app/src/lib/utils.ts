@@ -2,6 +2,7 @@ import {notifications} from "@mantine/notifications";
 import type {AxiosResponse} from "axios";
 import {type CamundaTask} from "../camundaClient/domain.ts";
 import type {Localization} from "../i18n/en.ts";
+import {useApplicationState} from "../ApplicationState.ts";
 
 export const notify = (title: string, text: string) => {
     notifications.show({
@@ -12,19 +13,26 @@ export const notify = (title: string, text: string) => {
     })
 };
 
-export const toCurrency = (n: number | undefined) => n ?
-    new Intl.NumberFormat(navigator.language, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-    }).format(n)
-    : '-';
+export const toCurrency = (n: number | undefined) => {
+    const lang = useApplicationState.getState().language;
+    return n ?
+        new Intl.NumberFormat(lang, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        }).format(n)
+        : '-';
+}
 
-export const toLocalDateTime = (s: string | undefined) => s ?
-    new Intl.DateTimeFormat(navigator.language, {
-        dateStyle: "long",
-        timeStyle: "short"
-    }).format(Date.parse(s))
-    : '-';
+export const toLocalDateTime = (s: string | undefined) => {
+    const lang = useApplicationState.getState().language;
+    return s ?
+        new Intl.DateTimeFormat(lang, {
+            dateStyle: "long",
+            timeStyle: "short"
+        }).format(Date.parse(s))
+        : '-';
+}
+
 
 export const toJson = (res: AxiosResponse) => res.data;
 

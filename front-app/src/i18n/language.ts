@@ -1,9 +1,9 @@
 import {English} from "./en.ts";
-import {Ukrainian} from "./ua.ts";
+import {Ukrainian} from "./uk.ts";
 
-export type Language = "en" | "ua";
+export type Language = "en" | "uk";
 export const LANGUAGES: Language[] = [
-    "en", "ua"
+    "en", "uk"
 ];
 
 export const localized = (
@@ -14,6 +14,6 @@ export const localized = (
 export const getLocalization = (l: Language) => {
     switch (l) {
         case "en": return English;
-        case "ua": return Ukrainian;
+        case "uk": return Ukrainian;
     }
 };
